@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, Check } from 'lucide-react'
 import StepHeader from '@/components/StepHeader'
+import { useVisualizationStore } from '@/store/visualizationStore'
 
 type Who = 'one' | 'pair' | 'family'
 type Style = 'minimal' | 'scandi' | 'loft' | 'classic'
@@ -38,6 +39,7 @@ const PRIORITY_OPTIONS: { id: Priority; label: string; emoji: string }[] = [
 
 export default function PreferencesPage() {
   const router = useRouter()
+  const resetVisualization = useVisualizationStore(s => s.reset)
   const [who, setWho] = useState<Who | null>(null)
   const [style, setStyle] = useState<Style | null>(null)
   const [budget, setBudget] = useState<Budget | null>(null)
@@ -47,6 +49,11 @@ export default function PreferencesPage() {
     setPriorities(prev => prev.includes(id) ? prev.filter(p => p !== id) : [...prev, id])
 
   const canContinue = who && style && budget
+
+  const handleContinue = () => {
+    resetVisualization() // новые предпочтения — сбрасываем старые визуализации
+    router.push('/processing')
+  }
 
   return (
     <div className="min-h-screen bg-paper flex flex-col">
@@ -156,7 +163,7 @@ export default function PreferencesPage() {
           </div>
 
           <button
-            onClick={() => router.push('/processing')}
+            onClick={handleContinue}
             disabled={!canContinue}
             className="btn-primary py-4 text-[16px] flex items-center justify-center gap-2"
           >

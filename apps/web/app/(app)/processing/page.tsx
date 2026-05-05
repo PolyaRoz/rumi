@@ -17,7 +17,7 @@
  * /visualization не работает без validated geometry + placement.
  */
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AlertTriangle, RotateCcw } from 'lucide-react'
 import StepHeader from '@/components/StepHeader'
@@ -49,9 +49,12 @@ export default function ProcessingPage() {
 
   const [currentStep, setCurrentStep] = useState(0)
   const [error, setError] = useState<string | null>(null)
+  // Ref-guard против двойного запуска в React StrictMode (dev-режим двойной mount)
+  const runningRef = useRef(false)
 
   useEffect(() => {
-    // Защита от повторного запуска
+    // Защита от повторного запуска (ref работает синхронно, в отличие от state)
+    if (runningRef.current) return
     if (analysisStatus === 'analyzing' || placementStatus === 'placing') return
 
     const run = async () => {
@@ -77,7 +80,10 @@ export default function ProcessingPage() {
       router.push('/visualization')
     }
 
-    run().catch(err => setError(err?.message ?? 'Ошибка обработки'))
+    runningRef.current = true
+    run()
+      .catch(err => setError(err?.message ?? 'Ошибка обработки'))
+      .finally(() => { runningRef.current = false })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geometry, analysisStatus, placement, placementStatus])
 

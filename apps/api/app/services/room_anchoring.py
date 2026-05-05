@@ -60,9 +60,10 @@ def anchor_rooms_to_labels(
     candidate_rooms: list[Room],
     ocr_labels: list[OcrArea],
     img_area_px: float,
-) -> tuple[list[Room], list[tuple[Room, str]]]:
+) -> tuple[list[Room], list[OcrArea], list[tuple[Room, str]]]:
     """
-    Связать OCR-метки с полигонами; отфильтровать фрагменты.
+    Связать OCR-метки с полигонами; вернуть неразрешённые метки для recovery;
+    отфильтровать фрагменты.
 
     Args:
         candidate_rooms: сырые кандидаты от room_polygonizer
@@ -70,66 +71,69 @@ def anchor_rooms_to_labels(
         img_area_px: площадь всего изображения для нормализации
 
     Returns:
-        (anchored_rooms, rejected_fragments)
+        (anchored_rooms, unresolved_labels, rejected_fragments)
         anchored_rooms — финальный список с area_label_m2 где есть.
+        unresolved_labels — OCR-метки, ДЛЯ КОТОРЫХ НЕТ полигона.
+            Их должен подобрать room_recovery через flood fill.
         rejected_fragments — list of (room, reason) для debug.
     """
     if not candidate_rooms:
-        return [], []
+        return [], list(ocr_labels), []
 
     # ── 1. Каждой метке ищем содержащий её полигон ──────────────────────
-    # label_to_room_idx: index полигона, в который попадает метка
-    label_assignments: dict[int, OcrArea] = {}  # idx → лучшая метка для этого полигона
+    # label_assignments: idx полигона → метка, КОТОРАЯ ему присвоена
+    # used_labels: метки которые уже привязаны (для unresolved)
+    label_assignments: dict[int, OcrArea] = {}
+    used_labels: set[int] = set()  # индексы в ocr_labels
 
-    for label in ocr_labels:
-        candidates_with_label = []
-        for idx, room in enumerate(candidate_rooms):
+    # Сначала строим: для каждой метки — список содержащих её полигонов
+    label_to_polys: dict[int, list[int]] = {}
+    for label_idx, label in enumerate(ocr_labels):
+        contained = []
+        for room_idx, room in enumerate(candidate_rooms):
             if not room.polygon:
                 continue
             if _point_in_polygon(label.cx_px, label.cy_px, room.polygon):
-                candidates_with_label.append(idx)
+                contained.append(room_idx)
+        label_to_polys[label_idx] = contained
 
-        if not candidates_with_label:
-            # Метка не попала ни в один полигон — найти ближайший
-            best_idx, best_dist = None, float("inf")
-            for idx, room in enumerate(candidate_rooms):
-                if room.centroid is None:
-                    continue
-                d = math.hypot(room.centroid.x - label.cx_px,
-                               room.centroid.y - label.cy_px)
-                if d < best_dist:
-                    best_dist = d
-                    best_idx = idx
-            if best_idx is not None:
-                candidates_with_label = [best_idx]
+    # ── 1a. Каждый polygon принимает только ОДНУ метку (ту что ближе к centroid).
+    # Это критично: если коридор и спальня слились в один большой полигон,
+    # обе метки попадут внутрь — но только одна привяжется. Вторая
+    # становится unresolved → её полигон восстановит room_recovery.
+    poly_to_candidate_labels: dict[int, list[int]] = {}
+    for label_idx, polys in label_to_polys.items():
+        # Берём МИНИМАЛЬНЫЙ по площади из содержащих (наиболее вложенный)
+        if polys:
+            chosen = min(polys, key=lambda i: candidate_rooms[i].area_px2 or float("inf"))
+            poly_to_candidate_labels.setdefault(chosen, []).append(label_idx)
 
-        if not candidates_with_label:
-            continue
-
-        # Если несколько полигонов содержат точку (вложенные?), берём наименьший
-        # — он "ближайший" контекстно
-        chosen_idx = min(
-            candidates_with_label,
-            key=lambda i: candidate_rooms[i].area_px2 or float("inf"),
-        )
-
-        # Резервируем за этим индексом метку. Если уже была — оставляем ту,
-        # центроид которой ближе к метке.
-        existing = label_assignments.get(chosen_idx)
-        if existing is None:
-            label_assignments[chosen_idx] = label
+    for poly_idx, label_indices in poly_to_candidate_labels.items():
+        room = candidate_rooms[poly_idx]
+        # Из всех меток, претендующих на этот polygon, берём ту что ближе к centroid
+        if room.centroid is None:
+            best_label_idx = label_indices[0]
         else:
-            room = candidate_rooms[chosen_idx]
-            if room.centroid:
-                d_new = math.hypot(room.centroid.x - label.cx_px,
-                                   room.centroid.y - label.cy_px)
-                d_old = math.hypot(room.centroid.x - existing.cx_px,
-                                   room.centroid.y - existing.cy_px)
-                if d_new < d_old:
-                    label_assignments[chosen_idx] = label
+            best_label_idx = min(
+                label_indices,
+                key=lambda li: math.hypot(
+                    room.centroid.x - ocr_labels[li].cx_px,
+                    room.centroid.y - ocr_labels[li].cy_px,
+                ),
+            )
+        label_assignments[poly_idx] = ocr_labels[best_label_idx]
+        used_labels.add(best_label_idx)
+
+    # ── 1b. Метки которым не нашлось polygon ИЛИ которые "проиграли" другой
+    # метке — становятся unresolved (recover через flood fill).
+    unresolved_labels: list[OcrArea] = [
+        label for label_idx, label in enumerate(ocr_labels)
+        if label_idx not in used_labels
+    ]
 
     logger.info(
-        f"Anchoring: {len(label_assignments)} полигонов привязаны к меткам, "
+        f"Anchoring: {len(label_assignments)} полигонов привязаны, "
+        f"{len(unresolved_labels)} меток unresolved → recovery, "
         f"из {len(ocr_labels)} OCR-меток и {len(candidate_rooms)} кандидатов"
     )
 
@@ -162,14 +166,12 @@ def anchor_rooms_to_labels(
             else:
                 rejected.append((room, "no_area_label_and_too_small"))
 
-    # ── 3. Если меток было больше чем закреплённых полигонов ────────────
-    # — это сигнал что polygonizer не нашёл некоторые комнаты.
-    # Но не критично: показываем то, что нашли.
-    if len(ocr_labels) > len(label_assignments):
+    # ── 3. Если меток было больше чем закреплённых полигонов — recovery ─
+    if unresolved_labels:
         logger.warning(
-            f"OCR labels: {len(ocr_labels)}, anchored: {len(label_assignments)}. "
-            f"Возможны ненайденные полигоны — уменьшите MIN_ROOM_AREA_PX или "
-            f"используйте user-correction UI."
+            f"Unresolved OCR labels: {len(unresolved_labels)} → "
+            f"{[round(l.value_m2, 1) for l in unresolved_labels]}. "
+            f"room_recovery попытается восстановить их через flood fill."
         )
 
     # ── 4. Сортировка: сначала labeled, потом по убыванию площади ────────
@@ -188,7 +190,7 @@ def anchor_rooms_to_labels(
         f"rejected fragments: {len(rejected)}"
     )
 
-    return anchored, rejected
+    return anchored, unresolved_labels, rejected
 
 
 # ─── Классификация типа комнаты по площади + позиции ─────────────────────────
@@ -242,17 +244,35 @@ def _is_likely_balcony(
     centroid: Point, area_px2: float, img_area_px: float,
 ) -> bool:
     """
-    Балконы и лоджии обычно у нижнего/верхнего края плана (не сбоку),
-    и небольшой площади.
-    Для упрощения считаем как balcony любую маленькую комнату 4-5м².
-    Точнее — UI пусть пользователь поправит.
+    Балкон/лоджия — характерные признаки:
+    - центроид близко к КРАЮ плана (любому: low/right/top/left)
+    - площадь 3-7 м²
+    - вытянутая форма (не квадрат)
+
+    Без bbox у нас только centroid и img_area. Используем расстояние от
+    центроида до ближайшего края изображения. Если < 12% от меньшей
+    стороны — это край → балкон вероятен.
     """
-    return False  # консервативно, чтобы не путать с ванной
+    if centroid is None or img_area_px <= 0:
+        return False
+    # Восстанавливаем размеры (приблизительно, считая img квадратным)
+    img_side = img_area_px ** 0.5
+    margin_threshold = img_side * 0.18
+    dist_to_edge = min(
+        centroid.x,
+        centroid.y,
+        img_side - centroid.x,
+        img_side - centroid.y,
+    )
+    return dist_to_edge < margin_threshold
 
 
 def _is_likely_corridor(area_px2: float, area_m2: float) -> bool:
-    """Коридор: средняя/большая площадь и обычно вытянутый.
-    Без bbox информации — эвристика по соотношению."""
-    # Без полигона тяжело сказать — оставляем False, классифицируем по area
-    # Можно расширить если нужно: добавить параметр bbox aspect
+    """
+    Коридор: средняя/большая площадь, БЕЗ окон (центральный),
+    типичная площадь 8-22 м². Без bbox-aspect определяем по диапазону.
+    """
+    # Эвристика: 17-22 м² и НЕ самый большой → скорее коридор/холл,
+    # потому что в типовой 2-3 ком. квартире коридор такого размера обычен,
+    # а гостиная обычно ≥ 18-20 м²
     return False

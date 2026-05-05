@@ -202,26 +202,34 @@ def build_wall_graph(walls: list[Wall], img_w: int, img_h: int) -> WallGraph:
         wall.end = Point(x=node_b.x, y=node_b.y)
         graph.add_edge(wall, node_a, node_b)
 
-    # ── 3. Найти outer boundary (самый длинный простой цикл) ──────────────
-    # Простая эвристика: внешние стены — те, что ближе всего к границам изображения
-    margin_x = img_w * 0.1
-    margin_y = img_h * 0.1
+    # ── 3. Outer boundary через bounding box всех стен ────────────────────
+    # Старая эвристика по % изображения не работала из-за белых полей плана.
+    # Новая: находим bbox всех stенных узлов, и считаем стену внешней если
+    # её концы ОБА попадают в margin от bbox-стен (не изображения).
+    if graph.nodes:
+        all_xs = [n.x for n in graph.nodes.values()]
+        all_ys = [n.y for n in graph.nodes.values()]
+        bbox_x0, bbox_x1 = min(all_xs), max(all_xs)
+        bbox_y0, bbox_y1 = min(all_ys), max(all_ys)
+        bbox_w = bbox_x1 - bbox_x0
+        bbox_h = bbox_y1 - bbox_y0
+        margin = max(bbox_w, bbox_h) * 0.06   # 6% от меньшей стороны bbox
 
-    for edge in graph.edges.values():
-        node_a = graph.nodes[edge.node_a]
-        node_b = graph.nodes[edge.node_b]
-        # На границе изображения?
-        is_outer_a = (
-            node_a.x <= margin_x or node_a.x >= img_w - margin_x or
-            node_a.y <= margin_y or node_a.y >= img_h - margin_y
-        )
-        is_outer_b = (
-            node_b.x <= margin_x or node_b.x >= img_w - margin_x or
-            node_b.y <= margin_y or node_b.y >= img_h - margin_y
-        )
-        if is_outer_a and is_outer_b:
-            graph.outer_boundary_edge_ids.add(edge.id)
-            edge.wall.type = WallType.outer
+        for edge in graph.edges.values():
+            node_a = graph.nodes[edge.node_a]
+            node_b = graph.nodes[edge.node_b]
+
+            def is_on_bbox_edge(node):
+                return (
+                    node.x - bbox_x0 <= margin or
+                    bbox_x1 - node.x <= margin or
+                    node.y - bbox_y0 <= margin or
+                    bbox_y1 - node.y <= margin
+                )
+
+            if is_on_bbox_edge(node_a) and is_on_bbox_edge(node_b):
+                graph.outer_boundary_edge_ids.add(edge.id)
+                edge.wall.type = WallType.outer
 
     logger.info(
         f"Wall graph: {len(graph.nodes)} nodes, {len(graph.edges)} edges, "

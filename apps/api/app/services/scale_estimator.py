@@ -108,17 +108,17 @@ def _prepare_for_ocr(gray_img: np.ndarray) -> np.ndarray:
     """
     Подготовка для OCR.
 
-    ВАЖНО: эксперименты на реальном плане показали что adaptive threshold +
-    upscale ВРЕДЯТ распознаванию (Tesseract возвращает 0 токенов вместо 7).
-    На чистых архитектурных планах простой grayscale работает лучше всего.
-    Возвращаем gray как есть, опционально мягкий upscale если изображение
-    маленькое.
+    ВАЖНО (эмпирически):
+    - adaptive threshold + upscale ВРЕДЯТ распознаванию на чистых планах
+    - upscale 1024→1500 ТОЖЕ вредит: Tesseract находит 5 меток вместо 7
+    - простой grayscale БЕЗ ресайза работает лучше всего
+
+    Upscale делаем ТОЛЬКО для очень маленьких изображений (< 800px),
+    чтобы шрифт стал читаемым. Для нормальных планов оставляем как есть.
     """
     h, w = gray_img.shape
-    # Только upscale если изображение реально маленькое
-    target = 1500
-    if max(h, w) < target:
-        scale = target / max(h, w)
+    if max(h, w) < 800:
+        scale = 800 / max(h, w)
         gray_img = cv2.resize(gray_img, (int(w * scale), int(h * scale)),
                               interpolation=cv2.INTER_CUBIC)
     return gray_img

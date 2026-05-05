@@ -55,6 +55,7 @@ from app.services.preprocessing import (
 )
 from app.services.room_anchoring import anchor_rooms_to_labels
 from app.services.room_polygonizer import polygonize_rooms
+from app.services.room_recovery import recover_rooms_from_labels
 from app.services.scale_estimator import (
     OcrArea,
     estimate_scale_from_areas,
@@ -107,15 +108,36 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
     logger.info(f"[6] room candidates (pre-anchor): {len(candidate_rooms)}")
 
     # ── 7. Анкоринг к OCR-меткам ──────────────────────────────────────────
-    rooms, rejected_fragments = anchor_rooms_to_labels(
+    rooms, unresolved_labels, rejected_fragments = anchor_rooms_to_labels(
         candidate_rooms, ocr_areas, img_area_px=float(img_area),
     )
     logger.info(
         f"[7] After anchoring: {len(rooms)} rooms "
         f"(labeled={sum(1 for r in rooms if r.area_m2 is not None)}, "
         f"unlabeled={sum(1 for r in rooms if r.area_m2 is None)}), "
-        f"rejected={len(rejected_fragments)}"
+        f"unresolved labels={len(unresolved_labels)}, "
+        f"rejected fragments={len(rejected_fragments)}"
     )
+
+    # ── 7b. Recovery: для каждой неразрешённой метки запускаем flood fill
+    if unresolved_labels:
+        recovered, still_unresolved = recover_rooms_from_labels(
+            closed_mask=closed_mask,
+            unresolved_labels=unresolved_labels,
+            existing_rooms=rooms,
+            px_per_meter=None,  # ещё не считали
+            img_area_px=float(img_area),
+        )
+        if recovered:
+            rooms.extend(recovered)
+            # Перенумеруем для красивых ID
+            for i, r in enumerate(rooms):
+                if not r.id.startswith("room_recovered"):
+                    r.id = f"room_{i:03d}"
+            logger.info(
+                f"[7b] Recovery: +{len(recovered)} комнат, "
+                f"unresolved осталось {len(still_unresolved)}"
+            )
 
     # ── 8. Оценка масштаба по anchored rooms ──────────────────────────────
     room_dicts = [

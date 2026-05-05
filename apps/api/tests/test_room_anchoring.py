@@ -43,7 +43,7 @@ class TestAnchoring:
         """Метка внутри полигона → полигон получает label_m2."""
         rooms = [_room("r0", 0, 0, 200, 200)]
         labels = [OcrArea(value_m2=14.4, cx_px=100, cy_px=100, raw_text="14.4")]
-        anchored, rejected = anchor_rooms_to_labels(rooms, labels, img_area_px=300*300)
+        anchored, _unresolved, rejected = anchor_rooms_to_labels(rooms, labels, img_area_px=300*300)
         assert len(anchored) == 1
         assert anchored[0].area_m2 == 14.4
         assert anchored[0].label == RoomLabel.bedroom  # 14.4 m² → bedroom
@@ -53,7 +53,7 @@ class TestAnchoring:
         """Маленький фрагмент без метки → отброшен."""
         # Полигон 30x30 = 900 px² на изображении 1000x1000 (1М) → 0.09% — очень мало
         rooms = [_room("frag", 100, 100, 30, 30)]
-        anchored, rejected = anchor_rooms_to_labels(
+        anchored, _unresolved, rejected = anchor_rooms_to_labels(
             rooms, [], img_area_px=1_000_000.0,
         )
         assert len(anchored) == 0
@@ -64,7 +64,7 @@ class TestAnchoring:
         """Большой полигон без метки → unknown, не отброшен."""
         # 600x600 на изображении 1000x1000 → 36% — велик
         rooms = [_room("big", 100, 100, 600, 600)]
-        anchored, rejected = anchor_rooms_to_labels(
+        anchored, _unresolved, rejected = anchor_rooms_to_labels(
             rooms, [], img_area_px=1_000_000.0,
         )
         assert len(anchored) == 1
@@ -78,7 +78,7 @@ class TestAnchoring:
             OcrArea(value_m2=14.4, cx_px=50, cy_px=50, raw_text="14.4"),    # дальше от центра
             OcrArea(value_m2=16.3, cx_px=180, cy_px=180, raw_text="16.3"),  # ближе к центру 200,200
         ]
-        anchored, _ = anchor_rooms_to_labels(rooms, labels, img_area_px=500*500)
+        anchored, _unresolved, _rejected = anchor_rooms_to_labels(rooms, labels, img_area_px=500*500)
         assert len(anchored) == 1
         assert anchored[0].area_m2 == 16.3
 
@@ -112,7 +112,7 @@ class TestAnchoring:
         for i in range(5):
             rooms.append(_room(f"frag_{i}", 100 + i * 30, 700, 25, 25))
 
-        anchored, rejected = anchor_rooms_to_labels(
+        anchored, _unresolved, rejected = anchor_rooms_to_labels(
             rooms, labels, img_area_px=900 * 900,
         )
         labeled_count = sum(1 for r in anchored if r.area_m2 is not None)

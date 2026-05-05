@@ -29,72 +29,360 @@ const ROOMS: { id: RoomType; label: string; emoji: string }[] = [
   { id: 'kids', label: 'Детская', emoji: '🧸' },
 ]
 
-// ─── SVG Furniture overlay (same as before) ───────────────────────────────────
+// ─── Планировка квартиры с реальными товарами Hoff ───────────────────────────
 
-const FURNITURE_ITEMS = [
-  { id: 's1', color: '#D4795C', opacity: 0.52, x: 68, y: 7, w: 26, h: 12, rx: 1.5, label: 'Диван Мэдисон' },
-  { id: 's2', color: '#D4795C', opacity: 0.42, x: 68, y: 19, w: 9, h: 8, rx: 1.5, label: '' },
-  { id: 's3', color: '#C8B4A0', opacity: 0.62, x: 80, y: 20, w: 8, h: 6, rx: 1, label: 'Столик' },
-  { id: 's4', color: '#7A8F7A', opacity: 0.52, x: 90, y: 7, w: 5, h: 18, rx: 0.5, label: 'ТВ-тумба' },
-  { id: 's5', color: '#D4795C', opacity: 0.42, x: 79, y: 30, w: 8, h: 8, rx: 1.5, label: 'Кресло Скотт' },
-  { id: 'b1', color: '#7A8F7A', opacity: 0.52, x: 4, y: 8, w: 18, h: 22, rx: 1.5, label: 'Кровать' },
-  { id: 'b2', color: '#A0B0A0', opacity: 0.58, x: 4, y: 16, w: 4, h: 6, rx: 0.5, label: '' },
-  { id: 'b3', color: '#A0B0A0', opacity: 0.58, x: 18, y: 16, w: 4, h: 6, rx: 0.5, label: '' },
-  { id: 'b4', color: '#C8B4A0', opacity: 0.58, x: 4, y: 33, w: 20, h: 5, rx: 0.5, label: 'Шкаф Эванс' },
-  { id: 'b5', color: '#D4795C', opacity: 0.38, x: 22, y: 30, w: 6, h: 7, rx: 2, label: 'Кресло Норд' },
-  { id: 'k1', color: '#7A8F7A', opacity: 0.48, x: 14, y: 55, w: 15, h: 10, rx: 1.5, label: 'Кровать детская' },
-  { id: 'k2', color: '#C8B4A0', opacity: 0.58, x: 4, y: 55, w: 9, h: 8, rx: 1, label: 'Стол' },
-  { id: 'k3', color: '#D4795C', opacity: 0.38, x: 10, y: 80, w: 18, h: 8, rx: 1.5, label: 'Диван Gap' },
-  { id: 'd1', color: '#C8B4A0', opacity: 0.62, x: 75, y: 58, w: 14, h: 18, rx: 1, label: 'Стол обеденный' },
-  { id: 'd2', color: '#C8B4A0', opacity: 0.48, x: 72, y: 62, w: 3.5, h: 5, rx: 1, label: '' },
-  { id: 'd3', color: '#C8B4A0', opacity: 0.48, x: 72, y: 69, w: 3.5, h: 5, rx: 1, label: '' },
-  { id: 'd4', color: '#C8B4A0', opacity: 0.48, x: 89.5, y: 62, w: 3.5, h: 5, rx: 1, label: '' },
-  { id: 'd5', color: '#C8B4A0', opacity: 0.48, x: 89.5, y: 69, w: 3.5, h: 5, rx: 1, label: '' },
-  { id: 'e1', color: '#7A8F7A', opacity: 0.48, x: 57, y: 55, w: 16, h: 5, rx: 0.5, label: 'Кухня' },
-  { id: 'g1', color: '#C8B4A0', opacity: 0.52, x: 55, y: 58, w: 4, h: 22, rx: 0.5, label: 'Гардероб' },
+interface FurniturePart { x: number; y: number; w: number; h: number; rx?: number }
+interface PlanItem {
+  id: string
+  hoffName: string    // полное название товара Hoff
+  label: string       // короткое для SVG
+  color: string
+  opacity: number
+  parts: FurniturePart[]
+}
+interface PlanRoom {
+  id: string; label: string; accentColor: string
+  labelX: number; labelY: number
+  zone: { x: number; y: number; w: number; h: number }
+  items: PlanItem[]
+}
+
+// Масштаб: 1 SVG-юнит ≈ 10 см. Квартира ~10м × 10м = 100×100 юнитов.
+const PLAN_ROOMS: PlanRoom[] = [
+  // ── ГОСТИНАЯ (top-left, 6.2 × 4.8 м) ─────────────────────────────────────
+  {
+    id: 'living', label: 'Гостиная', accentColor: '#D4795C',
+    labelX: 35, labelY: 28,
+    zone: { x: 1, y: 1, w: 62, h: 48 },
+    items: [
+      // Угловой диван Мэдисон (250×90 + 90×95 см) — Г-образно в левом верхнем углу
+      {
+        id: 'sofa', hoffName: 'Угловой диван-кровать SOLANA Мэдисон', label: 'Диван Мэдисон',
+        color: '#D4795C', opacity: 0.65,
+        parts: [
+          { x: 3, y: 2, w: 26, h: 9, rx: 1.5 },   // горизонтальная часть (250 см)
+          { x: 3, y: 2, w: 9, h: 19, rx: 1.5 },    // вертикальная (90 см) — Г-образно
+        ],
+      },
+      // Кресло Скотт (80×80 см)
+      {
+        id: 'armchair', hoffName: 'Кресло SCANDICA Скотт', label: 'Кресло Скотт',
+        color: '#D4795C', opacity: 0.52,
+        parts: [{ x: 34, y: 2, w: 9, h: 9, rx: 2 }],
+      },
+      // Столик кофейный (120×60 см) перед диваном
+      {
+        id: 'coffee', hoffName: 'Столик кофейный', label: 'Столик',
+        color: '#A08060', opacity: 0.58,
+        parts: [{ x: 14, y: 23, w: 14, h: 7, rx: 1 }],
+      },
+      // ТВ-зона / Шкаф-витрина Эванс (180×40 см) у дальней стены
+      {
+        id: 'tv', hoffName: 'Шкаф-витрина с 3 ящиками Эванс', label: 'ТВ-зона · Шкаф Эванс',
+        color: '#7A8F7A', opacity: 0.58,
+        parts: [{ x: 16, y: 44, w: 20, h: 4, rx: 0.5 }],
+      },
+      // Ковёр Гиссар 200×300 см — зона под диваном и столиком
+      {
+        id: 'rug', hoffName: 'Ковёр Гиссар 200×300 см', label: 'Ковёр Гиссар',
+        color: '#D4A080', opacity: 0.18,
+        parts: [{ x: 5, y: 18, w: 30, h: 27, rx: 1 }],
+      },
+    ],
+  },
+
+  // ── СПАЛЬНЯ (top-right, 3.5 × 4.8 м) ─────────────────────────────────────
+  {
+    id: 'bedroom', label: 'Спальня', accentColor: '#7A8F7A',
+    labelX: 83, labelY: 31,
+    zone: { x: 65, y: 1, w: 34, h: 48 },
+    items: [
+      // Кровать двуспальная 160×200 см
+      {
+        id: 'bed', hoffName: 'Кровать двуспальная 160×200 см', label: 'Кровать 160×200',
+        color: '#7A8F7A', opacity: 0.62,
+        parts: [{ x: 68, y: 3, w: 16, h: 20, rx: 1.5 }],
+      },
+      // Тумбы прикроватные (45×40 см) × 2
+      {
+        id: 'ns_l', hoffName: 'Тумба прикроватная с ящиком', label: 'Тумба',
+        color: '#A0B0A0', opacity: 0.68,
+        parts: [{ x: 65, y: 6, w: 4, h: 8, rx: 0.5 }],
+      },
+      {
+        id: 'ns_r', hoffName: 'Тумба прикроватная с ящиком', label: 'Тумба',
+        color: '#A0B0A0', opacity: 0.68,
+        parts: [{ x: 85, y: 6, w: 4, h: 8, rx: 0.5 }],
+      },
+      // Шкаф-купе 220×60 см у нижней стены
+      {
+        id: 'wardrobe', hoffName: 'Шкаф-купе 2-дверный 220 см', label: 'Шкаф-купе',
+        color: '#7A8F7A', opacity: 0.55,
+        parts: [{ x: 66, y: 43, w: 22, h: 5, rx: 0.5 }],
+      },
+      // Комод с ящиками 100×45 см
+      {
+        id: 'dresser', hoffName: 'Комод с ящиками', label: 'Комод',
+        color: '#A0B0A0', opacity: 0.62,
+        parts: [{ x: 89, y: 43, w: 9, h: 5, rx: 0.5 }],
+      },
+      // Кресло Норд (75×75 см) в углу
+      {
+        id: 'armchair_b', hoffName: 'Кресло для отдыха SCANDICA Норд', label: 'Кресло Норд',
+        color: '#7A8F7A', opacity: 0.50,
+        parts: [{ x: 90, y: 2, w: 8, h: 8, rx: 2 }],
+      },
+      // Ковёр Шегги 160×230 под кроватью
+      {
+        id: 'rug_b', hoffName: 'Ковёр Шегги 160×230 см', label: 'Ковёр',
+        color: '#8FA89F', opacity: 0.16,
+        parts: [{ x: 66, y: 2, w: 17, h: 25, rx: 1 }],
+      },
+    ],
+  },
+
+  // ── КУХНЯ-СТОЛОВАЯ (bottom-left, 3.1 × 4.8 м) ────────────────────────────
+  {
+    id: 'kitchen', label: 'Кухня-столовая', accentColor: '#C8B4A0',
+    labelX: 16, labelY: 77,
+    zone: { x: 1, y: 51, w: 31, h: 48 },
+    items: [
+      // Кухонный гарнитур Г-образный
+      {
+        id: 'kitchen_h', hoffName: 'Кухонный гарнитур', label: 'Кухня',
+        color: '#B09880', opacity: 0.60,
+        parts: [
+          { x: 2, y: 52, w: 29, h: 5, rx: 0.5 },  // вдоль верхней стены
+          { x: 27, y: 52, w: 4, h: 18, rx: 0.5 }, // вдоль правой стены
+        ],
+      },
+      // Обеденный стол (90×80 см)
+      {
+        id: 'dining', hoffName: 'Стол обеденный 90×80 см', label: 'Стол',
+        color: '#C8B4A0', opacity: 0.65,
+        parts: [{ x: 6, y: 77, w: 10, h: 8, rx: 1 }],
+      },
+      // 4 стула вокруг стола
+      { id: 'ch1', hoffName: 'Стул', label: '', color: '#C8B4A0', opacity: 0.55, parts: [{ x: 3, y: 79, w: 3.5, h: 5, rx: 1 }] },
+      { id: 'ch2', hoffName: 'Стул', label: '', color: '#C8B4A0', opacity: 0.55, parts: [{ x: 17, y: 79, w: 3.5, h: 5, rx: 1 }] },
+      { id: 'ch3', hoffName: 'Стул', label: '', color: '#C8B4A0', opacity: 0.55, parts: [{ x: 9,  y: 74, w: 5, h: 4, rx: 1 }] },
+      { id: 'ch4', hoffName: 'Стул', label: '', color: '#C8B4A0', opacity: 0.55, parts: [{ x: 9,  y: 86, w: 5, h: 4, rx: 1 }] },
+      // Пуф-банкетка (60×40 см)
+      {
+        id: 'puf', hoffName: 'Пуф-банкетка', label: 'Пуф',
+        color: '#D4795C', opacity: 0.45,
+        parts: [{ x: 19, y: 88, w: 8, h: 5, rx: 1.5 }],
+      },
+    ],
+  },
+
+  // ── ДЕТСКАЯ (bottom-right, 6.6 × 4.8 м) ──────────────────────────────────
+  {
+    id: 'kids', label: 'Детская', accentColor: '#8FA0C0',
+    labelX: 66, labelY: 78,
+    zone: { x: 34, y: 51, w: 65, h: 48 },
+    items: [
+      // Кровать детская 90×190 см
+      {
+        id: 'kids_bed', hoffName: 'Кровать детская 90×190 см', label: 'Кровать',
+        color: '#8FA0C0', opacity: 0.62,
+        parts: [{ x: 36, y: 53, w: 9, h: 19, rx: 1.5 }],
+      },
+      // Диван Норман (для игровой зоны, 170×90 см)
+      {
+        id: 'kids_sofa', hoffName: 'Диван-кровать Атланта', label: 'Диван',
+        color: '#8FA0C0', opacity: 0.50,
+        parts: [{ x: 67, y: 53, w: 17, h: 9, rx: 1.5 }],
+      },
+      // Письменный стол 120×60 см
+      {
+        id: 'desk', hoffName: 'Стол письменный 120×60 см', label: 'Стол',
+        color: '#A0B0C0', opacity: 0.62,
+        parts: [{ x: 47, y: 55, w: 12, h: 6, rx: 0.5 }],
+      },
+      // Кресло Gap (груша) у стола
+      {
+        id: 'gap', hoffName: 'Кресло Gap', label: 'Кресло Gap',
+        color: '#8FA0C0', opacity: 0.55,
+        parts: [{ x: 49, y: 62, w: 7, h: 7, rx: 3.5 }],
+      },
+      // Комод с ящиками 100×45 см
+      {
+        id: 'kids_dresser', hoffName: 'Комод с ящиками детский', label: 'Комод',
+        color: '#A0B0C0', opacity: 0.62,
+        parts: [{ x: 36, y: 82, w: 10, h: 5, rx: 0.5 }],
+      },
+      // Пуф мягкий
+      {
+        id: 'kids_puf', hoffName: 'Пуф мягкий круглый', label: 'Пуф',
+        color: '#D4795C', opacity: 0.42,
+        parts: [{ x: 87, y: 52, w: 7, h: 6, rx: 2 }],
+      },
+      // Ковёр Шегги 160×230 см — игровая зона
+      {
+        id: 'kids_rug', hoffName: 'Ковёр Шегги 160×230 см', label: 'Ковёр',
+        color: '#8FA0C0', opacity: 0.16,
+        parts: [{ x: 60, y: 65, w: 22, h: 27, rx: 1 }],
+      },
+    ],
+  },
 ]
 
-// ─── Plan overlay ─────────────────────────────────────────────────────────────
+// ─── SVG Overlay компонент ────────────────────────────────────────────────────
+
+function PlanOverlay() {
+  return (
+    <svg
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <filter id="fs">
+          <feDropShadow dx="0.2" dy="0.3" stdDeviation="0.6" floodOpacity="0.28" />
+        </filter>
+      </defs>
+
+      {/* Фоновая подсветка зон комнат */}
+      {PLAN_ROOMS.map(room => (
+        <rect
+          key={`zone-${room.id}`}
+          x={room.zone.x} y={room.zone.y}
+          width={room.zone.w} height={room.zone.h}
+          fill={room.accentColor} opacity={0.07} rx={0.5}
+        />
+      ))}
+
+      {/* Внутренние стены (разделители комнат) */}
+      <line x1="64" y1="1" x2="64" y2="99" stroke="#1C1917" strokeWidth="1" opacity={0.30} />
+      <line x1="1"  y1="50" x2="63" y2="50" stroke="#1C1917" strokeWidth="1" opacity={0.30} />
+      <line x1="33" y1="50" x2="33" y2="99" stroke="#1C1917" strokeWidth="0.7" opacity={0.22} />
+
+      {/* Мебель по комнатам */}
+      {PLAN_ROOMS.flatMap(room =>
+        room.items.flatMap(item =>
+          item.parts.map((part, pi) => {
+            const showLabel = pi === 0 && item.label && part.w > 7 && part.h > 5
+            return (
+              <g key={`${item.id}-${pi}`}>
+                <rect
+                  x={part.x} y={part.y} width={part.w} height={part.h}
+                  rx={part.rx ?? 0.5}
+                  fill={item.color} opacity={item.opacity}
+                  filter="url(#fs)"
+                />
+                {/* Блик сверху */}
+                <rect
+                  x={part.x + 0.3} y={part.y + 0.3}
+                  width={part.w - 0.6} height={Math.min(part.h * 0.22, 1.4)}
+                  rx={part.rx ?? 0.5}
+                  fill="white" opacity={0.20}
+                />
+                {/* Подпись */}
+                {showLabel && (
+                  <text
+                    x={part.x + part.w / 2}
+                    y={part.y + part.h / 2 + 0.7}
+                    textAnchor="middle"
+                    fontSize="1.8"
+                    fontFamily="Onest, sans-serif"
+                    fill="white"
+                    fontWeight="700"
+                    opacity={0.92}
+                  >
+                    {item.label.length > 15 ? item.label.slice(0, 14) + '…' : item.label}
+                  </text>
+                )}
+              </g>
+            )
+          })
+        )
+      )}
+
+      {/* Названия комнат */}
+      {PLAN_ROOMS.map(room => (
+        <text
+          key={`room-label-${room.id}`}
+          x={room.labelX} y={room.labelY}
+          textAnchor="middle"
+          fontSize="2.8"
+          fontFamily="Onest, sans-serif"
+          fill={room.accentColor}
+          fontWeight="800"
+          opacity={0.65}
+        >
+          {room.label}
+        </text>
+      ))}
+    </svg>
+  )
+}
+
+// ─── Plan view ────────────────────────────────────────────────────────────────
 
 function PlanView({ planUrl, mode }: { planUrl: string; mode: PlanMode }) {
   const [zoomed, setZoomed] = useState(false)
 
-  const Overlay = () => (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <defs>
-        <filter id="fs"><feDropShadow dx="0.3" dy="0.5" stdDeviation="0.8" floodOpacity="0.22" /></filter>
-      </defs>
-      {FURNITURE_ITEMS.map(f => (
-        <g key={f.id}>
-          <rect x={f.x} y={f.y} width={f.w} height={f.h} rx={f.rx} fill={f.color} opacity={f.opacity} filter="url(#fs)" />
-          <rect x={f.x + 0.3} y={f.y + 0.3} width={f.w - 0.6} height={Math.min(f.h * 0.3, 1.8)} rx={f.rx} fill="white" opacity={0.18} />
-          {f.label && f.w > 8 && f.h > 5 && (
-            <text x={f.x + f.w / 2} y={f.y + f.h / 2 + 0.8} textAnchor="middle" fontSize="1.9" fontFamily="Onest, sans-serif" fill="white" fontWeight="600" opacity={0.88}>{f.label.length > 14 ? f.label.slice(0, 13) + '…' : f.label}</text>
-          )}
-        </g>
-      ))}
-    </svg>
-  )
-
   return (
     <>
-      <div className="relative w-full rounded-2xl overflow-hidden border border-border shadow-sm bg-white cursor-zoom-in" onClick={() => setZoomed(true)}>
-        <img src={planUrl} alt="План" className="w-full h-auto block" style={{ filter: mode === 'furniture' ? 'brightness(0.9) contrast(1.08)' : 'none' }} draggable={false} />
-        {mode === 'furniture' && <Overlay />}
+      {/* Изображение + оверлей */}
+      <div
+        className="relative w-full rounded-2xl overflow-hidden border border-border shadow-sm bg-white cursor-zoom-in"
+        onClick={() => setZoomed(true)}
+      >
+        <img
+          src={planUrl} alt="План"
+          className="w-full h-auto block"
+          style={{ filter: mode === 'furniture' ? 'brightness(0.88) contrast(1.10)' : 'none' }}
+          draggable={false}
+        />
+        {mode === 'furniture' && <PlanOverlay />}
         <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-black/30 backdrop-blur-sm">
-          <ZoomIn size={12} className="text-white" /><span className="font-body text-[11px] text-white">Увеличить</span>
+          <ZoomIn size={12} className="text-white" />
+          <span className="font-body text-[11px] text-white">Увеличить</span>
         </div>
       </div>
+
+      {/* Легенда комнат + список мебели */}
       {mode === 'furniture' && (
-        <div className="flex flex-wrap gap-3">
-          {[{ color: '#D4795C', label: 'Мягкая мебель' }, { color: '#7A8F7A', label: 'Спальные места' }, { color: '#C8B4A0', label: 'Столы и хранение' }].map(l => (
-            <div key={l.label} className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-sm" style={{ background: l.color, opacity: 0.72 }} />
-              <span className="font-body text-[12px] text-muted">{l.label}</span>
-            </div>
-          ))}
-        </div>
+        <>
+          {/* Цветовая легенда по комнатам */}
+          <div className="flex flex-wrap gap-3 mt-1">
+            {PLAN_ROOMS.map(room => (
+              <div key={room.id} className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ background: room.accentColor, opacity: 0.75 }} />
+                <span className="font-body text-[12px] text-muted">{room.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Список мебели по комнатам */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+            {PLAN_ROOMS.map(room => (
+              <div key={room.id} className="bg-white rounded-xl border border-border p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ background: room.accentColor }} />
+                  <span className="font-body text-[13px] font-semibold text-ink">{room.label}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  {room.items
+                    .filter((item, idx, arr) => arr.findIndex(i => i.id === item.id) === idx) // дедупликация
+                    .filter(item => item.label) // только именованные предметы
+                    .map(item => (
+                      <div key={item.id} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1.5" style={{ background: item.color }} />
+                        <span className="font-body text-[11px] text-muted leading-relaxed">{item.hoffName}</span>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
+
+      {/* Зум-модал */}
       {zoomed && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={() => setZoomed(false)}>
           <div className="relative max-w-5xl max-h-[90vh] w-full">
@@ -102,8 +390,13 @@ function PlanView({ planUrl, mode }: { planUrl: string; mode: PlanMode }) {
               <X size={16} /> Закрыть
             </button>
             <div className="relative rounded-xl overflow-hidden">
-              <img src={planUrl} alt="План" className="w-full h-auto max-h-[85vh] object-contain" draggable={false} style={{ filter: mode === 'furniture' ? 'brightness(0.9) contrast(1.08)' : 'none' }} />
-              {mode === 'furniture' && <Overlay />}
+              <img
+                src={planUrl} alt="План"
+                className="w-full h-auto max-h-[85vh] object-contain"
+                draggable={false}
+                style={{ filter: mode === 'furniture' ? 'brightness(0.88) contrast(1.10)' : 'none' }}
+              />
+              {mode === 'furniture' && <PlanOverlay />}
             </div>
           </div>
         </div>

@@ -90,18 +90,28 @@ ROOM IDENTIFICATION RULES:
 - Look for numbers printed inside rooms — these are area in m² (e.g. "4.5", "16.3", "17.2")
 - Use the number as area_m2
 - Determine label by area AND shape:
-  - corridor (коридор): elongated narrow space connecting rooms, 1-7 m²
-  - bathroom (ванная): has bathtub symbol, 2-6 m²
-  - toilet (туалет/WC): very small isolated room, 1-3 m²
-  - kitchen (кухня): has sink/counter symbols, 6-16 m²
-  - living_room (гостиная): largest room, 14-30 m²
-  - bedroom (спальня): medium room, 9-20 m²
-  - balcony: thin room along outer wall
+  - corridor (коридор): elongated narrow space connecting rooms, 2-10 m²
+  - bathroom (ванная): has bathtub/shower symbol, 2-8 m²
+  - toilet (туалет/WC): very small isolated room, 1-4 m²
+  - kitchen (кухня): has sink/counter symbols, 6-18 m²
+  - living_room (гостиная): largest or second-largest room, 12-35 m²
+  - bedroom (спальня): medium room, 9-22 m²
+  - balcony: thin narrow room along outer wall
+  - storage: very small room, 1-5 m², no fixtures
 
-OPENING IDENTIFICATION RULES:
-- DOOR: gap in a wall + arc (quarter-circle) showing swing direction. The arc tip = position.
-- WINDOW: parallel double lines embedded in outer wall.
-- Find ALL doors and windows, even in bathroom/toilet.
+OPENING IDENTIFICATION (BE CONSERVATIVE):
+- DOOR: a clear gap in a wall WITH a quarter-circle arc showing swing direction.
+  The arc is drawn with its flat edge at the wall gap and curved edge sweeping the door path.
+  Report only doors you are CERTAIN about — a typical apartment has 4-8 doors.
+  DO NOT report: furniture curves, bathtub/toilet shapes, round objects as doors.
+  Position x,y = center of the wall gap (not center of the arc).
+- WINDOW: parallel double lines embedded in outer (exterior) wall only.
+  Report only clear window symbols — a typical apartment has 3-7 windows.
+  DO NOT report: interior wall gaps without clear double-line symbol as windows.
+
+CRITICAL: Report ONLY real structural openings in walls.
+A typical 2-bedroom apartment has: 5-7 doors, 3-6 windows.
+If you see more than 10 doors total, you are likely misidentifying furniture as doors.
 
 Return area_m2 exactly as written in the image. If you cannot read a number, estimate from room size.
 Return ONLY JSON. No explanation, no markdown blocks."""
@@ -155,8 +165,14 @@ def analyze_with_vision(image: np.ndarray, include_debug: bool = False) -> Apart
     # ── 5. Wall graph (нужен для стен и wall_id у проёмов) ───────────────────
     walls_pre_split, _ = detect_walls(plan)
     graph = build_wall_graph(walls_pre_split, w, h)
-    walls = [edge.wall for edge in graph.edges.values()]
-    logger.info(f"[vision] Стен: {len(walls)} (после split)")
+    raw_walls = [edge.wall for edge in graph.edges.values()]
+    logger.info(f"[vision] Стен до фильтрации: {len(raw_walls)}")
+
+    # Фильтруем «стены», которые на самом деле находятся внутри комнат:
+    # настоящая стена — на границе между комнатами или на периметре,
+    # фиктивная — внутри комнаты (мебель, сантехника, дуги дверей).
+    walls = _filter_walls_outside_rooms(raw_walls, rooms)
+    logger.info(f"[vision] Стен после фильтрации: {len(walls)} (убрано {len(raw_walls)-len(walls)})")
 
     # ── 6. Масштаб из OCR-площадей ─────────────────────────────────────────────
     scale = _estimate_scale(rooms, w, h)
@@ -177,7 +193,14 @@ def analyze_with_vision(image: np.ndarray, include_debug: bool = False) -> Apart
     # ── 8. Валидация дверей по прилежанию к комнатам ─────────────────────────
     if rooms:
         openings, rejected_doors = validate_doors_against_rooms(openings, rooms, proximity_px=40)
-        logger.info(f"[vision] Дверей после валидации: {len([o for o in openings if o.type == OpeningType.door])}, отброшено: {len(rejected_doors)}")
+        logger.info(
+            f"[vision] Дверей после валидации: "
+            f"{len([o for o in openings if o.type == OpeningType.door])}, "
+            f"отброшено: {len(rejected_doors)}"
+        )
+        # Дополнительно: убираем двери, которые внутри комнаты
+        # (Claude иногда видит дуги мебели как двери)
+        openings = _filter_openings_outside_rooms(openings, rooms)
 
     # ── 9. Confidence scores ──────────────────────────────────────────────────
     n_rooms = len(rooms)
@@ -643,6 +666,109 @@ def _safe_float(v) -> float | None:
         return float(v)
     except (TypeError, ValueError):
         return None
+
+
+def _point_in_poly(px: float, py: float, polygon: list[Point]) -> bool:
+    """Ray-casting: точка внутри полигона."""
+    n = len(polygon)
+    if n < 3:
+        return False
+    inside = False
+    j = n - 1
+    for i in range(n):
+        xi, yi = polygon[i].x, polygon[i].y
+        xj, yj = polygon[j].x, polygon[j].y
+        if ((yi > py) != (yj > py)) and (px < (xj - xi) * (py - yi) / (yj - yi + 1e-10) + xi):
+            inside = not inside
+        j = i
+    return inside
+
+
+def _filter_walls_outside_rooms(walls: list, rooms: list) -> list:
+    """
+    Убрать стены, чья средняя точка лежит ВНУТРИ комнатного полигона.
+
+    Настоящая стена — на ГРАНИЦЕ между комнатами или по периметру.
+    Ложная стена (мебель, сантехника, дуга двери) — нарисована ВНУТРИ комнаты.
+
+    Логика: flood fill заполняет интерьер, поэтому пиксели внутри комнаты
+    попадают в room.polygon. Пиксели структурных стен — между полигонами.
+    """
+    if not rooms or not walls:
+        return walls
+
+    filtered = []
+    for wall in walls:
+        mid_x = (wall.start.x + wall.end.x) / 2
+        mid_y = (wall.start.y + wall.end.y) / 2
+
+        in_room = any(
+            _point_in_poly(mid_x, mid_y, room.polygon)
+            for room in rooms
+            if room.polygon and len(room.polygon) >= 3
+        )
+
+        if not in_room:
+            filtered.append(wall)
+        else:
+            logger.debug(
+                f"[vision] Удалена ложная стена {wall.id} "
+                f"({wall.start.x:.0f},{wall.start.y:.0f})→"
+                f"({wall.end.x:.0f},{wall.end.y:.0f}): внутри комнаты"
+            )
+
+    return filtered
+
+
+def _filter_openings_outside_rooms(openings: list, rooms: list) -> list:
+    """
+    Убрать двери/окна, чья позиция лежит глубоко ВНУТРИ комнаты.
+
+    Настоящий проём — в стене, то есть на КРАЮ комнатного полигона.
+    Ложный проём (мебель-дуга) — в центре комнаты.
+
+    Допускаем расстояние до края полигона ≤ 30px, иначе — ложный.
+    """
+    if not rooms or not openings:
+        return openings
+
+    MAX_INTERIOR_DIST = 30  # px
+
+    filtered = []
+    for op in openings:
+        px, py = op.position.x, op.position.y
+
+        # Найти минимальное расстояние до границы любой комнаты
+        min_dist_to_edge = float("inf")
+        for room in rooms:
+            if not room.polygon or len(room.polygon) < 3:
+                continue
+            if not _point_in_poly(px, py, room.polygon):
+                continue
+            # Точка внутри этой комнаты — найти расстояние до её края
+            n = len(room.polygon)
+            for i in range(n):
+                a = room.polygon[i]
+                b = room.polygon[(i + 1) % n]
+                dx, dy = b.x - a.x, b.y - a.y
+                ll = dx * dx + dy * dy
+                if ll == 0:
+                    d = math.hypot(px - a.x, py - a.y)
+                else:
+                    t = max(0.0, min(1.0, ((px - a.x) * dx + (py - a.y) * dy) / ll))
+                    d = math.hypot(px - (a.x + t * dx), py - (a.y + t * dy))
+                min_dist_to_edge = min(min_dist_to_edge, d)
+
+        if min_dist_to_edge <= MAX_INTERIOR_DIST or min_dist_to_edge == float("inf"):
+            # На краю комнаты или снаружи комнат → настоящий проём
+            filtered.append(op)
+        else:
+            logger.info(
+                f"[vision] Удалён ложный проём {op.id} "
+                f"({px:.0f},{py:.0f}): глубина внутри комнаты {min_dist_to_edge:.0f}px"
+            )
+
+    return filtered
 
 
 def _parse_room_label(label_str: str, area_m2: float | None) -> RoomLabel:

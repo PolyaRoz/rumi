@@ -27,14 +27,14 @@ logger = logging.getLogger(__name__)
 # Параметры
 HOUGH_RHO = 1
 HOUGH_THETA = np.pi / 180
-HOUGH_THRESHOLD = 30
-HOUGH_MIN_LINE_LEN = 25       # px — минимальная длина линии
-HOUGH_MAX_LINE_GAP = 8        # px — максимальный разрыв в линии
+HOUGH_THRESHOLD = 40          # выше → меньше ложных срабатываний на мебель
+HOUGH_MIN_LINE_LEN = 40       # px — минимальная длина (40px ≈ 0.5м при 78px/m)
+HOUGH_MAX_LINE_GAP = 10       # px — допустимый разрыв в линии
 
-MERGE_DISTANCE_PX = 10        # расстояние для объединения коллинеарных сегментов
+MERGE_DISTANCE_PX = 12        # расстояние для объединения коллинеарных сегментов
 ANGLE_TOLERANCE_DEG = 5       # допуск для считания линий коллинеарными
 OUTER_WALL_MARGIN_FRACTION = 0.08  # 8% от края → внешняя стена
-MIN_WALL_LENGTH_PX = 20       # короче → не стена
+MIN_WALL_LENGTH_PX = 35       # короче → не стена (убирает мебельные линии)
 
 
 class LineSegment(NamedTuple):

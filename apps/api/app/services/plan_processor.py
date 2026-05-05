@@ -50,6 +50,7 @@ from app.services.false_positive_filter import (
 )
 from app.services.opening_classifier import classify_openings
 from app.services.opening_detector import find_openings
+from app.services.outer_wall_windows import find_windows_on_outer_walls
 from app.services.preprocessing import (
     PreprocessedPlan,
     draw_debug_overlay,
@@ -185,6 +186,27 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
     raw_doors = [o for o in classified if o.type.value == "door"]
     raw_windows = [o for o in classified if o.type.value == "window"]
     logger.info(f"[10] classified: doors={len(raw_doors)}, windows={len(raw_windows)}")
+
+    # ── 10b. Окна на outer walls (через density analysis, не через gap-based)
+    extra_windows = find_windows_on_outer_walls(plan.gray, walls, px_per_meter=px_per_meter)
+    if extra_windows:
+        # Дедупликация с уже найденными window candidates из classified
+        existing_window_positions = [
+            (o.position.x, o.position.y)
+            for o in classified if o.type.value == "window"
+        ]
+        for w_open in extra_windows:
+            is_dup = any(
+                abs(w_open.position.x - ex_x) < 30
+                and abs(w_open.position.y - ex_y) < 30
+                for ex_x, ex_y in existing_window_positions
+            )
+            if not is_dup:
+                classified.append(w_open)
+        logger.info(
+            f"[10b] outer wall windows: +{len(extra_windows)} candidates "
+            f"(total classified: {len(classified)})"
+        )
 
     # ── 11. False-positive filter ─────────────────────────────────────────
     filtered_openings, fp_report = filter_openings(classified, walls, rooms)

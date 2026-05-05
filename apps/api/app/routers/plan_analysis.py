@@ -83,14 +83,30 @@ async def analyze_plan(
     # Получаем байты изображения
     if file is not None:
         image_bytes = await file.read()
+        logger.info(f"[analyze] Загружен file: {len(image_bytes)} байт, name={file.filename}")
     elif image_url:
         image_bytes = await _fetch_image_from_url(image_url)
+        logger.info(f"[analyze] Загружено по URL: {len(image_bytes)} байт")
     else:
         raise HTTPException(400, "Нужно передать file или image_url")
+
+    # Сохраняем загруженный план для post-mortem анализа
+    import os
+    debug_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "debug_uploads")
+    try:
+        os.makedirs(debug_dir, exist_ok=True)
+        import time
+        debug_path = os.path.join(debug_dir, f"plan_{int(time.time())}.png")
+        with open(debug_path, "wb") as f:
+            f.write(image_bytes)
+        logger.info(f"[analyze] План сохранён для дебага: {debug_path}")
+    except Exception as e:
+        logger.warning(f"[analyze] Не удалось сохранить дебаг: {e}")
 
     # Конвертируем в numpy
     try:
         image = load_image_from_bytes(image_bytes)
+        logger.info(f"[analyze] Изображение декодировано: shape={image.shape}")
     except Exception as e:
         raise HTTPException(400, f"Не удалось декодировать изображение: {e}")
 

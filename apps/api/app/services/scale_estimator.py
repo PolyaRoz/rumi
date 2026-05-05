@@ -84,11 +84,13 @@ class OcrArea(NamedTuple):
 
 # ─── Регэкспы ────────────────────────────────────────────────────────────────
 
-# Десятичное число с точкой ИЛИ запятой ("4.0", "14,4", "16.3")
-_DECIMAL_PATTERN = re.compile(r"\b(\d{1,2}[.,]\d{1,2})\b")
+# Десятичное число с точкой ИЛИ запятой ("4.0", "14,4", "16.3").
+# БЕЗ \b — запятая не образует word boundary, фрагментирует числа.
+_DECIMAL_PATTERN = re.compile(r"(\d{1,2}[.,]\d{1,2})")
 
-# Целое число (1-80) — иногда подписывают как "16"
-_INTEGER_PATTERN = re.compile(r"\b(\d{1,2})\b")
+# "Слипшееся" целое — Tesseract часто теряет разделитель:
+# "27" → 2.7, "163" → 16.3, "45" → 4.5, "40" → 4.0
+_GLUED_PATTERN = re.compile(r"(\d{2,3})")
 
 # Диапазон осмысленных площадей комнат
 AREA_MIN_M2 = 1.5
@@ -104,27 +106,22 @@ MAX_TEXT_HEIGHT_PX = 60
 
 def _prepare_for_ocr(gray_img: np.ndarray) -> np.ndarray:
     """
-    Подготовить изображение для лучшего OCR числовых меток:
-    - upscale (x2) для мелкого шрифта,
-    - adaptive threshold,
-    - дополнительный denoise.
+    Подготовка для OCR.
+
+    ВАЖНО: эксперименты на реальном плане показали что adaptive threshold +
+    upscale ВРЕДЯТ распознаванию (Tesseract возвращает 0 токенов вместо 7).
+    На чистых архитектурных планах простой grayscale работает лучше всего.
+    Возвращаем gray как есть, опционально мягкий upscale если изображение
+    маленькое.
     """
     h, w = gray_img.shape
-    # Upscale до ~1500-2000 max side для лучшей читаемости
-    target = 1800
+    # Только upscale если изображение реально маленькое
+    target = 1500
     if max(h, w) < target:
         scale = target / max(h, w)
         gray_img = cv2.resize(gray_img, (int(w * scale), int(h * scale)),
                               interpolation=cv2.INTER_CUBIC)
-
-    # Adaptive threshold: численные метки обычно на белом фоне
-    binary = cv2.adaptiveThreshold(
-        gray_img, 255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv2.THRESH_BINARY,
-        blockSize=21, C=10,
-    )
-    return binary
+    return gray_img
 
 
 def _parse_value(text: str) -> float | None:
@@ -136,6 +133,44 @@ def _parse_value(text: str) -> float | None:
             return v
     except ValueError:
         pass
+    return None
+
+
+def _try_split_glued(text: str) -> float | None:
+    """
+    Tesseract теряет разделитель: "27" → пробуем 2.7, "163" → 16.3, "45" → 4.5.
+
+    Эвристика для целых чисел в диапазоне типичных площадей квартир:
+    - 2-9 цифр: вернуть как есть (1-9 м²)
+    - 10-99: попробовать как X.Y. Если результат < AREA_MIN_M2 — вернуть как X.0 (целое)
+    - 100-999: попробовать как XX.Y (16,3 = 163), затем X.YZ (если первый вариант >50)
+    """
+    text = text.strip().replace(",", "").replace(".", "")
+    if not text.isdigit():
+        return None
+    try:
+        n = int(text)
+    except ValueError:
+        return None
+
+    # 2 цифры: "27" → 2.7. Если получилось < 1.5 (например "10" → 1.0) — пробуем как 10.0
+    if 10 <= n <= 99:
+        as_decimal = n / 10  # 27 → 2.7
+        if AREA_MIN_M2 <= as_decimal <= 10.0:
+            return as_decimal
+        # Иначе как целое: 17 → 17.0
+        if AREA_MIN_M2 <= float(n) <= AREA_MAX_M2:
+            return float(n)
+        return None
+
+    # 3 цифры: "163" → 16.3. "452" → 45.2 (если правдоподобно)
+    if 100 <= n <= 999:
+        as_decimal = n / 10  # 163 → 16.3
+        if AREA_MIN_M2 <= as_decimal <= AREA_MAX_M2:
+            return as_decimal
+        # 999 / 10 = 99.9 — слишком большое для квартиры, пропускаем
+        return None
+
     return None
 
 
@@ -162,12 +197,13 @@ def extract_area_labels_from_image(gray_img: np.ndarray) -> list[OcrArea]:
     h_prep, w_prep = prepared.shape
     scale_back = w_orig / w_prep  # для обратной трансформации координат
 
-    # Запускаем несколько OCR-проходов с разными PSM
+    # OCR-проходы с разными PSM.
+    # БЕЗ tessedit_char_whitelist — он ОБРЫВАЕТ распознавание чисел типа "4,0":
+    # Tesseract отбрасывает запятую и не возвращает результат вовсе.
     psm_configs = [
-        # PSM 11: sparse text — лучше для меток, разбросанных по плану
-        "--oem 3 --psm 11 -c tessedit_char_whitelist=0123456789.,",
-        # PSM 6: assume uniform block — иногда работает лучше для чистых сканов
-        "--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789.,",
+        "--oem 3 --psm 11",   # sparse text — для меток разбросанных по плану
+        "--oem 3 --psm 6",    # uniform block — fallback для чистых сканов
+        "--oem 3 --psm 12",   # sparse + OSD
     ]
 
     all_results: list[OcrArea] = []
@@ -205,19 +241,17 @@ def extract_area_labels_from_image(gray_img: np.ndarray) -> list[OcrArea]:
             if bbox_h < MIN_TEXT_HEIGHT_PX or bbox_h > MAX_TEXT_HEIGHT_PX:
                 continue
 
-            # Сначала ищем десятичное (чаще встречается)
+            # 1) Сначала ищем нормальное десятичное "4,0" / "16.3"
             value = None
             m = _DECIMAL_PATTERN.search(text)
             if m:
                 value = _parse_value(m.group(1))
 
-            # Если не нашли десятичное — пробуем целое (но строже)
-            if value is None and len(text) <= 4:
-                m = _INTEGER_PATTERN.search(text)
+            # 2) Слипшееся число от Tesseract: "27" → 2.7, "163" → 16.3
+            if value is None:
+                m = _GLUED_PATTERN.search(text)
                 if m:
-                    raw_int = int(m.group(1))
-                    if 5 <= raw_int <= 60:  # узкий диапазон для целых
-                        value = float(raw_int)
+                    value = _try_split_glued(m.group(1))
 
             if value is None:
                 continue

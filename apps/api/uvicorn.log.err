@@ -1,0 +1,46 @@
+INFO:     Will watch for changes in these directories: ['C:\\Users\\polch\\OneDrive\\Рабочий стол\\проекты клод\\Проект ремонт\\rumi\\apps\\api']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [28148] using WatchFiles
+INFO:     Started server process [11544]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\services\scale_estimator.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [11544]
+WARNING:  WatchFiles detected changes in 'app\services\scale_estimator.py', 'app\services\room_polygonizer.py'. Reloading...
+INFO:     Started server process [23592]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [23592]
+INFO:     Started server process [23252]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\services\room_polygonizer.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [23252]
+INFO:     Started server process [26612]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'tests\test_room_polygonizer.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [26612]
+WARNING:  WatchFiles detected changes in 'tests\test_room_polygonizer.py', 'app\services\room_polygonizer.py'. Reloading...
+INFO:     Started server process [15192]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [15192]
+INFO:     Started server process [14552]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

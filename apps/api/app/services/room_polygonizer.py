@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 
 # Размер ядра для закрытия дверных проёмов (px).
 # 8px ≈ 16-20px в исходном пространстве после morph close = ~30-40px зазор.
-DOOR_GAP_CLOSE_KERNEL = 13
+DOOR_GAP_CLOSE_KERNEL = 9
 
 # Минимальная площадь комнаты в px²
 MIN_ROOM_AREA_PX = 1500

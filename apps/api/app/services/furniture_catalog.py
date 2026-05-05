@@ -29,9 +29,12 @@ from app.schemas.furniture import (
 
 logger = logging.getLogger(__name__)
 
-# Путь к JSON-файлам каталога (относительно корня проекта)
+# Путь к JSON-файлам каталога
+# __file__ = apps/api/app/services/furniture_catalog.py
+# .parent×4   = apps/
+# / "web/data" = apps/web/data/
 _CATALOG_DIR = (
-    pathlib.Path(__file__).parent.parent.parent.parent.parent
+    pathlib.Path(__file__).parent.parent.parent.parent
     / "web" / "data"
 )
 

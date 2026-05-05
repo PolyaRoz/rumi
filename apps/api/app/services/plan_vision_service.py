@@ -397,6 +397,29 @@ def _build_rooms_from_vision(
             logger.warning(f"[vision] Комната {idx} ({area_m2}м²) слишком мала: {area_px}px²")
             continue
 
+        # Проверка на overflow (flood fill вышел за пределы комнаты)
+        # Комната не может занимать > 60% площади изображения
+        if area_px > img_area_px * 0.60:
+            logger.warning(
+                f"[vision] Комната {idx} ({area_m2}м²) overflow: "
+                f"{area_px}px² = {area_px/img_area_px:.0%} image — пропускаем"
+            )
+            continue
+
+        # Если знаем площадь от Claude — проверяем что flood fill не в 10× больше ожидаемого
+        if area_m2 and area_m2 > 0 and len(rooms) > 0:
+            # Оценим px_per_m² из уже построенных комнат
+            known = [(r.area_m2, r.area_px2) for r in rooms if r.area_m2 and r.area_px2 and r.area_m2 > 1.0]
+            if known:
+                median_ratio = sorted(p / m for m, p in known)[len(known) // 2]
+                expected_px = area_m2 * median_ratio
+                if area_px > expected_px * 10:
+                    logger.warning(
+                        f"[vision] Комната {idx} ({area_m2}м²) overflow по соотношению: "
+                        f"{area_px}px² ожидалось ≈{expected_px:.0f}px² — пропускаем"
+                    )
+                    continue
+
         # Контур → полигон
         contours, _ = cv2.findContours(room_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         if not contours:

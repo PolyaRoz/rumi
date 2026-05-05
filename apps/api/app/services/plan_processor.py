@@ -158,8 +158,15 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
     # которое съело края). Без этого на UI видны белые пробелы между
     # полигонами и стенами.
     if rooms:
-        rooms = expand_rooms_to_walls(rooms, structural_mask)
+        rooms = expand_rooms_to_walls(rooms, structural_mask, max_expand_px=45)
         logger.info(f"[7c] Rooms expanded to walls")
+
+    # ── 7d. Контекстная переклассификация типов комнат ───────────────────
+    # Для типовой 2-3-комнатной квартиры:
+    # - самая большая labeled room (16-22 м²) с центральной формой = living_room
+    # - вытянутая комната 12-22 м² (aspect > 1.7) = corridor
+    # - средние 12-16 м² = bedroom
+    _reclassify_rooms_by_context(rooms)
 
     # ── 8. Оценка масштаба по anchored rooms ──────────────────────────────
     room_dicts = [
@@ -329,6 +336,53 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
 
 
 # ─── Утилиты ─────────────────────────────────────────────────────────────────
+
+
+def _reclassify_rooms_by_context(rooms: list[Room]) -> None:
+    """
+    Контекстная переклассификация типов комнат.
+
+    classify_room_by_area работает изолированно для каждой комнаты.
+    Здесь применяем правила глобально по всей квартире:
+    - Из всех bedroom-кандидатов (12-22 м²) самая ВЫТЯНУТАЯ → corridor
+    - Из оставшихся bedroom самая БОЛЬШАЯ → living_room
+    """
+    from app.schemas.geometry import RoomLabel
+
+    # Собираем комнаты которые сейчас bedroom
+    bedrooms = [r for r in rooms if r.label == RoomLabel.bedroom]
+    if len(bedrooms) < 2:
+        return  # одна спальня — нечего пере-категоризировать
+
+    # ── 1. Найти corridor: вытянутая среди bedroom ────────────────────────
+    def aspect_of_polygon(room: Room) -> float:
+        if not room.polygon:
+            return 1.0
+        xs = [p.x for p in room.polygon]
+        ys = [p.y for p in room.polygon]
+        bw = max(xs) - min(xs)
+        bh = max(ys) - min(ys)
+        return max(bw, bh) / max(min(bw, bh), 1.0)
+
+    # Кандидат на коридор: самая вытянутая среди >16 м² (нетипично для спальни)
+    corridor_candidates = [
+        (r, aspect_of_polygon(r)) for r in bedrooms
+        if r.area_m2 and r.area_m2 >= 16
+    ]
+    corridor: Room | None = None
+    if corridor_candidates:
+        # Выбираем самую вытянутую если aspect > 1.6
+        most_elongated = max(corridor_candidates, key=lambda x: x[1])
+        if most_elongated[1] > 1.6:
+            corridor = most_elongated[0]
+            corridor.label = RoomLabel.corridor
+
+    # ── 2. Найти living_room: самая большая среди оставшихся bedroom ─────
+    remaining = [r for r in bedrooms if r is not corridor]
+    if remaining:
+        biggest = max(remaining, key=lambda r: r.area_m2 or 0)
+        if biggest.area_m2 and biggest.area_m2 >= 15:
+            biggest.label = RoomLabel.living_room
 
 
 def _propagate_outer_to_pre_split(

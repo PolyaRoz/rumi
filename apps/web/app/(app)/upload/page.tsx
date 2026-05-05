@@ -8,11 +8,13 @@ import { Upload, FileImage, ArrowRight, X, CheckCircle2 } from 'lucide-react'
 import StepHeader from '@/components/StepHeader'
 import { usePlanStore } from '@/store/planStore'
 import { useVisualizationStore } from '@/store/visualizationStore'
+import { useGeometryStore } from '@/store/geometryStore'
 
 export default function UploadPage() {
   const router = useRouter()
   const { setPlan } = usePlanStore()
   const resetVisualization = useVisualizationStore(s => s.reset)
+  const resetGeometry = useGeometryStore(s => s.reset)
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
 
@@ -22,9 +24,11 @@ export default function UploadPage() {
     const url = URL.createObjectURL(f)
     setFile(f)
     setPreview(url)
-    setPlan(url, f, f.name)   // сохраняем blob URL + File объект для fal.ai
-    resetVisualization()      // новый план — сбрасываем старые визуализации
-  }, [setPlan])
+    setPlan(url, f, f.name)
+    // Новый план — обнуляем ВСЁ: визуализации, геометрию, расстановку
+    resetVisualization()
+    resetGeometry()
+  }, [setPlan, resetVisualization, resetGeometry])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

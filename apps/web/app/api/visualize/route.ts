@@ -1,14 +1,52 @@
+/**
+ * Per-room photo generation via fal.ai с FIXED render-style template.
+ *
+ * АРХИТЕКТУРА:
+ *  - Промпт строится через renderInstructionBuilder с ФИКСИРОВАННЫМ шаблоном
+ *    рендера (правило F: render style stable across regenerations)
+ *  - User-style влияет ТОЛЬКО на палитру материалов (правило G)
+ *  - Furniture передаётся ТОЛЬКО из validated catalog placement
+ *    (правила B, D, E)
+ *  - Seed детерминирован: один и тот же layout → одинаковая картинка
+ *  - Negative prompt запрещает AI добавлять окна, передвигать двери, etc.
+ */
+
 import { NextRequest, NextResponse } from 'next/server'
 import { fal } from '@fal-ai/client'
-import { buildPrompt, type VisualizationRequest } from '@/lib/promptBuilder'
+import {
+  buildPerRoomPhotoInstruction,
+  type StyleKey,
+  type PerRoomLockedContext,
+  type FurnitureNameDim,
+} from '@/lib/renderInstructionBuilder'
 
-// fal.ai конфигурация
-fal.config({
-  credentials: process.env.FAL_KEY,
-})
+fal.config({ credentials: process.env.FAL_KEY })
+
+interface VisualizeRequest {
+  // Тип комнаты для маппинга в English
+  room: string
+  // Стиль (только палитра материалов)
+  style: StyleKey
+  // Validated catalog items (имена + размеры)
+  furniture: { name: string; category: string; width_m?: number; depth_m?: number }[]
+  // Locked-контекст из geometry JSON
+  locked?: {
+    room_label?: string
+    area_m2?: number | null
+    placed_count?: number
+  }
+}
+
+// Маппинг старых RoomType → RoomLabel для совместимости с фронтом
+const LEGACY_ROOM_MAP: Record<string, string> = {
+  living:  'living_room',
+  bedroom: 'bedroom',
+  kitchen: 'kitchen',
+  kids:    'kids_room',
+  hallway: 'corridor',
+}
 
 export async function POST(req: NextRequest) {
-  // Проверяем API ключ
   if (!process.env.FAL_KEY) {
     return NextResponse.json(
       { error: 'FAL_KEY не настроен в .env.local', code: 'NO_KEY' },
@@ -16,27 +54,51 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  let body: VisualizationRequest
+  let body: VisualizeRequest
   try {
     body = await req.json()
   } catch {
     return NextResponse.json({ error: 'Неверный формат запроса' }, { status: 400 })
   }
 
-  const prompt = buildPrompt(body)
+  // Locked-контекст: из body.locked или маппинга из легаси-room
+  const roomLabel = body.locked?.room_label ?? LEGACY_ROOM_MAP[body.room] ?? 'unknown'
+  const lockedContext: PerRoomLockedContext = {
+    room_label:    roomLabel,
+    area_m2:       body.locked?.area_m2 ?? null,
+    placed_count:  body.locked?.placed_count ?? body.furniture.length,
+  }
 
-  console.log(`[visualize] room=${body.room} style=${body.style}`)
-  console.log(`[visualize] prompt: ${prompt.slice(0, 120)}...`)
+  // Validated catalog items
+  const furniture: FurnitureNameDim[] = body.furniture.map(f => ({
+    name: f.name,
+    category: f.category,
+    width_m: f.width_m,
+    depth_m: f.depth_m,
+  }))
+
+  // ── Построить ФИКСИРОВАННУЮ инструкцию ────────────────────────────────────
+  const instruction = buildPerRoomPhotoInstruction(
+    lockedContext,
+    furniture,
+    body.style,
+  )
+
+  console.log(`[visualize] room=${roomLabel} style=${body.style} seed=${instruction.seed}`)
+  console.log(`[visualize] locked: ${instruction.locked_constraints.join(', ')}`)
+  console.log(`[visualize] prompt[:150]: ${instruction.prompt.slice(0, 150)}...`)
 
   try {
     const result = await fal.subscribe('fal-ai/flux/schnell', {
       input: {
-        prompt,
-        image_size: 'landscape_16_9', // 16:9 — идеально для интерьеров
-        num_inference_steps: 4,       // schnell = 4 шага, ~1-2 сек
+        prompt: instruction.prompt,
+        // ФИКСИРОВАННЫЕ параметры — стабильность render-style
+        image_size: 'landscape_16_9',
+        num_inference_steps: 4,
         num_images: 1,
+        seed: instruction.seed,                     // детерминированный
         enable_safety_checker: true,
-      },
+      } as any,
       logs: false,
     })
 
@@ -47,8 +109,11 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       imageUrl,
-      prompt, // возвращаем для отладки
-      room: body.room,
+      prompt: instruction.prompt,
+      seed: instruction.seed,
+      render_style_id: instruction.render_style_id,
+      locked_constraints: instruction.locked_constraints,
+      room: roomLabel,
       style: body.style,
     })
   } catch (err: any) {

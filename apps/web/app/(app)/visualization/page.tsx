@@ -68,7 +68,58 @@ export default function VisualizationPage() {
     return map
   }, [])
 
+  // ── Per-room фото генерация (ПЕРЕД guard — хуки нельзя после early return) ──
+  const generateRoomPhoto = useCallback(async (room: Room) => {
+    const roomType: RoomType = ROOM_LABEL_TO_TYPE[room.label] ?? 'living'
+    const roomLayout = placement?.rooms.find(rl => rl.room_id === room.id)
+
+    setRoomPhoto(roomType, { status: 'loading', error: undefined })
+
+    try {
+      const validatedItems = (roomLayout?.placed_items ?? [])
+        .map(pi => {
+          const cat = catalogIndex.get(pi.item_id)
+          return cat ? { name: cat.name, category: cat.category } : null
+        })
+        .filter((x): x is { name: string; category: string } => x !== null)
+
+      const res = await fetch('/api/visualize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          room: roomType,
+          style: currentStyle,
+          furniture: validatedItems,
+          locked: {
+            room_label: room.label,
+            area_m2: room.area_m2,
+            placed_count: validatedItems.length,
+          },
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        setRoomPhoto(roomType, { status: 'error', error: data.error ?? 'Ошибка' })
+        return
+      }
+      setRoomPhoto(roomType, { status: 'done', imageUrl: data.imageUrl })
+    } catch (err: any) {
+      setRoomPhoto(roomType, { status: 'error', error: err?.message ?? 'Ошибка сети' })
+    }
+  }, [placement, catalogIndex, currentStyle, setRoomPhoto])
+
+  // Скачать PNG плана (тоже до guard)
+  const handleDownload = useCallback(() => {
+    if (!planCanvasRef) return
+    const url = canvasToDataURL(planCanvasRef)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `apartment-${currentStyle}.png`
+    a.click()
+  }, [planCanvasRef, currentStyle])
+
   // ── Guard: если нет валидированной геометрии — отправить в pipeline ──────
+  // ВАЖНО: этот guard ПОСЛЕ всех хуков (Rules of Hooks требует unconditional calls)
   if (!geometry || !geometry.user_validated) {
     return (
       <div className="min-h-screen bg-paper flex flex-col">
@@ -98,58 +149,6 @@ export default function VisualizationPage() {
   const totalItems   = placement?.rooms.reduce((s, r) => s + r.placed_items.length, 0) ?? 0
   const totalPrice   = placement?.total_price_rub ?? 0
   const placedRooms  = placement?.rooms.filter(r => r.placed_items.length > 0) ?? []
-
-  // ── Per-room фото генерация ───────────────────────────────────────────────
-  const generateRoomPhoto = useCallback(async (room: Room) => {
-    const roomType: RoomType = ROOM_LABEL_TO_TYPE[room.label] ?? 'living'
-    const roomLayout = placement?.rooms.find(rl => rl.room_id === room.id)
-
-    setRoomPhoto(roomType, { status: 'loading', error: undefined })
-
-    try {
-      // Validated catalog items для этой комнаты (НЕ DEFAULT_FURNITURE)
-      const validatedItems = (roomLayout?.placed_items ?? [])
-        .map(pi => {
-          const cat = catalogIndex.get(pi.item_id)
-          return cat ? { name: cat.name, category: cat.category } : null
-        })
-        .filter((x): x is { name: string; category: string } => x !== null)
-
-      const res = await fetch('/api/visualize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          room: roomType,
-          style: currentStyle,
-          furniture: validatedItems,
-          // Передаём locked-данные для строгого промпта
-          locked: {
-            room_label: room.label,
-            area_m2: room.area_m2,
-            placed_count: validatedItems.length,
-          },
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok || data.error) {
-        setRoomPhoto(roomType, { status: 'error', error: data.error ?? 'Ошибка' })
-        return
-      }
-      setRoomPhoto(roomType, { status: 'done', imageUrl: data.imageUrl })
-    } catch (err: any) {
-      setRoomPhoto(roomType, { status: 'error', error: err?.message ?? 'Ошибка сети' })
-    }
-  }, [placement, catalogIndex, currentStyle, setRoomPhoto])
-
-  // Скачать PNG плана
-  const handleDownload = () => {
-    if (!planCanvasRef) return
-    const url = canvasToDataURL(planCanvasRef)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `apartment-${currentStyle}.png`
-    a.click()
-  }
 
   return (
     <div className="min-h-screen bg-paper flex flex-col">

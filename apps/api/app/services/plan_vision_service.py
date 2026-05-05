@@ -198,9 +198,13 @@ def analyze_with_vision(image: np.ndarray, include_debug: bool = False) -> Apart
             f"{len([o for o in openings if o.type == OpeningType.door])}, "
             f"отброшено: {len(rejected_doors)}"
         )
-        # Дополнительно: убираем двери, которые внутри комнаты
-        # (Claude иногда видит дуги мебели как двери)
+        # Убираем двери глубоко внутри комнаты (мебельные дуги)
         openings = _filter_openings_outside_rooms(openings, rooms)
+
+    # ── 8b. Хард-кап: не более 8 дверей и 8 окон ─────────────────────────────
+    # Claude иногда видит 20+ "дверей" из мебельных дуг и символов.
+    # Реальная квартира имеет 4-8 дверей и 3-7 окон.
+    openings = _cap_openings(openings, max_doors=8, max_windows=8)
 
     # ── 9. Confidence scores ──────────────────────────────────────────────────
     n_rooms = len(rooms)
@@ -718,6 +722,33 @@ def _filter_walls_outside_rooms(walls: list, rooms: list) -> list:
             )
 
     return filtered
+
+
+def _cap_openings(openings: list, max_doors: int = 8, max_windows: int = 8) -> list:
+    """
+    Ограничить количество дверей и окон.
+    Если Claude нашёл >max_doors дверей, оставляем только наиболее широкие
+    (настоящие двери шире, чем мебельные дуги).
+    """
+    doors   = [o for o in openings if o.type == OpeningType.door]
+    windows = [o for o in openings if o.type == OpeningType.window]
+    others  = [o for o in openings if o.type not in (OpeningType.door, OpeningType.window)]
+
+    if len(doors) > max_doors:
+        # Сортируем по ширине убывая: реальные двери (0.6-1.0м) шире мебельных дуг
+        doors.sort(key=lambda d: d.width_px, reverse=True)
+        logger.info(
+            f"[vision] Хард-кап дверей: {len(doors)} → {max_doors} "
+            f"(оставляем самые широкие)"
+        )
+        doors = doors[:max_doors]
+
+    if len(windows) > max_windows:
+        windows.sort(key=lambda w: w.width_px, reverse=True)
+        logger.info(f"[vision] Хард-кап окон: {len(windows)} → {max_windows}")
+        windows = windows[:max_windows]
+
+    return others + doors + windows
 
 
 def _filter_openings_outside_rooms(openings: list, rooms: list) -> list:

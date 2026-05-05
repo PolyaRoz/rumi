@@ -1,12 +1,12 @@
 'use client'
 
-import { useEffect, useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import {
   ArrowRight, Loader2, ZoomIn, X,
   Sparkles, AlertCircle, RotateCcw, Upload,
-  Building2, Camera,
+  Building2, Camera, Play,
 } from 'lucide-react'
 import StepHeader from '@/components/StepHeader'
 import { usePlanStore } from '@/store/planStore'
@@ -27,7 +27,7 @@ const ROOMS: { id: RoomType; label: string }[] = [
 
 // ─── 3D Floor Plan View ───────────────────────────────────────────────────────
 
-function FloorplanView({ onRegenerate }: { onRegenerate: () => void }) {
+function FloorplanView({ onGenerate }: { onGenerate: () => void }) {
   const { planUrl } = usePlanStore()
   const floorplan = useVisualizationStore(s => s.floorplan)
   const [zoomed, setZoomed] = useState(false)
@@ -46,73 +46,96 @@ function FloorplanView({ onRegenerate }: { onRegenerate: () => void }) {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Статус-бар сверху */}
-      <div className="flex items-center justify-between gap-4 p-4 bg-white rounded-2xl border border-border">
-        <div className="flex items-center gap-3">
-          <div className="relative w-16 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-border">
-            <img src={planUrl} alt="Ваш план" className="w-full h-full object-cover" />
-          </div>
-          <div>
-            <p className="font-body text-[13px] font-semibold text-ink">3D-визуализация вашего плана</p>
-            <p className="font-body text-[12px] text-muted">
-              {floorplan.status === 'done'
-                ? 'Готово · мебель из каталога Hoff'
-                : floorplan.status === 'uploading'
-                ? 'Загружаем план…'
-                : floorplan.status === 'generating'
-                ? 'Строим 3D-вид…'
-                : floorplan.status === 'error'
-                ? 'Ошибка генерации'
-                : 'Генерируется…'}
-            </p>
-          </div>
-        </div>
 
-        {(floorplan.status === 'uploading' || floorplan.status === 'generating') && (
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-terracotta-50 border border-terracotta/20">
-            <Loader2 size={14} className="text-terracotta animate-spin" />
-            <span className="font-body text-[12px] text-terracotta">
-              {floorplan.status === 'uploading' ? 'Загружаем…' : 'Строим…'}
-            </span>
-          </div>
-        )}
-
-        {(floorplan.status === 'done' || floorplan.status === 'error') && (
-          <button
-            onClick={onRegenerate}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-white font-body text-[13px] text-muted hover:border-terracotta hover:text-terracotta transition-colors flex-shrink-0"
-          >
-            <RotateCcw size={13} /> Перегенерировать
-          </button>
-        )}
-      </div>
-
-      {/* Генерируется */}
-      {(floorplan.status === 'uploading' || floorplan.status === 'generating' || floorplan.status === 'idle') && (
-        <div className="relative w-full rounded-2xl overflow-hidden border border-border bg-cream" style={{ aspectRatio: '1/1' }}>
-          <div className="absolute inset-0 bg-gradient-to-br from-cream via-[#E8D4C4] to-[#DCC8B4] animate-pulse" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-white/70 backdrop-blur-sm flex items-center justify-center shadow-sm">
-              <Building2 size={28} className="text-terracotta animate-pulse" />
+      {/* ── Idle: превью плана + кнопка запуска ── */}
+      {floorplan.status === 'idle' && (
+        <div className="relative w-full rounded-2xl overflow-hidden border-2 border-dashed border-border bg-cream cursor-pointer group" style={{ aspectRatio: '1/1' }} onClick={onGenerate}>
+          {/* блюр оригинального плана на фоне */}
+          <img src={planUrl} alt="Ваш план" className="absolute inset-0 w-full h-full object-cover opacity-30 blur-sm scale-105" />
+          <div className="absolute inset-0 bg-cream/60" />
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
+            <div className="relative w-20 h-20 rounded-2xl overflow-hidden border-2 border-white shadow-md">
+              <img src={planUrl} alt="Ваш план" className="w-full h-full object-cover" />
             </div>
             <div className="text-center">
-              <p className="font-heading text-[20px] text-ink/80">
-                {floorplan.status === 'uploading' ? 'Загружаем план…' : 'Строим 3D-визуализацию…'}
-              </p>
-              <p className="font-body text-[13px] text-muted mt-1">обычно 15–30 секунд</p>
+              <p className="font-heading text-[22px] font-semibold text-ink">Создать 3D-визуализацию</p>
+              <p className="font-body text-[13px] text-muted mt-1">ИИ расставит мебель прямо на вашем плане</p>
             </div>
-            <div className="flex gap-2">
-              {[0,1,2,3,4].map(i => (
-                <div key={i} className="w-2 h-2 rounded-full bg-terracotta animate-bounce" style={{ animationDelay: `${i * 150}ms` }} />
-              ))}
-            </div>
+            <button
+              onClick={onGenerate}
+              className="flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-terracotta text-white font-body text-[15px] font-medium shadow-md hover:bg-terracotta/90 transition-all group-hover:scale-105"
+            >
+              <Play size={16} fill="white" /> Сгенерировать
+            </button>
+            <p className="font-body text-[11px] text-muted">обычно 15–30 секунд</p>
           </div>
         </div>
       )}
 
-      {/* Готово */}
+      {/* ── Loading ── */}
+      {(floorplan.status === 'uploading' || floorplan.status === 'generating') && (
+        <>
+          <div className="flex items-center justify-between gap-4 p-4 bg-white rounded-2xl border border-border">
+            <div className="flex items-center gap-3">
+              <div className="relative w-16 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-border">
+                <img src={planUrl} alt="Ваш план" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="font-body text-[13px] font-semibold text-ink">3D-визуализация вашего плана</p>
+                <p className="font-body text-[12px] text-muted">
+                  {floorplan.status === 'uploading' ? 'Загружаем план…' : 'Строим 3D-вид…'}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-terracotta-50 border border-terracotta/20">
+              <Loader2 size={14} className="text-terracotta animate-spin" />
+              <span className="font-body text-[12px] text-terracotta">
+                {floorplan.status === 'uploading' ? 'Загружаем…' : 'Строим…'}
+              </span>
+            </div>
+          </div>
+          <div className="relative w-full rounded-2xl overflow-hidden border border-border bg-cream" style={{ aspectRatio: '1/1' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-cream via-[#E8D4C4] to-[#DCC8B4] animate-pulse" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-white/70 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                <Building2 size={28} className="text-terracotta animate-pulse" />
+              </div>
+              <div className="text-center">
+                <p className="font-heading text-[20px] text-ink/80">
+                  {floorplan.status === 'uploading' ? 'Загружаем план…' : 'Строим 3D-визуализацию…'}
+                </p>
+                <p className="font-body text-[13px] text-muted mt-1">обычно 15–30 секунд</p>
+              </div>
+              <div className="flex gap-2">
+                {[0,1,2,3,4].map(i => (
+                  <div key={i} className="w-2 h-2 rounded-full bg-terracotta animate-bounce" style={{ animationDelay: `${i * 150}ms` }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── Done ── */}
       {floorplan.status === 'done' && floorplan.imageUrl && (
         <>
+          <div className="flex items-center justify-between gap-4 p-4 bg-white rounded-2xl border border-border">
+            <div className="flex items-center gap-3">
+              <div className="relative w-16 h-12 rounded-xl overflow-hidden flex-shrink-0 border border-border">
+                <img src={planUrl} alt="Ваш план" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="font-body text-[13px] font-semibold text-ink">3D-визуализация готова</p>
+                <p className="font-body text-[12px] text-muted">Мебель из каталога Hoff</p>
+              </div>
+            </div>
+            <button
+              onClick={onGenerate}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border bg-white font-body text-[13px] text-muted hover:border-terracotta hover:text-terracotta transition-colors flex-shrink-0"
+            >
+              <RotateCcw size={13} /> Перегенерировать
+            </button>
+          </div>
           <div
             className="relative w-full rounded-2xl overflow-hidden border border-border shadow-md cursor-zoom-in"
             style={{ aspectRatio: '1/1' }}
@@ -148,7 +171,7 @@ function FloorplanView({ onRegenerate }: { onRegenerate: () => void }) {
         </>
       )}
 
-      {/* Ошибка */}
+      {/* ── Error ── */}
       {floorplan.status === 'error' && (
         <div className="flex flex-col items-center justify-center gap-4 py-16 bg-white rounded-2xl border border-border">
           <AlertCircle size={32} className="text-terracotta/60" />
@@ -156,7 +179,7 @@ function FloorplanView({ onRegenerate }: { onRegenerate: () => void }) {
             <p className="font-body text-[14px] font-medium text-ink">Ошибка генерации</p>
             <p className="font-body text-[12px] text-muted mt-1 max-w-xs">{floorplan.error}</p>
           </div>
-          <button onClick={onRegenerate} className="btn-primary py-2.5 px-6 text-[14px] flex items-center gap-2">
+          <button onClick={onGenerate} className="btn-primary py-2.5 px-6 text-[14px] flex items-center gap-2">
             <RotateCcw size={14} /> Попробовать снова
           </button>
         </div>
@@ -222,11 +245,12 @@ function RoomPhotoCard({
               </button>
             </div>
           ) : (
-            /* idle — не показываем кнопку, генерируется автоматически */
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-              <div className="absolute inset-0 bg-gradient-to-br from-cream via-[#E8D8C8] to-[#D8C8B8] animate-pulse opacity-50" />
-              <div className="relative">
-                <Sparkles size={24} className="text-terracotta/40" />
+            /* idle — ждёт запуска пользователем */
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+              <div className="absolute inset-0 bg-gradient-to-br from-cream via-[#EEE3D8] to-[#E3D4C4]" />
+              <div className="relative flex flex-col items-center gap-2">
+                <Camera size={22} className="text-terracotta/40" />
+                <p className="font-body text-[12px] text-muted/70">Ожидание</p>
               </div>
             </div>
           )}
@@ -332,27 +356,21 @@ export default function VisualizationPage() {
     }
   }, [currentStyle, setRoom])
 
-  // ── Авто-генерация при входе ──────────────────────────────────────────────
-  // Запускаем только если ещё не сгенерировано (store пустой)
+  // ── Запустить все фото комнат ─────────────────────────────────────────────
 
-  useEffect(() => {
-    if (!planFile && !planFalUrl) return // нет плана — ничего не делаем
-
-    // 3D флорплан
-    if (floorplan.status === 'idle') {
-      generateFloorplan()
-    }
-
-    // Фото комнат — стартуем с задержкой, чтобы не перегружать fal.ai
+  const generateAllRooms = useCallback(() => {
     rooms.forEach((room, i) => {
-      if (room.status === 'idle') {
+      if (room.status === 'idle' || room.status === 'error') {
         setTimeout(() => generateRoom(room.id), i * 700)
       }
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []) // только при маунте — store уже содержит актуальное состояние
+  }, [rooms, generateRoom])
 
+  // ── Состояния вкладки фото ────────────────────────────────────────────────
+
+  const allRoomsIdle   = rooms.every(r => r.status === 'idle')
   const anyPhotoLoading = rooms.some(r => r.status === 'loading')
+  const anyPhotoDone    = rooms.some(r => r.status === 'done')
 
   return (
     <div className="min-h-screen bg-paper flex flex-col">
@@ -366,7 +384,7 @@ export default function VisualizationPage() {
             <h1 className="font-heading text-[38px] font-semibold text-ink leading-tight">Ваша квартира</h1>
             <p className="font-body text-[15px] text-muted mt-1">{STYLE_LABELS[currentStyle]} · товары из каталога Hoff</p>
           </div>
-          {mainTab === 'photo' && anyPhotoLoading && (
+          {anyPhotoLoading && mainTab === 'photo' && (
             <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-terracotta-50 border border-terracotta/20">
               <Loader2 size={14} className="text-terracotta animate-spin" />
               <span className="font-body text-[13px] text-terracotta">Генерируется…</span>
@@ -395,24 +413,51 @@ export default function VisualizationPage() {
         {/* Вкладки — всегда в DOM, CSS скрытие → стейт не теряется при переключении */}
 
         <div style={{ display: mainTab === '3d' ? 'flex' : 'none' }} className="flex-col gap-5">
-          <FloorplanView onRegenerate={generateFloorplan} />
+          <FloorplanView onGenerate={generateFloorplan} />
         </div>
 
         <div style={{ display: mainTab === 'photo' ? 'flex' : 'none' }} className="flex-col gap-4">
-          <p className="font-body text-[14px] text-muted">
-            AI генерирует реалистичные фото каждой комнаты с реальными товарами из каталога Hoff
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {ROOMS.map(r => (
-              <RoomPhotoCard key={r.id} roomId={r.id} onRegenerate={generateRoom} />
-            ))}
-          </div>
-          <div className="flex items-start gap-2 px-4 py-3 bg-terracotta-50 rounded-xl">
-            <Sparkles size={14} className="text-terracotta flex-shrink-0 mt-0.5" />
-            <p className="font-body text-[12px] text-[#7A4033]">
-              Визуализации генерируются через fal.ai (FLUX). Мебель — из реального каталога Hoff.
-            </p>
-          </div>
+
+          {/* Кнопка запуска — только если ничего ещё не запущено */}
+          {allRoomsIdle && (
+            <div className="flex flex-col items-center gap-4 py-10 bg-white rounded-2xl border-2 border-dashed border-border">
+              <div className="w-14 h-14 rounded-2xl bg-terracotta-100 flex items-center justify-center">
+                <Camera size={24} className="text-terracotta" />
+              </div>
+              <div className="text-center">
+                <p className="font-heading text-[20px] font-semibold text-ink">Сгенерировать фото комнат</p>
+                <p className="font-body text-[13px] text-muted mt-1">
+                  ИИ нарисует реалистичные интерьеры для каждой комнаты
+                </p>
+              </div>
+              <button
+                onClick={generateAllRooms}
+                className="flex items-center gap-2.5 px-8 py-3.5 rounded-xl bg-terracotta text-white font-body text-[15px] font-medium shadow-md hover:bg-terracotta/90 transition-all"
+              >
+                <Play size={16} fill="white" /> Сгенерировать все комнаты
+              </button>
+              <p className="font-body text-[11px] text-muted">4 комнаты · примерно 1–2 минуты</p>
+            </div>
+          )}
+
+          {/* Сетка карточек — показываем когда хотя бы что-то запущено/готово */}
+          {!allRoomsIdle && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {ROOMS.map(r => (
+                <RoomPhotoCard key={r.id} roomId={r.id} onRegenerate={generateRoom} />
+              ))}
+            </div>
+          )}
+
+          {/* Подсказка */}
+          {anyPhotoDone && (
+            <div className="flex items-start gap-2 px-4 py-3 bg-terracotta-50 rounded-xl">
+              <Sparkles size={14} className="text-terracotta flex-shrink-0 mt-0.5" />
+              <p className="font-body text-[12px] text-[#7A4033]">
+                Визуализации генерируются через fal.ai (FLUX). Мебель — из реального каталога Hoff.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* CTA */}

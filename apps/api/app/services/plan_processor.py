@@ -48,6 +48,7 @@ from app.services.false_positive_filter import (
     compute_gated_confidence,
     filter_openings,
 )
+from app.services.door_validation import validate_doors_against_rooms
 from app.services.opening_classifier import classify_openings
 from app.services.opening_detector import find_openings
 from app.services.outer_wall_windows import find_windows_on_outer_walls
@@ -218,10 +219,21 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
 
     # ── 11. False-positive filter ─────────────────────────────────────────
     filtered_openings, fp_report = filter_openings(classified, walls, rooms)
+
+    # ── 11b. Door-vs-rooms validation: дверь должна примыкать к комнате(-ам)
+    # Убирает «двери в рандомных местах» — где opening_detector нашёл
+    # gap, но он не на границе никакой реальной комнаты.
+    filtered_openings, door_rej = validate_doors_against_rooms(
+        filtered_openings, rooms, proximity_px=25,
+    )
+    for op_id, reason in door_rej:
+        fp_report.rejected_doors.append((op_id, reason))
+
     final_doors = [o for o in filtered_openings if o.type.value == "door"]
     final_windows = [o for o in filtered_openings if o.type.value == "window"]
     logger.info(
-        f"[11] After FP filter: doors={len(final_doors)}, windows={len(final_windows)}"
+        f"[11] After FP filter + room-adjacency: "
+        f"doors={len(final_doors)}, windows={len(final_windows)}"
     )
 
     # ── 12. Confidence scores с gating ────────────────────────────────────

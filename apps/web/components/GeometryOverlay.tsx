@@ -16,9 +16,11 @@
 import { useEffect, useRef } from 'react'
 import type {
   ApartmentGeometry,
+  AreaLabel,
   FurniturePlacement,
   Opening,
   PlacedFurniture,
+  RejectedFragment,
   Room,
   Wall,
 } from '@/store/geometryStore'
@@ -33,8 +35,13 @@ interface Props {
   showDoors?: boolean
   showWindows?: boolean
   showFurniture?: boolean
+  // НОВЫЕ слои для прозрачности распознавания
+  showAreaLabels?: boolean      // зелёные/красные кружки на местах OCR-меток
+  showRejectedFragments?: boolean  // серые контуры отброшенных кандидатов
   highlightRoomId?: string | null
   onRoomClick?: (roomId: string) => void
+  // Клик по unresolved area label → запрос восстановить комнату
+  onLabelClick?: (label: AreaLabel) => void
   className?: string
 }
 
@@ -49,6 +56,13 @@ const COLORS = {
   furniture:    '#22AA55',
   furnitureFill:'rgba(34,170,85,0.2)',
   text:         '#1C1917',
+  // OCR-маркеры
+  labelOk:       '#22AA55',     // зелёный — привязана к комнате
+  labelRecovered:'#3B82F6',     // синий — восстановлена через flood fill
+  labelMissing:  '#DC2626',     // красный — unresolved (нет комнаты)
+  // Отброшенные кандидаты
+  rejectedFill:  'rgba(120,120,120,0.15)',
+  rejectedStroke:'#888888',
 }
 
 function drawWall(ctx: CanvasRenderingContext2D, wall: Wall) {
@@ -122,6 +136,62 @@ function drawOpening(ctx: CanvasRenderingContext2D, opening: Opening) {
   }
 }
 
+function drawAreaLabel(ctx: CanvasRenderingContext2D, label: AreaLabel) {
+  const { x, y } = label.position
+  const isOk = !!label.assigned_room_id
+  const isRecovered = !!label.recovered_room_id
+
+  let fill: string
+  let icon: string
+  if (isOk) {
+    fill = COLORS.labelOk
+    icon = '✓'
+  } else if (isRecovered) {
+    fill = COLORS.labelRecovered
+    icon = '↺'
+  } else {
+    fill = COLORS.labelMissing
+    icon = '!'
+  }
+
+  // Пунктирный круг чтобы не перекрывать число на плане
+  ctx.beginPath()
+  ctx.arc(x, y, 18, 0, Math.PI * 2)
+  ctx.strokeStyle = fill
+  ctx.lineWidth = 2.5
+  ctx.setLineDash([4, 3])
+  ctx.stroke()
+  ctx.setLineDash([])
+
+  // Маленький бэйдж справа сверху
+  const badgeX = x + 16
+  const badgeY = y - 16
+  ctx.beginPath()
+  ctx.arc(badgeX, badgeY, 9, 0, Math.PI * 2)
+  ctx.fillStyle = fill
+  ctx.fill()
+  ctx.fillStyle = '#fff'
+  ctx.font = 'bold 12px sans-serif'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillText(icon, badgeX, badgeY + 1)
+}
+
+function drawRejectedFragment(ctx: CanvasRenderingContext2D, fragment: RejectedFragment) {
+  if (fragment.polygon.length < 3) return
+  ctx.beginPath()
+  ctx.moveTo(fragment.polygon[0].x, fragment.polygon[0].y)
+  for (const pt of fragment.polygon.slice(1)) ctx.lineTo(pt.x, pt.y)
+  ctx.closePath()
+  ctx.fillStyle = COLORS.rejectedFill
+  ctx.fill()
+  ctx.strokeStyle = COLORS.rejectedStroke
+  ctx.lineWidth = 1
+  ctx.setLineDash([3, 3])
+  ctx.stroke()
+  ctx.setLineDash([])
+}
+
 function drawFurnitureItem(ctx: CanvasRenderingContext2D, item: PlacedFurniture) {
   ctx.save()
   ctx.translate(item.position.x + item.width_px / 2, item.position.y + item.depth_px / 2)
@@ -148,8 +218,11 @@ export function GeometryOverlay({
   showDoors = true,
   showWindows = true,
   showFurniture = false,
+  showAreaLabels = false,
+  showRejectedFragments = false,
   highlightRoomId,
   onRoomClick,
+  onLabelClick,
   className,
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -202,12 +275,21 @@ export function GeometryOverlay({
           rl.placed_items.forEach((pi) => drawFurnitureItem(ctx, pi))
         })
       }
-    }
-  }, [planImageSrc, geometry, placement, showWalls, showRooms, showDoors, showWindows, showFurniture, highlightRoomId])
 
-  // Обработка кликов по комнатам
+      // 7. Отброшенные кандидаты (под area labels чтобы лейблы были видны сверху)
+      if (showRejectedFragments && geometry.rejected_fragments) {
+        geometry.rejected_fragments.forEach((f) => drawRejectedFragment(ctx, f))
+      }
+
+      // 8. OCR area labels (сверху всего, чтобы пользователь сразу видел)
+      if (showAreaLabels && geometry.detected_area_labels) {
+        geometry.detected_area_labels.forEach((L) => drawAreaLabel(ctx, L))
+      }
+    }
+  }, [planImageSrc, geometry, placement, showWalls, showRooms, showDoors, showWindows, showFurniture, showAreaLabels, showRejectedFragments, highlightRoomId])
+
+  // Обработка кликов: сначала проверяем клик по area label, потом по комнате
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!onRoomClick) return
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
@@ -216,7 +298,20 @@ export function GeometryOverlay({
     const px = (e.clientX - rect.left) * scaleX
     const py = (e.clientY - rect.top) * scaleY
 
-    // Найти комнату, в которую попала точка
+    // 1. Клик по area label (если включён слой и есть обработчик)
+    if (showAreaLabels && onLabelClick && geometry.detected_area_labels) {
+      for (const label of geometry.detected_area_labels) {
+        const dx = px - label.position.x
+        const dy = py - label.position.y
+        if (Math.hypot(dx, dy) <= 22) {
+          onLabelClick(label)
+          return
+        }
+      }
+    }
+
+    // 2. Клик по комнате
+    if (!onRoomClick) return
     for (const room of geometry.rooms) {
       if (room.polygon.length < 3) continue
       if (pointInPolygon(px, py, room.polygon)) {

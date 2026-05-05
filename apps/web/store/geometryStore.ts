@@ -97,6 +97,25 @@ export interface DebugLayers {
   final_geometry: string | null
 }
 
+/** Распознанная OCR-метка площади на плане. */
+export interface AreaLabel {
+  text: string                       // как Tesseract увидел: "14,4", "27", "163"
+  value_m2: number                   // нормализовано в float
+  position: Point
+  confidence: number
+  assigned_room_id: string | null    // привязана к комнате? (null = unresolved)
+  recovered_room_id: string | null   // восстановлена через flood fill?
+}
+
+/** Отброшенный polygon-кандидат. */
+export interface RejectedFragment {
+  id: string
+  polygon: Point[]
+  area_px2: number
+  centroid: Point | null
+  reason: string                     // "no_area_label_and_too_small" и т.д.
+}
+
 export interface ApartmentGeometry {
   source_image_width_px:  number
   source_image_height_px: number
@@ -113,6 +132,8 @@ export interface ApartmentGeometry {
   }
   confidence: ConfidenceScores
   debug: DebugLayers | null
+  detected_area_labels: AreaLabel[]
+  rejected_fragments: RejectedFragment[]
   user_validated: boolean
   validation_notes: string
 }

@@ -32,10 +32,13 @@ import numpy as np
 
 from app.schemas.geometry import (
     ApartmentGeometry,
+    AreaLabel,
     ConfidenceScores,
     Constraints,
     DebugLayers,
     Opening,
+    Point,
+    RejectedFragment,
     Room,
     Scale,
     Wall,
@@ -208,6 +211,23 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
     # ── 13. Привязка openings к комнатам ──────────────────────────────────
     _assign_openings_to_rooms(rooms, filtered_openings)
 
+    # ── 13b. Собираем detected_area_labels (для UI прозрачности) ─────────
+    # Каждая OCR-метка либо привязана к комнате (по совпадению area_m2),
+    # либо unresolved (никакая комната не имеет этой площади).
+    detected_labels = _build_detected_labels(ocr_areas, rooms)
+
+    # ── 13c. Rejected fragments (отброшенные кандидаты комнат) ────────────
+    rejected_fragments_list = [
+        RejectedFragment(
+            id=room.id or f"frag_{i:03d}",
+            polygon=room.polygon,
+            area_px2=room.area_px2 or 0,
+            centroid=room.centroid,
+            reason=reason,
+        )
+        for i, (room, reason) in enumerate(rejected_fragments)
+    ]
+
     # ── 14. Debug-слои ────────────────────────────────────────────────────
     debug: DebugLayers | None = None
     if include_debug:
@@ -232,6 +252,8 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
         constraints=Constraints(),
         confidence=gated_scores,
         debug=debug,
+        detected_area_labels=detected_labels,
+        rejected_fragments=rejected_fragments_list,
         user_validated=False,
         validation_notes="; ".join(all_warnings) if all_warnings else "",
     )
@@ -250,6 +272,57 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
 
 
 # ─── Утилиты ─────────────────────────────────────────────────────────────────
+
+
+def _build_detected_labels(
+    ocr_areas, rooms: list[Room]
+) -> list[AreaLabel]:
+    """
+    Связать каждую OCR-метку с комнатой по area_m2 + проверке is_inside_polygon.
+
+    Если метка попала в полигон комнаты И её area_m2 совпадает — привязана.
+    Если метку восстановили через recovery — там тоже area_m2 совпадает.
+    Если ни одна комната не имеет этой area_m2 — unresolved.
+    """
+    from app.services.room_anchoring import _point_in_polygon
+
+    labels: list[AreaLabel] = []
+    for ocr in ocr_areas:
+        assigned_id = None
+        recovered_id = None
+
+        # Приоритет 1: метка лежит ВНУТРИ полигона — точная привязка
+        for room in rooms:
+            if not room.polygon:
+                continue
+            if _point_in_polygon(ocr.cx_px, ocr.cy_px, room.polygon):
+                if room.area_m2 == ocr.value_m2:
+                    if room.id.startswith("room_recovered"):
+                        recovered_id = room.id
+                    else:
+                        assigned_id = room.id
+                    break
+
+        # Приоритет 2: точное совпадение area_m2 (метка снаружи polygon
+        # из-за неточностей флуд-филла или метка стоит на границе)
+        if assigned_id is None and recovered_id is None:
+            for room in rooms:
+                if room.area_m2 == ocr.value_m2:
+                    if room.id.startswith("room_recovered"):
+                        recovered_id = room.id
+                    else:
+                        assigned_id = room.id
+                    break
+
+        labels.append(AreaLabel(
+            text=ocr.raw_text or str(ocr.value_m2),
+            value_m2=ocr.value_m2,
+            position=Point(x=ocr.cx_px, y=ocr.cy_px),
+            confidence=0.85,
+            assigned_room_id=assigned_id,
+            recovered_room_id=recovered_id,
+        ))
+    return labels
 
 
 def _assign_openings_to_rooms(rooms: list[Room], openings: list[Opening]) -> None:

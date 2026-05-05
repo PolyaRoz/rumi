@@ -177,6 +177,32 @@ class DebugLayers(BaseModel):
     final_geometry: str | None = None
 
 
+class AreaLabel(BaseModel):
+    """Распознанная OCR-метка площади на плане."""
+    text: str                              # как Tesseract увидел: "14,4", "17,2", "27"
+    value_m2: float                        # нормализовано в float
+    position: Point                        # координата центра текста на изображении
+    confidence: float = Field(0.0, ge=0.0, le=1.0)
+    # Если метка привязана к комнате — её id; иначе None (unresolved).
+    # Unresolved label = критический сигнал для UI: пользователь должен либо
+    # восстановить комнату через flood fill, либо подтвердить что это не комната.
+    assigned_room_id: str | None = None
+    # Если метку восстановили через recovery — id восстановленной комнаты
+    recovered_room_id: str | None = None
+
+
+class RejectedFragment(BaseModel):
+    """
+    Polygon-кандидат, который НЕ стал комнатой.
+    Сохраняем чтобы UI мог показать пользователю и спросить — может это комната.
+    """
+    id: str
+    polygon: list[Point]
+    area_px2: float
+    centroid: Point | None = None
+    reason: str                            # "no_area_label_and_too_small" | "duplicate" | ...
+
+
 # ─── Главная модель ───────────────────────────────────────────────────────────
 
 
@@ -199,6 +225,10 @@ class ApartmentGeometry(BaseModel):
     constraints: Constraints = Field(default_factory=Constraints)
     confidence: ConfidenceScores = Field(default_factory=ConfidenceScores)
     debug: DebugLayers | None = None
+
+    # Прозрачность распознавания: всё что увидел CV для UI-валидации
+    detected_area_labels: list[AreaLabel] = Field(default_factory=list)
+    rejected_fragments: list[RejectedFragment] = Field(default_factory=list)
 
     # Подтверждена ли геометрия пользователем
     user_validated: bool = False

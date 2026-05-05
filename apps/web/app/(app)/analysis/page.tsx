@@ -62,6 +62,7 @@ export default function AnalysisPage() {
   const [confirmNotes, setConfirmNotes] = useState('')
   const [showLayers, setShowLayers] = useState({
     walls: true, rooms: true, doors: true, windows: true,
+    labels: true, rejected: false,
   })
 
   // Если нет плана — перенаправить
@@ -170,12 +171,23 @@ export default function AnalysisPage() {
 
           {/* Переключатели слоёв */}
           <div className="flex flex-wrap gap-2">
-            {[
-              { key: 'walls',   label: `Стены (${walls.length})`,    color: 'text-blue-600' },
-              { key: 'rooms',   label: `Комнаты (${rooms.length})`,  color: 'text-green-600' },
-              { key: 'doors',   label: `Двери (${doors.length})`,    color: 'text-orange-500' },
-              { key: 'windows', label: `Окна (${windows.length})`,   color: 'text-sky-500' },
-            ].map(({ key, label, color }) => (
+            {(() => {
+              const labelsTotal = geometry.detected_area_labels?.length ?? 0
+              const labelsOk = (geometry.detected_area_labels ?? []).filter(
+                L => L.assigned_room_id || L.recovered_room_id
+              ).length
+              const labelsBad = labelsTotal - labelsOk
+              const labelsCounter = labelsBad > 0 ? `${labelsOk}/${labelsTotal} ⚠${labelsBad}` : `${labelsTotal}`
+              const rejectedCount = geometry.rejected_fragments?.length ?? 0
+              return [
+                { key: 'walls',    label: `Стены (${walls.length})`,           color: 'text-blue-600' },
+                { key: 'rooms',    label: `Комнаты (${rooms.length})`,         color: 'text-green-600' },
+                { key: 'doors',    label: `Двери (${doors.length})`,           color: 'text-orange-500' },
+                { key: 'windows',  label: `Окна (${windows.length})`,          color: 'text-sky-500' },
+                { key: 'labels',   label: `OCR-метки (${labelsCounter})`,      color: 'text-emerald-600' },
+                { key: 'rejected', label: `Отброшенные (${rejectedCount})`,    color: 'text-gray-500' },
+              ]
+            })().map(({ key, label, color }) => (
               <button
                 key={key}
                 onClick={() => setShowLayers(l => ({ ...l, [key]: !l[key as keyof typeof l] }))}
@@ -190,6 +202,24 @@ export default function AnalysisPage() {
             ))}
           </div>
 
+          {/* Легенда — что значит каждый цвет */}
+          {showLayers.labels && (
+            <div className="flex flex-wrap gap-3 px-3 py-2 bg-white rounded-xl border border-border">
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#22AA55] text-white text-[10px] font-bold">✓</span>
+                <span className="font-body text-[11px] text-muted">привязано к комнате</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#3B82F6] text-white text-[10px] font-bold">↺</span>
+                <span className="font-body text-[11px] text-muted">восстановлено</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#DC2626] text-white text-[10px] font-bold">!</span>
+                <span className="font-body text-[11px] text-muted">не привязано (клик → восстановить)</span>
+              </div>
+            </div>
+          )}
+
           {/* Canvas оверлей */}
           <div className="relative rounded-2xl overflow-hidden border border-border bg-white">
             <GeometryOverlay
@@ -199,8 +229,31 @@ export default function AnalysisPage() {
               showRooms={showLayers.rooms}
               showDoors={showLayers.doors}
               showWindows={showLayers.windows}
+              showAreaLabels={showLayers.labels}
+              showRejectedFragments={showLayers.rejected}
               highlightRoomId={selectedRoomId}
               onRoomClick={setSelectedRoomId}
+              onLabelClick={(label) => {
+                if (!label.assigned_room_id && !label.recovered_room_id) {
+                  // Unresolved: клик инициирует "восстановление" комнаты.
+                  // Пока показываем подтверждение — реальное восстановление
+                  // делается на бэкенде при следующем перезапуске анализа.
+                  alert(
+                    `Площадь ${label.value_m2} м² (распознано "${label.text}") `
+                    + `не привязана ни к одной комнате.\n\n`
+                    + `Это может быть:\n`
+                    + `• Комната, которая слилась с соседней через дверной проём\n`
+                    + `• Текст, ошибочно распознанный как площадь\n\n`
+                    + `Восстановление через flood fill уже выполнялось автоматически. `
+                    + `Если комнаты всё нет — поправьте вручную в списке справа.`
+                  )
+                } else {
+                  alert(
+                    `Площадь ${label.value_m2} м² (распознано "${label.text}") `
+                    + `привязана к: ${label.assigned_room_id ?? label.recovered_room_id}`
+                  )
+                }
+              }}
               className="w-full"
             />
           </div>

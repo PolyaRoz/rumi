@@ -93,3 +93,58 @@ INFO:     Started server process [12880]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 WARNING:  WatchFiles detected changes in 'tests\test_room_anchoring.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [12880]
+WARNING:  WatchFiles detected changes in 'tests\test_room_anchoring.py'. Reloading...
+INFO:     Started server process [29540]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [29540]
+INFO:     Started server process [31864]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\schemas\geometry.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [31864]
+WARNING:  WatchFiles detected changes in 'app\schemas\geometry.py'. Reloading...
+INFO:     Started server process [4808]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [4808]
+WARNING:  WatchFiles detected changes in 'app\services\plan_processor.py'. Reloading...
+INFO:     Started server process [27068]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [27068]
+INFO:     Started server process [11296]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'app\services\plan_processor.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [11296]
+WARNING:  WatchFiles detected changes in 'app\services\plan_processor.py'. Reloading...
+INFO:     Started server process [19124]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [19124]
+INFO:     Started server process [12428]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

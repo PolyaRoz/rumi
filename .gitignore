@@ -22,14 +22,15 @@ dist/
 *.tsbuildinfo
 
 # ── Env файлы (содержат секреты) ──────────────────────────────────────────────
-.env
 .env.local
 .env.*.local
 .env.production
 .env.development
-# Оставляем только примеры:
+# Оставляем только примеры и dev-конфиги (без реальных секретов):
 !.env.example
 !.env.local.example
+# infra/.env и apps/api/.env — dev-плейсхолдеры, нужны команде
+# apps/web/.env.local — исключён выше (содержит FAL_KEY)
 
 # ── OS ───────────────────────────────────────────────────────────────────────
 .DS_Store

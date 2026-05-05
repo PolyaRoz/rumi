@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { ArrowRight, Check } from 'lucide-react'
 import StepHeader from '@/components/StepHeader'
 import { useVisualizationStore } from '@/store/visualizationStore'
+import { usePreferencesStore } from '@/store/preferencesStore'
+import type { StyleType } from '@/lib/promptBuilder'
 
 type Who = 'one' | 'pair' | 'family'
 type Style = 'minimal' | 'scandi' | 'loft' | 'classic'
@@ -40,6 +42,7 @@ const PRIORITY_OPTIONS: { id: Priority; label: string; emoji: string }[] = [
 export default function PreferencesPage() {
   const router = useRouter()
   const resetVisualization = useVisualizationStore(s => s.reset)
+  const { setPreferences } = usePreferencesStore()
   const [who, setWho] = useState<Who | null>(null)
   const [style, setStyle] = useState<Style | null>(null)
   const [budget, setBudget] = useState<Budget | null>(null)
@@ -51,6 +54,12 @@ export default function PreferencesPage() {
   const canContinue = who && style && budget
 
   const handleContinue = () => {
+    setPreferences({
+      style:      style! as StyleType,
+      who:        who!,
+      budget:     budget!,
+      priorities,
+    })
     resetVisualization() // новые предпочтения — сбрасываем старые визуализации
     router.push('/processing')
   }

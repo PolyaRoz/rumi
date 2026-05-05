@@ -11,6 +11,7 @@ import {
 import StepHeader from '@/components/StepHeader'
 import { usePlanStore } from '@/store/planStore'
 import { useVisualizationStore } from '@/store/visualizationStore'
+import { usePreferencesStore, STYLE_LABELS } from '@/store/preferencesStore'
 import { DEFAULT_FURNITURE, type RoomType, type StyleType } from '@/lib/promptBuilder'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -272,8 +273,9 @@ export default function VisualizationPage() {
   const router = useRouter()
   const { planUrl, planFile, planFalUrl, setPlanFalUrl } = usePlanStore()
   const { floorplan, rooms, setFloorplan, setRoom } = useVisualizationStore()
+  const { style: selectedStyle } = usePreferencesStore()
   const [mainTab, setMainTab] = useState<MainTab>('3d')
-  const [currentStyle] = useState<StyleType>('scandi')
+  const currentStyle: StyleType = selectedStyle ?? 'scandi'
 
   // ── Генерация 3D флорплана ────────────────────────────────────────────────
 
@@ -362,7 +364,7 @@ export default function VisualizationPage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <h1 className="font-heading text-[38px] font-semibold text-ink leading-tight">Ваша квартира</h1>
-            <p className="font-body text-[15px] text-muted mt-1">Скандинавский стиль · товары из каталога Hoff</p>
+            <p className="font-body text-[15px] text-muted mt-1">{STYLE_LABELS[currentStyle]} · товары из каталога Hoff</p>
           </div>
           {mainTab === 'photo' && anyPhotoLoading && (
             <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-terracotta-50 border border-terracotta/20">

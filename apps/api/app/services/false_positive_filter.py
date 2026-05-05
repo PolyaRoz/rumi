@@ -42,6 +42,10 @@ DUPLICATE_DIST_PX = 35
 # Минимальный confidence окна на наружной стене для сохранения
 MIN_OUTER_WINDOW_CONF = 0.30
 
+# Минимальный confidence двери — ниже считаем недостаточно надёжной.
+# Дверь = gap + arc; если confidence < 0.45 значит хотя бы одно из них слабое.
+MIN_DOOR_CONF = 0.55
+
 
 @dataclass
 class FilterReport:
@@ -64,6 +68,12 @@ def filter_openings(
 
     doors = [o for o in openings if o.type == OpeningType.door]
     windows = [o for o in openings if o.type == OpeningType.window]
+
+    # ── 0. Минимальный confidence для дверей ─────────────────────────────
+    low_conf_doors = [d for d in doors if d.confidence < MIN_DOOR_CONF]
+    for d in low_conf_doors:
+        report.rejected_doors.append((d.id, "low_confidence"))
+    doors = [d for d in doors if d.confidence >= MIN_DOOR_CONF]
 
     # ── 1. Дедупликация: близкие проёмы ──────────────────────────────────
     doors = _deduplicate(doors, report, "door")

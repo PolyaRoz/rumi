@@ -35,11 +35,13 @@ logger = logging.getLogger(__name__)
 # Радиус поиска дуги вокруг центра проёма (в долях ширины проёма)
 ARC_SEARCH_RADIUS_FACTOR = 1.4
 
-# Параметры HoughCircles в локальном окне
-LOCAL_HOUGH_PARAM2 = 18
+# Параметры HoughCircles в локальном окне.
+# 25 — строже чем 18, отсекает шумные окружности от санитарной мебели.
+LOCAL_HOUGH_PARAM2 = 25
 
-# Дуга = четверть круга → 60-90% точек на фоне
-ARC_BG_FRACTION_RANGE = (0.55, 0.92)
+# Дуга = четверть круга → 65-85% точек на фоне.
+# Раньше было 0.55-0.92 — ловило почти-полные круги от унитаза/плиты.
+ARC_BG_FRACTION_RANGE = (0.62, 0.88)
 
 
 def classify_openings(
@@ -49,13 +51,16 @@ def classify_openings(
     binary: np.ndarray,
 ) -> list[Opening]:
     """
-    Превратить opening candidates в door/window/unknown.
+    Превратить opening candidates в door/window.
 
-    Алгоритм:
-    1. Для каждого candidate ищем дугу в локальном окне.
-    2. Если дуга найдена → DOOR.
-    3. Если стена внешняя и нет дуги → WINDOW (предположение).
-    4. Иначе → unknown opening.
+    СТРОГИЕ ПРАВИЛА (как требует ТЗ):
+    - Door: должен быть И gap в стене (есть), И дуга открывания (HoughCircles),
+      И характерная форма двери (полотно — линия перпендикулярная стене).
+      Без дуги нельзя быть дверью — gap может оказаться чем угодно.
+    - Window: gap на ВНЕШНЕЙ стене БЕЗ дуги (с window pattern или без).
+    - Все candidate без дуги на ВНУТРЕННЕЙ стене → отбрасываем как
+      "потенциальные арки/проёмы" (могут быть user-confirmed позже,
+      но автоматически не считаем дверью).
     """
     if not candidates:
         return []
@@ -67,42 +72,50 @@ def classify_openings(
     openings: list[Opening] = []
     door_count = 0
     window_count = 0
-    unknown_count = 0
+    rejected_no_arc = 0
 
     for i, cand in enumerate(candidates):
         wall = walls_by_id.get(cand.wall_id)
         if wall is None:
             continue
 
-        # ── 1. Ищем дугу в локальном окне ─────────────────────────────────
-        has_arc, swing = _detect_arc_near(
-            cand, gray, binary_inv, h_img, w_img,
-        )
+        # ── 1. Ищем дугу двери в локальном окне ──────────────────────────
+        has_arc, swing = _detect_arc_near(cand, gray, binary_inv, h_img, w_img)
 
-        # ── 2. Классификация ──────────────────────────────────────────────
+        # ── 2. Классификация по СТРОГИМ правилам ─────────────────────────
+        opening_type = None
+        confidence = cand.confidence
+
         if has_arc:
+            # Двойная проверка: ищем "полотно" (door panel) — прямую линию
+            # перпендикулярно стене из одной точки gap'а
+            has_panel = _detect_door_panel(cand, binary, h_img, w_img)
             opening_type = OpeningType.door
-            confidence = min(1.0, cand.confidence + 0.15)
+            if has_panel:
+                # Идеальная дверь: gap + дуга + полотно
+                confidence = min(1.0, cand.confidence + 0.20)
+            else:
+                # Только gap + дуга, без явного полотна
+                confidence = min(1.0, cand.confidence + 0.05)
             door_count += 1
         elif wall.type == WallType.outer:
-            # Внешняя стена + нет дуги → предполагаем окно
-            has_window_pattern = _detect_window_pattern(cand, binary, h_img, w_img)
-            if has_window_pattern:
-                opening_type = OpeningType.window
-                confidence = min(1.0, cand.confidence + 0.10)
-                window_count += 1
-            else:
-                # Проём без явных признаков — на внешней всё равно скорее окно
-                opening_type = OpeningType.window
-                confidence = cand.confidence * 0.7
-                window_count += 1
+            # Внешняя стена + нет дуги → window
+            has_pattern = _detect_window_pattern(cand, binary, h_img, w_img)
+            opening_type = OpeningType.window
+            confidence = (
+                min(1.0, cand.confidence + 0.10) if has_pattern
+                else cand.confidence * 0.7
+            )
+            window_count += 1
         else:
-            # Внутренняя стена без дуги — пометим как unknown,
-            # но всё равно сохраним как door с низким confidence
-            # (обычно это межкомнатные двери без четкой дуги)
-            opening_type = OpeningType.door
-            confidence = cand.confidence * 0.6
-            unknown_count += 1
+            # Внутренняя стена + нет дуги → НЕ door (была главная причина FP).
+            # Это может быть: проход без двери, или ложный gap.
+            # Не создаём opening вообще; пользователь добавит вручную если нужно.
+            rejected_no_arc += 1
+            continue
+
+        if opening_type is None:
+            continue
 
         opening_id = f"{opening_type.value}_{i:03d}"
         opening = candidate_to_opening(
@@ -116,7 +129,7 @@ def classify_openings(
 
     logger.info(
         f"Opening classification: doors={door_count}, "
-        f"windows={window_count}, unclear→door={unknown_count}"
+        f"windows={window_count}, rejected_no_arc_inner={rejected_no_arc}"
     )
 
     return openings
@@ -169,10 +182,12 @@ def _detect_arc_near(
         gccx = ccx + x0
         gccy = ccy + y0
 
-        # Центр дуги должен быть рядом с одним из концов проёма
+        # Центр дуги должен быть ОЧЕНЬ близко к одному из концов проёма
+        # (для реальной дверной арки — буквально на конце gap'а).
+        # 0.35 * width ≈ 15-20px — отсекает arcs внутри сантехники.
         dist_to_start = math.hypot(gccx - cand.start.x, gccy - cand.start.y)
         dist_to_end = math.hypot(gccx - cand.end.x, gccy - cand.end.y)
-        if min(dist_to_start, dist_to_end) > cand.width_px * 0.6:
+        if min(dist_to_start, dist_to_end) > cand.width_px * 0.35:
             continue
 
         # Является ли это четвертью круга?
@@ -225,6 +240,52 @@ def _quadrant_to_swing(q: int) -> SwingDirection:
         SwingDirection.inward,
         SwingDirection.outward,
     ][q]
+
+
+def _detect_door_panel(
+    cand: OpeningCandidate,
+    binary: np.ndarray,
+    h_img: int, w_img: int,
+) -> bool:
+    """
+    Door panel detection: на архитектурном плане полотно двери — это
+    прямой отрезок длиной ~ширина проёма, исходящий перпендикулярно от
+    одного из концов gap'а.
+
+    Алгоритм:
+    1. Берём perpendicular vector к стене (от gap внутрь комнаты).
+    2. На расстоянии cand.width_px от каждого конца gap'а проверяем
+       есть ли в этой точке пиксель binary (полотно).
+    3. Если хотя бы в одном из 4 candidate-направлений (от каждого
+       конца дуги, в обе стороны perpendicular) находим линию — это panel.
+    """
+    nx = cand.perpendicular_x
+    ny = cand.perpendicular_y
+    width_px = cand.width_px
+
+    # Проверочные точки: от каждого конца gap'а, на расстоянии 0.6-1.0 width
+    candidate_endpoints = []
+    for end_pt in (cand.start, cand.end):
+        for radius_factor in (0.7, 0.85):
+            r = width_px * radius_factor
+            for sign in (1, -1):  # обе стороны perpendicular
+                px = int(end_pt.x + sign * nx * r)
+                py = int(end_pt.y + sign * ny * r)
+                candidate_endpoints.append((px, py))
+
+    hits = 0
+    for px, py in candidate_endpoints:
+        if 0 <= px < w_img and 0 <= py < h_img:
+            # Проверяем небольшую окрестность (3x3) на наличие линии
+            x0 = max(0, px - 2)
+            y0 = max(0, py - 2)
+            x1 = min(w_img, px + 3)
+            y1 = min(h_img, py + 3)
+            if np.any(binary[y0:y1, x0:x1] > 0):
+                hits += 1
+
+    # Если хотя бы 2 из 8 точек совпадают с линией — есть полотно
+    return hits >= 2
 
 
 def _detect_window_pattern(

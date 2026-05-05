@@ -49,7 +49,6 @@ from app.services.door_validation import validate_doors_against_rooms
 from app.services.preprocessing import preprocess
 from app.services.room_anchoring import classify_room_by_area
 from app.services.room_expansion import expand_rooms_to_walls
-from app.services.scale_estimator import estimate_scale_from_areas, OcrArea
 from app.services.structural_wall_mask import extract_wall_mask
 from app.services.wall_detector import detect_walls
 from app.services.wall_graph import build_wall_graph
@@ -134,28 +133,29 @@ def analyze_with_vision(image: np.ndarray, include_debug: bool = False) -> Apart
     raw_openings = vision_result.get("openings", [])
     logger.info(f"[vision] Claude распознал: {len(raw_rooms)} комнат, {len(raw_openings)} проёмов")
 
-    # ── 2. OpenCV: структурная маска стен ─────────────────────────────────────
-    preprocessed = preprocess(image)
-    wall_mask = extract_wall_mask(preprocessed)
+    # ── 2. OpenCV: предобработка + структурная маска стен ────────────────────
+    plan = preprocess(image)
+    structural_mask, _ = extract_wall_mask(plan.binary)
+    plan.walls_mask = structural_mask
 
     # Закрываем проёмы чтобы flood fill не вытекал через двери
-    closed_mask = _close_gaps(wall_mask)
+    closed_mask = _close_gaps(structural_mask)
 
     # ── 3. Комнаты через flood fill из центроидов Claude ──────────────────────
     rooms, area_labels = _build_rooms_from_vision(
-        raw_rooms, closed_mask, wall_mask, w, h
+        raw_rooms, closed_mask, structural_mask, w, h
     )
     logger.info(f"[vision] Построено {len(rooms)} полигонов комнат")
 
     # ── 4. Расширяем комнаты до стен (убираем белые зазоры) ──────────────────
     if rooms:
-        rooms = expand_rooms_to_walls(rooms, wall_mask, max_expand_px=35)
+        rooms = expand_rooms_to_walls(rooms, structural_mask, max_expand_px=35)
         logger.info(f"[vision] После expansion: {len(rooms)} комнат")
 
     # ── 5. Wall graph (нужен для стен и wall_id у проёмов) ───────────────────
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) if image.ndim == 3 else image
-    raw_walls = detect_walls(preprocessed)
-    walls, walls_pre_split = build_wall_graph(raw_walls, w, h)
+    walls_pre_split, _ = detect_walls(plan)
+    graph = build_wall_graph(walls_pre_split, w, h)
+    walls = [edge.wall for edge in graph.edges.values()]
     logger.info(f"[vision] Стен: {len(walls)} (после split)")
 
     # ── 6. Масштаб из OCR-площадей ─────────────────────────────────────────────
@@ -217,11 +217,33 @@ def analyze_with_vision(image: np.ndarray, include_debug: bool = False) -> Apart
 
 # ─── Claude Vision API ────────────────────────────────────────────────────────
 
+def _get_api_key() -> str:
+    """Читать ANTHROPIC_API_KEY: сначала из os.environ, потом из .env через pydantic-settings."""
+    key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if key:
+        return key
+    try:
+        from app.config import get_settings
+        key = get_settings().anthropic_api_key
+    except Exception:
+        pass
+    if not key:
+        # Последняя попытка: читаем .env напрямую
+        import pathlib
+        env_path = pathlib.Path(__file__).parents[2] / ".env"
+        if env_path.exists():
+            for line in env_path.read_text(encoding="utf-8").splitlines():
+                if line.startswith("ANTHROPIC_API_KEY="):
+                    key = line.split("=", 1)[1].strip()
+                    break
+    return key
+
+
 def _call_claude_vision(image: np.ndarray) -> dict | None:
     """
     Отправить изображение в Claude Vision и получить распознанную геометрию.
     """
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    api_key = _get_api_key()
     if not api_key:
         logger.error("[vision] ANTHROPIC_API_KEY не задан!")
         return None
@@ -601,8 +623,12 @@ def _safe_float(v) -> float | None:
 
 
 def _parse_room_label(label_str: str, area_m2: float | None) -> RoomLabel:
-    """Конвертировать строку типа комнаты в RoomLabel enum."""
+    """Конвертировать строку типа комнаты в RoomLabel enum.
+    Обрабатывает snake_case и Plain English (Bathroom, Hallway, etc.)
+    """
+    s = label_str.lower().strip()
     mapping = {
+        # snake_case (из prompt)
         "living_room": RoomLabel.living_room,
         "bedroom": RoomLabel.bedroom,
         "kitchen": RoomLabel.kitchen,
@@ -612,10 +638,42 @@ def _parse_room_label(label_str: str, area_m2: float | None) -> RoomLabel:
         "kids_room": RoomLabel.kids_room,
         "balcony": RoomLabel.balcony,
         "storage": RoomLabel.storage,
+        # Plain English words Claude иногда возвращает
+        "living room": RoomLabel.living_room,
+        "living": RoomLabel.living_room,
+        "lounge": RoomLabel.living_room,
+        "sitting room": RoomLabel.living_room,
+        "room": RoomLabel.unknown,   # generic, fallback по площади
+        "bath": RoomLabel.bathroom,
+        "wc": RoomLabel.toilet,
+        "restroom": RoomLabel.toilet,
+        "hallway": RoomLabel.corridor,
+        "hall": RoomLabel.corridor,
+        "entrance": RoomLabel.corridor,
+        "entryway": RoomLabel.corridor,
+        "foyer": RoomLabel.corridor,
+        "pantry": RoomLabel.storage,
+        "closet": RoomLabel.storage,
+        "wardrobe": RoomLabel.storage,
+        "laundry": RoomLabel.bathroom,
+        "utility": RoomLabel.storage,
+        "kids": RoomLabel.kids_room,
+        "child": RoomLabel.kids_room,
+        "nursery": RoomLabel.kids_room,
+        "terrace": RoomLabel.balcony,
+        "patio": RoomLabel.balcony,
+        "loggia": RoomLabel.balcony,
     }
-    label = mapping.get(label_str.lower(), RoomLabel.unknown)
+    label = mapping.get(s, RoomLabel.unknown)
 
-    # Fallback по площади если Claude не определил тип
+    # Частичное совпадение если нет точного
+    if label == RoomLabel.unknown:
+        for key, val in mapping.items():
+            if key in s or s in key:
+                label = val
+                break
+
+    # Fallback по площади если всё ещё unknown
     if label == RoomLabel.unknown and area_m2 is not None:
         label = classify_room_by_area(area_m2, area_m2 * 3600, None, 1_000_000)
 

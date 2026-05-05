@@ -35,8 +35,9 @@ def max_doors_for_rooms(n_rooms: int) -> int:
     return max(3, 3 * n_rooms + 5)
 
 
-# Дубликат: проёмы в пределах этого расстояния — один и тот же
-DUPLICATE_DIST_PX = 20
+# Дубликат: проёмы в пределах этого расстояния — один и тот же.
+# 35px ≈ 0.6м при типичном 60 px/m = меньше ширины двери, безопасно.
+DUPLICATE_DIST_PX = 35
 
 # Минимальный confidence окна на наружной стене для сохранения
 MIN_OUTER_WINDOW_CONF = 0.30
@@ -116,23 +117,28 @@ def filter_openings(
 def _deduplicate(
     openings: list[Opening], report: FilterReport, kind: str,
 ) -> list[Opening]:
-    """Удалить дубликаты (близкие проёмы), оставить с лучшим confidence."""
+    """
+    Удалить дубликаты (близкие проёмы), оставить с лучшим confidence.
+
+    КРИТИЧНО: проверяем близость БЕЗ привязки к wall_id, потому что после
+    wall_graph splitting один реальный дверной проём может быть привязан
+    к разным post-split сегментам у разных кандидатов (например один gap
+    пересекает T-junction).
+    """
     if not openings:
         return []
-    # Сортируем по confidence убыванию — лучшие первыми
     sorted_ops = sorted(openings, key=lambda o: o.confidence, reverse=True)
     kept: list[Opening] = []
     for op in sorted_ops:
         is_dup = False
         for already_kept in kept:
-            if already_kept.wall_id == op.wall_id:
-                d = math.hypot(
-                    op.position.x - already_kept.position.x,
-                    op.position.y - already_kept.position.y,
-                )
-                if d < DUPLICATE_DIST_PX:
-                    is_dup = True
-                    break
+            d = math.hypot(
+                op.position.x - already_kept.position.x,
+                op.position.y - already_kept.position.y,
+            )
+            if d < DUPLICATE_DIST_PX:
+                is_dup = True
+                break
         if is_dup:
             getattr(report, f"rejected_{kind}s").append((op.id, "duplicate"))
         else:

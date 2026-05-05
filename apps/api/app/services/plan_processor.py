@@ -90,14 +90,23 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
     logger.info(f"[1-2] preprocess + wall_mask: accepted={mask_stats.get('accepted')}")
 
     # ── 3. Wall vectorization ─────────────────────────────────────────────
-    walls, wall_conf = detect_walls(plan)
-    logger.info(f"[3] walls: {len(walls)}, conf={wall_conf:.2f}")
+    walls_pre_split, wall_conf = detect_walls(plan)
+    logger.info(f"[3] walls (pre-split): {len(walls_pre_split)}, conf={wall_conf:.2f}")
 
     # ── 4. Wall graph ─────────────────────────────────────────────────────
-    graph = build_wall_graph(walls, w, h)
+    # Граф разбивает стены по пересечениям → много коротких сегментов.
+    # Это нужно для room polygonization, но ПЛОХО для opening detection:
+    # дверной проём в коридоре превращается из "gap внутри стены"
+    # в "gap между двумя коллинеарными сегментами" → детектор его не видит.
+    graph = build_wall_graph(walls_pre_split, w, h)
     walls = [edge.wall for edge in graph.edges.values()]
     has_outer = any(w.type == WallType.outer for w in walls)
-    logger.info(f"[4] graph: {len(graph.nodes)} nodes, has_outer={has_outer}")
+    logger.info(f"[4] graph: {len(graph.nodes)} nodes, "
+                f"{len(walls)} walls (post-split), has_outer={has_outer}")
+
+    # Outer-классификация из графа должна перенестись на pre-split walls тоже.
+    # Это нужно для window detection.
+    _propagate_outer_to_pre_split(walls_pre_split, walls)
 
     # ── 5. OCR площадей (ДО полигонизации!) ──────────────────────────────
     ocr_areas: list[OcrArea] = extract_area_labels_from_image(plan.gray)
@@ -161,11 +170,17 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
 
     logger.info(f"[8] scale: {px_per_meter} px/m, conf={scale_conf:.2f}")
 
-    # ── 9. Openings — gaps в стенах ───────────────────────────────────────
-    candidates = find_openings(structural_mask, walls, px_per_meter=px_per_meter)
-    logger.info(f"[9] opening candidates: {len(candidates)}")
+    # ── 9. Openings — на ДЛИННЫХ pre-split walls (без разбиения графом)
+    # Это даёт больше шансов найти gap'ы внутри стены коридора.
+    candidates = find_openings(structural_mask, walls_pre_split, px_per_meter=px_per_meter)
+    logger.info(f"[9] opening candidates (on pre-split walls): {len(candidates)}")
 
     # ── 10. Классификация openings ────────────────────────────────────────
+    # Передаём ОБЕ версии walls: pre-split — для wall_id привязки кандидатов,
+    # post-split — для outer/inner классификации в classifier.
+    # Унифицируем wall_id у candidates на post-split id чтобы room_anchoring
+    # знал к какой стене привязан.
+    candidates = _remap_to_post_split_walls(candidates, walls_pre_split, walls)
     classified = classify_openings(candidates, walls, plan.gray, plan.binary)
     raw_doors = [o for o in classified if o.type.value == "door"]
     raw_windows = [o for o in classified if o.type.value == "window"]
@@ -272,6 +287,72 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
 
 
 # ─── Утилиты ─────────────────────────────────────────────────────────────────
+
+
+def _propagate_outer_to_pre_split(
+    pre_split: list[Wall], post_split: list[Wall]
+) -> None:
+    """
+    После splitting wall_graph пометил часть post-split стен как outer.
+    Переносим этот тип на соответствующие pre-split стены, чтобы
+    opening_classifier на pre-split walls корректно отличал outer (windows)
+    от inner (doors).
+
+    Каждый post-split wall имеет id вида "wall_NNN__K" — берём NNN.
+    """
+    outer_pre_split_ids: set[str] = set()
+    for w in post_split:
+        if w.type == WallType.outer:
+            base_id = w.id.split("__")[0]
+            outer_pre_split_ids.add(base_id)
+    for w in pre_split:
+        if w.id in outer_pre_split_ids:
+            w.type = WallType.outer
+
+
+def _remap_to_post_split_walls(
+    candidates, pre_split: list[Wall], post_split: list[Wall]
+):
+    """
+    OpeningCandidate содержит wall_id pre-split стены.
+    Для room_anchoring и FP-filter удобнее post-split id (по нему
+    rooms.wall_ids привязаны). Находим конкретный post-split сегмент,
+    содержащий центр кандидата.
+    """
+    import math
+
+    def dist_point_to_segment(px, py, sx, sy, ex, ey) -> float:
+        dx, dy = ex - sx, ey - sy
+        ll = dx * dx + dy * dy
+        if ll == 0:
+            return math.hypot(px - sx, py - sy)
+        t = max(0.0, min(1.0, ((px - sx) * dx + (py - sy) * dy) / ll))
+        return math.hypot(px - (sx + t * dx), py - (sy + t * dy))
+
+    pre_id_to_post = {}
+    for pre in pre_split:
+        pre_id_to_post.setdefault(pre.id, [])
+    for post in post_split:
+        base = post.id.split("__")[0]
+        pre_id_to_post.setdefault(base, []).append(post)
+
+    remapped = []
+    for c in candidates:
+        candidates_post = pre_id_to_post.get(c.wall_id, [])
+        if not candidates_post:
+            remapped.append(c)
+            continue
+        # ближайший по расстоянию к центру кандидата
+        best = min(
+            candidates_post,
+            key=lambda w: dist_point_to_segment(
+                c.center.x, c.center.y,
+                w.start.x, w.start.y, w.end.x, w.end.y,
+            ),
+        )
+        c.wall_id = best.id
+        remapped.append(c)
+    return remapped
 
 
 def _build_detected_labels(

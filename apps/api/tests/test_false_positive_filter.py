@@ -89,12 +89,17 @@ def test_max_doors_formula():
 class TestFilterOpenings:
 
     def test_too_many_doors_keeps_top_n(self):
-        """Из 64 дверей при 2 комнатах оставляем max 11."""
+        """
+        Из 64 дверей при 2 комнатах оставляем max 11.
+        С DUPLICATE_DIST_PX=35 расстояние между последовательными дверями
+        должно быть > 35px чтобы не сработал ранний дедуп.
+        """
         walls = [_wall("wall_001"), _wall("wall_002")]
         rooms = [_room("r0"), _room("r1")]
-        # 64 двери с разной confidence
+        # 64 двери, разнесённые на 50px (>= DUPLICATE_DIST_PX=35) чтобы
+        # не дедуплицироваться раньше too_many_doors filter
         doors = [
-            _door(f"d{i}", "wall_001", x=i*5, y=0, conf=0.9 - i*0.01)
+            _door(f"d{i}", "wall_001", x=i * 50, y=0, conf=0.9 - i * 0.01)
             for i in range(64)
         ]
         filtered, report = filter_openings(doors, walls, rooms)

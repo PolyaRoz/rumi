@@ -28,3 +28,6 @@ shapely>=2.0.0
 #   macOS: brew install tesseract tesseract-lang
 #   Windows: https://github.com/UB-Mannheim/tesseract/wiki
 pytesseract>=0.3.10
+
+# ─── Claude Vision API ─────────────────────────────────────────────────────────
+anthropic>=0.34.0

@@ -39,6 +39,9 @@ class Settings(BaseSettings):
     smtp_user: str = ""
     smtp_password: str = ""
 
+    # Anthropic (Claude Vision)
+    anthropic_api_key: str = ""
+
     # App
     frontend_url: str = "http://localhost:3000"
     api_url: str = "http://localhost:8000"

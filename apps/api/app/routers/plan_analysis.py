@@ -130,6 +130,83 @@ async def analyze_plan(
     )
 
 
+# ─── POST /plan/analyze-vision ──────────────────────────────────────────────
+
+@router.post("/analyze-vision", response_model=AnalyzePlanResponse)
+async def analyze_plan_vision(
+    file: UploadFile | None = File(default=None),
+    image_url: str | None = Form(default=None),
+    include_debug: bool = Form(default=False),
+):
+    """
+    Анализ плана квартиры через Claude Vision API.
+
+    Использует claude-sonnet-4-5 для семантического распознавания комнат,
+    дверей и окон, затем OpenCV для точной геометрии (flood fill).
+
+    Принимает:
+    - file: изображение плана (multipart upload)
+    - image_url: URL изображения
+    - include_debug: включить base64 debug-слои в ответ
+
+    Возвращает:
+    - geometry: ApartmentGeometry JSON
+    - needs_validation: нужно ли подтверждение пользователя
+    """
+    cv2, np, load_image_from_bytes = _load_cv2()
+    from app.services.plan_vision_service import analyze_with_vision
+
+    # Получаем байты изображения
+    if file is not None:
+        image_bytes = await file.read()
+        logger.info(f"[analyze-vision] Загружен file: {len(image_bytes)} байт, name={file.filename}")
+    elif image_url:
+        image_bytes = await _fetch_image_from_url(image_url)
+        logger.info(f"[analyze-vision] Загружено по URL: {len(image_bytes)} байт")
+    else:
+        raise HTTPException(400, "Нужно передать file или image_url")
+
+    # Сохраняем для дебага
+    import os
+    import time
+    debug_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "debug_uploads")
+    try:
+        os.makedirs(debug_dir, exist_ok=True)
+        debug_path = os.path.join(debug_dir, f"plan_vision_{int(time.time())}.png")
+        with open(debug_path, "wb") as f:
+            f.write(image_bytes)
+        logger.info(f"[analyze-vision] План сохранён: {debug_path}")
+    except Exception as e:
+        logger.warning(f"[analyze-vision] Не удалось сохранить дебаг: {e}")
+
+    # Декодируем изображение
+    try:
+        image = load_image_from_bytes(image_bytes)
+        logger.info(f"[analyze-vision] Декодировано: shape={image.shape}")
+    except Exception as e:
+        raise HTTPException(400, f"Не удалось декодировать изображение: {e}")
+
+    # Запускаем Claude Vision пайплайн
+    try:
+        geometry = analyze_with_vision(image, include_debug=include_debug)
+    except Exception as e:
+        logger.exception("Ошибка Claude Vision пайплайна")
+        raise HTTPException(500, f"Ошибка анализа плана: {e}")
+
+    from app.services.plan_processor import needs_user_validation
+    needs_val = needs_user_validation(geometry)
+
+    return AnalyzePlanResponse(
+        geometry=geometry.model_dump(),
+        needs_validation=needs_val,
+        message=(
+            "Claude Vision: геометрия с низкой уверенностью. Проверьте разметку."
+            if needs_val else
+            "Claude Vision: геометрия успешно распознана."
+        ),
+    )
+
+
 # ─── POST /plan/scale ─────────────────────────────────────────────────────────
 
 @router.post("/scale")

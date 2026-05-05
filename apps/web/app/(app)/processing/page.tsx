@@ -26,7 +26,7 @@ import { useGeometryStore } from '@/store/geometryStore'
 import { usePreferencesStore } from '@/store/preferencesStore'
 
 const PIPELINE_STEPS = [
-  { id: 'analyze',  label: 'Распознаём стены, комнаты и проёмы',  weight: 4 },
+  { id: 'analyze',  label: 'Claude Vision анализирует план',       weight: 4 },
   { id: 'scale',    label: 'Определяем масштаб по подписям',       weight: 1 },
   { id: 'validate', label: 'Проверяем геометрию',                  weight: 1 },
   { id: 'select',   label: 'Подбираем мебель из каталога',         weight: 2 },
@@ -101,7 +101,7 @@ export default function ProcessingPage() {
       }
       fd.append('include_debug', 'false')
 
-      const res = await fetch('/api/v1/plan/analyze', {
+      const res = await fetch('/api/v1/plan/analyze-vision', {
         method: 'POST',
         body: fd,
       })
@@ -242,7 +242,7 @@ export default function ProcessingPage() {
                'Подготовка…'}
             </h1>
             <p className="font-body text-[15px] text-muted">
-              CV-пайплайн распознаёт геометрию и расставляет мебель из каталога
+              Claude Vision распознаёт геометрию и расставляет мебель из каталога
             </p>
           </div>
 

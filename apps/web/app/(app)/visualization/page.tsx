@@ -43,49 +43,15 @@ const ROOMS: { id: RoomType; label: string; emoji: string }[] = [
 function FloorplanView({
   planUrl,
   planFile,
-  style,
+  state,
+  onGenerate,
 }: {
   planUrl: string | null
   planFile: File | null
-  style: StyleType
+  state: FloorplanState
+  onGenerate: () => void
 }) {
-  const { planFalUrl, setPlanFalUrl } = usePlanStore()
-  const [state, setState] = useState<FloorplanState>({ imageUrl: null, status: 'idle' })
   const [zoomed, setZoomed] = useState(false)
-
-  const generate = useCallback(async () => {
-    setState({ imageUrl: null, status: 'uploading' })
-
-    try {
-      // Шаг 1: загружаем план в fal.ai storage (если ещё не загружен)
-      let falUrl = planFalUrl
-      if (!falUrl && planFile) {
-        const fd = new FormData()
-        fd.append('file', planFile)
-        const uploadRes = await fetch('/api/upload-plan', { method: 'POST', body: fd })
-        const uploadData = await uploadRes.json()
-        if (!uploadRes.ok || uploadData.error) throw new Error(uploadData.error ?? 'Ошибка загрузки файла')
-        falUrl = uploadData.url
-        setPlanFalUrl(falUrl!)
-      }
-
-      if (!falUrl) throw new Error('Не удалось загрузить план')
-
-      // Шаг 2: генерируем 3D визуализацию
-      setState(s => ({ ...s, status: 'generating' }))
-      const res = await fetch('/api/floorplan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ planUrl: falUrl, style }),
-      })
-      const data = await res.json()
-      if (!res.ok || data.error) throw new Error(data.error ?? 'Ошибка генерации')
-
-      setState({ imageUrl: data.imageUrl, status: 'done' })
-    } catch (err: any) {
-      setState({ imageUrl: null, status: 'error', error: err?.message ?? 'Ошибка' })
-    }
-  }, [planFile, planFalUrl, style, setPlanFalUrl])
 
   if (!planUrl || !planFile) {
     return (
@@ -113,7 +79,7 @@ function FloorplanView({
           </p>
         </div>
         {state.status === 'idle' && (
-          <button onClick={generate} className="btn-primary py-2.5 px-5 text-[13px] flex items-center gap-2 flex-shrink-0">
+          <button onClick={onGenerate} className="btn-primary py-2.5 px-5 text-[13px] flex items-center gap-2 flex-shrink-0">
             <Building2 size={14} /> Построить 3D
           </button>
         )}
@@ -126,7 +92,7 @@ function FloorplanView({
           </div>
         )}
         {state.status === 'done' && (
-          <button onClick={generate} className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-white font-body text-[13px] text-muted hover:border-terracotta hover:text-terracotta transition-colors flex-shrink-0">
+          <button onClick={onGenerate} className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-white font-body text-[13px] text-muted hover:border-terracotta hover:text-terracotta transition-colors flex-shrink-0">
             <RotateCcw size={13} /> Перегенерировать
           </button>
         )}
@@ -216,7 +182,7 @@ function FloorplanView({
             <p className="font-body text-[14px] font-medium text-ink">Ошибка генерации</p>
             <p className="font-body text-[12px] text-muted mt-1 max-w-xs">{state.error}</p>
           </div>
-          <button onClick={generate} className="btn-primary py-2.5 px-6 text-[14px] flex items-center gap-2">
+          <button onClick={onGenerate} className="btn-primary py-2.5 px-6 text-[14px] flex items-center gap-2">
             <RotateCcw size={14} /> Попробовать снова
           </button>
         </div>
@@ -333,10 +299,46 @@ function RoomPhotoCard({
 
 export default function VisualizationPage() {
   const router = useRouter()
-  const { planUrl, planFile } = usePlanStore()
+  const { planUrl, planFile, planFalUrl, setPlanFalUrl } = usePlanStore()
   const [mainTab, setMainTab] = useState<MainTab>('3d')
   const [currentStyle] = useState<StyleType>('scandi')
 
+  // ── 3D план стейт — живёт в родителе, не сбрасывается при смене вкладки ──
+  const [floorplanState, setFloorplanState] = useState<FloorplanState>({
+    imageUrl: null,
+    status: 'idle',
+  })
+
+  const generateFloorplan = useCallback(async () => {
+    setFloorplanState({ imageUrl: null, status: 'uploading' })
+    try {
+      let falUrl = planFalUrl
+      if (!falUrl && planFile) {
+        const fd = new FormData()
+        fd.append('file', planFile)
+        const uploadRes = await fetch('/api/upload-plan', { method: 'POST', body: fd })
+        const uploadData = await uploadRes.json()
+        if (!uploadRes.ok || uploadData.error) throw new Error(uploadData.error ?? 'Ошибка загрузки файла')
+        falUrl = uploadData.url
+        setPlanFalUrl(falUrl!)
+      }
+      if (!falUrl) throw new Error('Не удалось загрузить план')
+
+      setFloorplanState(s => ({ ...s, status: 'generating' }))
+      const res = await fetch('/api/floorplan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planUrl: falUrl, style: currentStyle }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) throw new Error(data.error ?? 'Ошибка генерации')
+      setFloorplanState({ imageUrl: data.imageUrl, status: 'done' })
+    } catch (err: any) {
+      setFloorplanState({ imageUrl: null, status: 'error', error: err?.message ?? 'Ошибка' })
+    }
+  }, [planFile, planFalUrl, currentStyle, setPlanFalUrl])
+
+  // ── Фото комнат ──────────────────────────────────────────────────────────
   const [rooms, setRooms] = useState<GeneratedRoom[]>(
     ROOMS.map(r => ({ id: r.id, label: r.label, imageUrl: null, status: 'idle' }))
   )
@@ -436,30 +438,35 @@ export default function VisualizationPage() {
           </button>
         </div>
 
+        {/* Вкладки рендерятся всегда — скрываются через CSS, чтобы не сбрасывать стейт */}
+
         {/* ── 3D план ── */}
-        {mainTab === '3d' && (
-          <FloorplanView planUrl={planUrl} planFile={planFile} style={currentStyle} />
-        )}
+        <div style={{ display: mainTab === '3d' ? 'flex' : 'none' }} className="flex-col gap-5">
+          <FloorplanView
+            planUrl={planUrl}
+            planFile={planFile}
+            state={floorplanState}
+            onGenerate={generateFloorplan}
+          />
+        </div>
 
         {/* ── Фото комнат ── */}
-        {mainTab === 'photo' && (
-          <div className="flex flex-col gap-4">
-            <p className="font-body text-[14px] text-muted">
-              AI генерирует реалистичные фото каждой комнаты с реальными товарами из каталога Hoff
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {rooms.map(room => (
-                <RoomPhotoCard key={room.id} room={room} style={currentStyle} onGenerate={generateRoom} />
-              ))}
-            </div>
-            <div className="flex items-start gap-2 px-4 py-3 bg-terracotta-50 rounded-xl">
-              <Sparkles size={14} className="text-terracotta flex-shrink-0 mt-0.5" />
-              <p className="font-body text-[12px] text-[#7A4033]">
-                Визуализации генерируются через fal.ai (FLUX). Мебель — из реального каталога Hoff.
-              </p>
-            </div>
+        <div style={{ display: mainTab === 'photo' ? 'flex' : 'none' }} className="flex-col gap-4">
+          <p className="font-body text-[14px] text-muted">
+            AI генерирует реалистичные фото каждой комнаты с реальными товарами из каталога Hoff
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {rooms.map(room => (
+              <RoomPhotoCard key={room.id} room={room} style={currentStyle} onGenerate={generateRoom} />
+            ))}
           </div>
-        )}
+          <div className="flex items-start gap-2 px-4 py-3 bg-terracotta-50 rounded-xl">
+            <Sparkles size={14} className="text-terracotta flex-shrink-0 mt-0.5" />
+            <p className="font-body text-[12px] text-[#7A4033]">
+              Визуализации генерируются через fal.ai (FLUX). Мебель — из реального каталога Hoff.
+            </p>
+          </div>
+        </div>
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border">

@@ -58,6 +58,7 @@ from app.services.preprocessing import (
     preprocess,
 )
 from app.services.room_anchoring import anchor_rooms_to_labels
+from app.services.room_expansion import expand_rooms_to_walls
 from app.services.room_polygonizer import polygonize_rooms
 from app.services.room_recovery import recover_rooms_from_labels
 from app.services.scale_estimator import (
@@ -151,6 +152,13 @@ def run_pipeline(image: np.ndarray, include_debug: bool = False) -> ApartmentGeo
                 f"[7b] Recovery: +{len(recovered)} комнат, "
                 f"unresolved осталось {len(still_unresolved)}"
             )
+
+    # ── 7c. Expansion: расширить полигоны до стен (компенсируем gap-closing
+    # которое съело края). Без этого на UI видны белые пробелы между
+    # полигонами и стенами.
+    if rooms:
+        rooms = expand_rooms_to_walls(rooms, structural_mask)
+        logger.info(f"[7c] Rooms expanded to walls")
 
     # ── 8. Оценка масштаба по anchored rooms ──────────────────────────────
     room_dicts = [

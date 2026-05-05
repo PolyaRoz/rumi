@@ -1,0 +1,517 @@
+{
+  "category": "Ковры",
+  "category_url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/",
+  "parsed_at": "2026-05-05",
+  "common_characteristics": [
+    "Срок доставки",
+    "Рейтинг",
+    "Размер ковра",
+    "Длина, см",
+    "Ширина, см",
+    "Цвет",
+    "Форма",
+    "Материал",
+    "Длина ворса",
+    "Узор",
+    "Страна производства",
+    "Стиль интерьера",
+    "Бренд"
+  ],
+  "products_count": 38,
+  "products": [
+    {
+      "id": "10936580",
+      "name": "Ковёр Гиссар 200х300 см",
+      "image": "https://hoff.ru/upload/iblock/6ea/lcxf5k2tc0v9mpi7snzgqn3aysm78pzo.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_gissar_id10936580/",
+      "price_rub": 16999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 200,
+        "length_cm": 300
+      }
+    },
+    {
+      "id": "10756068",
+      "name": "Ковёр Шегги 200х300 см",
+      "image": "https://hoff.ru/upload/iblock/d9a/535rtzjmypp9zhd3sixk7rh6zuac7ypl.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/kovry_sheggi/kovyer_sheggi_id10756068/",
+      "price_rub": 9999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 200,
+        "length_cm": 300
+      }
+    },
+    {
+      "id": "10936692",
+      "name": "Ковёр Teira 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/35c/x329hm5qedc12oeaocokg5eaxwfw24hp.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_teira_id10936692/",
+      "price_rub": 5999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10636319",
+      "name": "Ковёр Florance 200х300 см",
+      "image": "https://hoff.ru/upload/iblock/23a/d21xabkve5o3hccljq6ij5f9ouix6z06.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovye_florance_id10636319/",
+      "price_rub": 29999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 200,
+        "length_cm": 300
+      }
+    },
+    {
+      "id": "9440111",
+      "name": "Ковёр Боттичелли 150х200 см",
+      "image": "https://hoff.ru/upload/iblock/954/m1cq0f4o8n24mtosa5ul8ryv4mlkl0z0.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/detskie_kovry/kovyer_bottichelli_id9440111/",
+      "price_rub": 6499,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 150,
+        "length_cm": 200
+      }
+    },
+    {
+      "id": "10922418",
+      "name": "Ковёр Ирек 150х200 см",
+      "image": "https://hoff.ru/upload/iblock/482/dzb8cfle6idspo6i1kr559ph6ktnzyvm.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_irek_id10922418/",
+      "price_rub": 3299,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 150,
+        "length_cm": 200
+      }
+    },
+    {
+      "id": "9653961",
+      "name": "Ковёр Moon 200х290 см",
+      "image": "https://hoff.ru/upload/iblock/b20/usbsqapia6vp1k66mo69a8x2xlklon9z.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_moon_id9653961/",
+      "price_rub": 26999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 200,
+        "length_cm": 290
+      }
+    },
+    {
+      "id": "11021538",
+      "name": "Ковёр Гинта 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/073/0rdpanbbqzoxto2rkblwcufkzoztii3l.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_ginta_id11021538/",
+      "price_rub": 9999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10922412",
+      "name": "Ковёр Лейми 150х200 см",
+      "image": "https://hoff.ru/upload/iblock/936/9mp3d80b8ppxutiljnwrm14nj6dik888.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_leymi_id10922412/",
+      "price_rub": 3799,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 150,
+        "length_cm": 200
+      }
+    },
+    {
+      "id": "10965546",
+      "name": "Ковёр Идигир 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/4bc/8d7dpubt7jv2fyvsio9xdoavgramfwsi.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/kovry_sheggi/kovyer_idigir_id10965546/",
+      "price_rub": 6999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10166765",
+      "name": "Ковёр HOFF Scandi Stripes 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/1af/yyvta8gs3v0bsy77oipx6xv75qwk930j.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/tsinovki/kovyer_scandi_id10166765/",
+      "price_rub": 1299,
+      "old_price_rub": 1999,
+      "discount_percent": 35,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "10940056",
+      "name": "Ковёр Элистин 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/db5/1hbehc1n8jnhkp58jkks3hrrkiorev8a.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_elistin_id10940056/",
+      "price_rub": 11999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "8835547",
+      "name": "Ковёр Genius 200х290 см",
+      "image": "https://hoff.ru/upload/iblock/ef6/aqf5c8qcscnbgpxx9wxnkqpcvedie0si.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_genius_id8835547/",
+      "price_rub": 19999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 200,
+        "length_cm": 290
+      }
+    },
+    {
+      "id": "8557659",
+      "name": "Ковёр Springs 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/3fd/g2ybbmyufgt6vqyhxeiyems2fco4fqam.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_atlantik_hali_springs_id8557659/",
+      "price_rub": 6999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "8835401",
+      "name": "Ковёр Calypso 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/a0b/0dhwgzf1n8dg16eh1eay3jbhs2qyfx76.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_calypso_id8835401/",
+      "price_rub": 3999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "10756066",
+      "name": "Ковёр Шегги 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/35b/hzl5ccbq1tazbreiv0jmxacgq7rdxjsu.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/kovry_sheggi/kovyer_sheggi_id10756066/",
+      "price_rub": 6599,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10624525",
+      "name": "Ковёр Amatis 83х150 см",
+      "image": "https://hoff.ru/upload/iblock/5de/iu6607luqg85kfpngo63k6q0dhnutxy2.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_amatis_id10624525/",
+      "price_rub": 113099,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 83,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "8557657",
+      "name": "Ковёр Springs 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/e33/h4hv13yc5i7biie60nkebqksbod0q3cb.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_atlantik_hali_springs_id8557657/",
+      "price_rub": 2199,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "10888920",
+      "name": "Ковёр Delhi 80х150 см 80х150 см, 16-30 мм",
+      "image": "https://hoff.ru/upload/iblock/7d8/2tb652h56c9f5oi3z24fc1wtanpikrmq.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/kovry_sheggi/kovyer_delhi_id10888920/",
+      "price_rub": 5999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "9881209",
+      "name": "Ковёр Sweet vanila 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/55c/tvv46hrnr7lsh30oy2zab1gwfdhnd5ll.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_sweet_vanila_id9881209/",
+      "price_rub": 5999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "8631737",
+      "name": "Ковёр Кемпински 120х170 см",
+      "image": "https://hoff.ru/upload/iblock/bca/bca633b82b43be21b8814692f8c39cc3.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_kempinski_id8631737/",
+      "price_rub": 10999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 120,
+        "length_cm": 170
+      }
+    },
+    {
+      "id": "10205339",
+      "name": "Ковёр Amatis Lux 83х150 см",
+      "image": "https://hoff.ru/upload/iblock/e5e/necjrk68s63n81zo9v7pg2jq63a3gyhv.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_amatis_lux_id10205339/",
+      "price_rub": 153099,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 83,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "9653917",
+      "name": "Ковёр Soft Florida 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/5fc/2n227pc1mov54spmv0cmhvbn2w962amj.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_soft_florida_id9653917/",
+      "price_rub": 9698,
+      "old_price_rub": 18999,
+      "discount_percent": 48,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10166771",
+      "name": "Ковёр HOFF Scandi Mosaic 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/c1a/gc3v82imalwgzuhtj55encx6lax1xf6z.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/tsinovki/kovyer_scandi_id10166771/",
+      "price_rub": 1999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "9653931",
+      "name": "Ковёр Beta 120х180 см",
+      "image": "https://hoff.ru/upload/iblock/f3a/etiowjmnpenptmwfyv8km5wescwxtbv3.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_beta_id9653931/",
+      "price_rub": 9999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 120,
+        "length_cm": 180
+      }
+    },
+    {
+      "id": "10067713",
+      "name": "Ковёр Creative 120х170 см",
+      "image": "https://hoff.ru/upload/iblock/f37/88htvuiktdpas36p0p7x62xvaowqgp21.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_creative_id10067713/",
+      "price_rub": 4698,
+      "old_price_rub": 6999,
+      "discount_percent": 32,
+      "dimensions": {
+        "width_cm": 120,
+        "length_cm": 170
+      }
+    },
+    {
+      "id": "9526501",
+      "name": "Ковёр Bermuda 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/50a/a4250p55lwd5859o2p6en2t08egu9g8x.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_bermuda_id9526501/",
+      "price_rub": 16999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10064323",
+      "name": "Ковёр Spacecrafted 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/5f8/763jkpdh31w10e8aow41huw1x2767n7a.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_spacecrafted_id10064323/",
+      "price_rub": 4999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "9526661",
+      "name": "Ковёр Melisa 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/7c0/neavi82wg6hzw66rqmoli5q5vik0vnf2.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/tsinovki/kovyer_melisa_id9526661/",
+      "price_rub": 2799,
+      "old_price_rub": 3299,
+      "discount_percent": 15,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "10756064",
+      "name": "Ковёр Шегги 120х180 см",
+      "image": "https://hoff.ru/upload/iblock/271/awwobitg0iiv7igo1imce8fn4kkhnu03.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/kovry_sheggi/kovyer_sheggi_id10756064/",
+      "price_rub": 3999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 120,
+        "length_cm": 180
+      }
+    },
+    {
+      "id": "8606675",
+      "name": "Ковёр Genius 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/389/9ie3r018ftxahqhcm89qbffea1yucmuz.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_balat_genius_id8606675/",
+      "price_rub": 13999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10585899",
+      "name": "Ковёр Califa 80х150 см",
+      "image": "https://hoff.ru/upload/iblock/6f9/tpjga0znlybl76npz13lu0snfk9ugqri.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_califa_id10585899/",
+      "price_rub": 3599,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 80,
+        "length_cm": 150
+      }
+    },
+    {
+      "id": "10677379",
+      "name": "Ковёр HOFF Bunny 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/985/bcpd7ae2ykh92gcxxhvc6qjzi4or8p1q.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/kovry_shkury/kovyer_bunny_id10677379/",
+      "price_rub": 4299,
+      "old_price_rub": 7999,
+      "discount_percent": 46,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "8606735",
+      "name": "Ковёр Shelbi 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/ca4/vids7395jg4j0se8istleah3tl925o7v.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_shelbi_id8606735/",
+      "price_rub": 16999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "9535375",
+      "name": "Ковёр Almond 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/345/ctsczu2cppz4okynn5rrn3k30gon1g7h.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_almond_id9535375/",
+      "price_rub": 14999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "7793539",
+      "name": "Ковёр Ragolle Royal Palace 95х140 см",
+      "image": "https://hoff.ru/upload/iblock/74b/0ganltm8gv056138qs4t9m6e613aqzq3.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/vostochnye_kovry/kovyer_ragolle_royal_palace_id7793539/",
+      "price_rub": 3999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 95,
+        "length_cm": 140
+      }
+    },
+    {
+      "id": "7450581",
+      "name": "Ковёр Creativ 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/4ea/5fg1ar6l8lb1qe7u1yx2zfh1yonc3gpf.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_creativ_id7450581/",
+      "price_rub": 13999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    },
+    {
+      "id": "10064015",
+      "name": "Ковёр Tropicana 160х230 см",
+      "image": "https://hoff.ru/upload/iblock/e93/243jfkl9cie6dxkvhfz2k2seuf5imk2q.jpg",
+      "url": "https://hoff.ru/catalog/tovary_dlya_doma/kovry/sovremennye_kovry/kovyer_tropicana_id10064015/",
+      "price_rub": 15999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 160,
+        "length_cm": 230
+      }
+    }
+  ]
+}

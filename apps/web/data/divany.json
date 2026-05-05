@@ -1,0 +1,313 @@
+{
+  "category": "Диваны",
+  "category_url": "https://hoff.ru/catalog/gostinaya/divany/",
+  "parsed_at": "2026-05-04",
+  "common_characteristics": [
+    "Срок доставки",
+    "Рейтинг",
+    "Длина дивана",
+    "Механизм трансформации",
+    "Ширина, см",
+    "Ширина спального места, см",
+    "Цвет",
+    "Материал обивки",
+    "Раскладывается",
+    "Наличие ящика для белья",
+    "Наличие пружинного блока",
+    "Наличие подлокотников",
+    "Форма дивана",
+    "Глубина, см",
+    "Глубина спального места, см",
+    "Наполнитель",
+    "Тип угла",
+    "Количество сидячих мест",
+    "Стиль интерьера",
+    "Материал каркаса",
+    "Наличие ножек",
+    "Высота ножки",
+    "Бренд",
+    "Съёмный чехол",
+    "Наличие бара и полок для хранения",
+    "Наличие декоративных подушек",
+    "Расположение подлокотника",
+    "Коллекция",
+    "Высота, см",
+    "Глубина сиденья, см",
+    "Высота сиденья, см",
+    "Примерить в интерьере",
+    "Вес товара, кг"
+  ],
+  "products_count": 27,
+  "products": [
+    {
+      "id": "8451205",
+      "name": "Диван-кровать Пекин",
+      "image": "https://hoff.ru/upload/iblock/f5f/pxrd7pnjzr9y194dxkqxuunpebj85h21.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_pekin_id8451205/",
+      "price_rub": 29999,
+      "old_price_rub": 39999,
+      "discount_percent": 25,
+      "dimensions": null
+    },
+    {
+      "id": "10925902",
+      "name": "Диван-кровать Парма",
+      "image": "https://hoff.ru/upload/iblock/f63/iszc0qdmv6pm5r9onxca58w2pfpwpv81.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_parma_id10925902/",
+      "price_rub": 12999,
+      "old_price_rub": 16999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "9558157",
+      "name": "Угловой диван-кровать Слим",
+      "image": "https://hoff.ru/upload/iblock/1be/v7y2kac4stvjwywm6dygmuej2ocrl84x.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_slim_id9558157/",
+      "price_rub": 29999,
+      "old_price_rub": 39999,
+      "discount_percent": 25,
+      "dimensions": null
+    },
+    {
+      "id": "8951045",
+      "name": "Диван-кровать DREAMART Палермо",
+      "image": "https://hoff.ru/upload/iblock/e15/mwe5m7m6mbn56v01bsawvqaaq8zd2jtd.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_dreamart_palermo_id8951045/",
+      "price_rub": 39999,
+      "old_price_rub": 54999,
+      "discount_percent": 27,
+      "dimensions": null
+    },
+    {
+      "id": "9316745",
+      "name": "Угловой диван-кровать SOLANA Мэдисон с правым углом",
+      "image": "https://hoff.ru/upload/iblock/7ff/zli7jzlnvbafhdwe7k8xqktjlg49uppz.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_medison_id9316745/",
+      "price_rub": 64999,
+      "old_price_rub": 82999,
+      "discount_percent": 21,
+      "dimensions": null
+    },
+    {
+      "id": "10891356",
+      "name": "Диван-кровать Атланта",
+      "image": "https://hoff.ru/upload/iblock/0ff/b1a1s59n7ayved84a71qd4dso2jap19c.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_atlanta_id10891356/",
+      "price_rub": 19999,
+      "old_price_rub": 23999,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "8099310",
+      "name": "Угловой диван-кровать Торонто",
+      "image": "https://hoff.ru/upload/iblock/200/md5le0nl2n3taxba2u731jqs7xkpnaa6.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_toronto_id8099310/",
+      "price_rub": 24999,
+      "old_price_rub": 33999,
+      "discount_percent": 26,
+      "dimensions": null
+    },
+    {
+      "id": "8854329",
+      "name": "Диван-кровать DREAMART Дрезден",
+      "image": "https://hoff.ru/upload/iblock/587/5873cb4dde5d49149fbe4b0e1d8fe7ad.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_dreamart_drezden_id8854329/",
+      "price_rub": 49999,
+      "old_price_rub": 59999,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "10462491",
+      "name": "Диван-кровать Куба",
+      "image": "https://hoff.ru/upload/iblock/c95/aon5s4n8000u8mybtz51robdtwhp77pm.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_kuba_id10462491/",
+      "price_rub": 10999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10891372",
+      "name": "Диван-кровать Атланта",
+      "image": "https://hoff.ru/upload/iblock/dc3/w6glsvjcgtmv83lxf63g0p2ayw3svj6w.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_atlanta_id10891372/",
+      "price_rub": 19999,
+      "old_price_rub": 23999,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "10891358",
+      "name": "Диван-кровать Атланта",
+      "image": "https://hoff.ru/upload/iblock/940/iqnn5ik33coin42313pxno8pwqf3bv72.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_atlanta_id10891358/",
+      "price_rub": 19999,
+      "old_price_rub": 23999,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "8260757",
+      "name": "Диван-кровать Малага",
+      "image": "https://hoff.ru/upload/iblock/c4c/hvs7drm910m9bi91t38znn9dha77mnaw.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_malaga_id8260757/",
+      "price_rub": 14999,
+      "old_price_rub": 20399,
+      "discount_percent": 26,
+      "dimensions": null
+    },
+    {
+      "id": "9558261",
+      "name": "Угловой диван-кровать Слим",
+      "image": "https://hoff.ru/upload/iblock/dbc/o4lr7gx5md674h6s0zkoc3iv7pvvsbym.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_slim_id9558261/",
+      "price_rub": 29999,
+      "old_price_rub": 39999,
+      "discount_percent": 25,
+      "dimensions": null
+    },
+    {
+      "id": "8950727",
+      "name": "Диван-кровать DREAMART Палермо",
+      "image": "https://hoff.ru/upload/iblock/322/grymc1wc65rvfpqusfda0pked9ovrzpx.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_dreamart_palermo_id8950727/",
+      "price_rub": 37999,
+      "old_price_rub": 52999,
+      "discount_percent": 28,
+      "dimensions": null
+    },
+    {
+      "id": "10736872",
+      "name": "Угловой диван-кровать DREAMART Тулуза с правым углом",
+      "image": "https://hoff.ru/upload/iblock/adf/q5cq4mdhv5qh0109q5ea1ri5b51cimbm.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_tuluza_id10736872/",
+      "price_rub": 84999,
+      "old_price_rub": 109999,
+      "discount_percent": 22,
+      "dimensions": null
+    },
+    {
+      "id": "10891158",
+      "name": "Диван-кровать Аризона",
+      "image": "https://hoff.ru/upload/iblock/449/5t6m2uigz1yi5vkn8zdkzwmrzq75ecbk.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_arizona_id10891158/",
+      "price_rub": 32999,
+      "old_price_rub": 42999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "10925900",
+      "name": "Диван-кровать Парма",
+      "image": "https://hoff.ru/upload/iblock/c69/vdxigsfsk0edyy1jq3b78ukk30zepbo2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_parma_id10925900/",
+      "price_rub": 12999,
+      "old_price_rub": 16999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "8720385",
+      "name": "Диван-кровать Аккорд",
+      "image": "https://hoff.ru/upload/iblock/9ca/9ca4e27c447e382476631c309fd4e631.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_akkord_id8720385/",
+      "price_rub": 28999,
+      "old_price_rub": 35699,
+      "discount_percent": 18,
+      "dimensions": null
+    },
+    {
+      "id": "9318851",
+      "name": "Угловой диван-кровать SOLANA Сиэтл",
+      "image": "https://hoff.ru/upload/iblock/d32/w0cjjtuzo8rdo0cavd6nzcntoe67pwgt.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_sietl_id9318851/",
+      "price_rub": 79999,
+      "old_price_rub": 104999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "10828352",
+      "name": "Угловой диван-кровать Атланта",
+      "image": "https://hoff.ru/upload/iblock/98f/5dw6wdc1bo6g0yyn68c1n5j23r9aksgm.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_atlanta_id10828352/",
+      "price_rub": 29999,
+      "old_price_rub": 33999,
+      "discount_percent": 11,
+      "dimensions": null
+    },
+    {
+      "id": "9133587",
+      "name": "Диван-кровать SCANDICA Норман мини",
+      "image": "https://hoff.ru/upload/iblock/168/lkurihtnd3eep4ldz986nowqgxpz86vd.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_scandica_norman_mini_id9133587/",
+      "price_rub": 34999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "8854413",
+      "name": "Диван-кровать DREAMART Дрезден",
+      "image": "https://hoff.ru/upload/iblock/a15/a15894dd26019f3f3949b594a534f5dc.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_dreamart_drezden_id8854413/",
+      "price_rub": 44999,
+      "old_price_rub": 54999,
+      "discount_percent": 18,
+      "dimensions": null
+    },
+    {
+      "id": "10828368",
+      "name": "Угловой диван-кровать Атланта",
+      "image": "https://hoff.ru/upload/iblock/455/q4pk2ysdbs0qdxwe4rfgzttg3p40uywd.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/uglovye/uglovoy_divan_krovat_atlanta_id10828368/",
+      "price_rub": 29999,
+      "old_price_rub": 33999,
+      "discount_percent": 11,
+      "dimensions": null
+    },
+    {
+      "id": "10925918",
+      "name": "Диван-кровать Парма",
+      "image": "https://hoff.ru/upload/iblock/60c/x0puzw6cuoqwhzymhkqzki2kk1il2w6r.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_parma_id10925918/",
+      "price_rub": 12999,
+      "old_price_rub": 16999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "9308837",
+      "name": "Диван-кровать SOLANA Сеул",
+      "image": "https://hoff.ru/upload/iblock/f30/ufmb7i8367zk8owav1trrl156ocx6ovk.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_seul_id9308837/",
+      "price_rub": 55999,
+      "old_price_rub": 72999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "10925906",
+      "name": "Диван-кровать Парма",
+      "image": "https://hoff.ru/upload/iblock/a8d/z4e37fftue4h8dr21yixkaig0ntdb3e7.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_parma_id10925906/",
+      "price_rub": 12999,
+      "old_price_rub": 16999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "10715680",
+      "name": "Диван-кровать Питсбург",
+      "image": "https://hoff.ru/upload/iblock/8bc/7caihq4rjbyspcw6qqkdswo53fz1603i.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/divany/pryamye/divan_krovat_pitsburg_id10715680/",
+      "price_rub": 47999,
+      "old_price_rub": 67999,
+      "discount_percent": 29,
+      "dimensions": null
+    }
+  ]
+}

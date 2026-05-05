@@ -1,0 +1,511 @@
+{
+  "category": "Тумбы прикроватные",
+  "category_url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/",
+  "parsed_at": "2026-05-05",
+  "common_characteristics": [
+    "Срок доставки",
+    "Рейтинг",
+    "Цвет",
+    "Ширина, см",
+    "Высота, см",
+    "Глубина, см",
+    "Материал",
+    "Стиль интерьера",
+    "Наличие ящиков",
+    "Количество ящиков",
+    "С дверцей",
+    "Полки",
+    "Наличие ножек",
+    "Высота ножки",
+    "Поверхность фасадов",
+    "Материал обивки",
+    "Тип петель",
+    "Коллекция",
+    "Бренд",
+    "Примерить в интерьере",
+    "Вес товара, кг"
+  ],
+  "products_count": 30,
+  "products": [
+    {
+      "id": "11103758",
+      "name": "Тумба 2 ящика Сохо",
+      "image": "https://hoff.ru/upload/iblock/7fa/mm90j4xlfawsf66xowrnenw2ja3uxeno.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_2_yashchika_sokho_id11103758/",
+      "price_rub": 2599,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10687388",
+      "name": "Тумба прикроватная Тиффани",
+      "image": "https://hoff.ru/upload/iblock/0b4/4q73mjmywrd1vknu7iwtcx5jkt2103rg.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_tiffani_id10687388/",
+      "price_rub": 9599,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10182865",
+      "name": "Тумба Селена",
+      "image": "https://hoff.ru/upload/iblock/831/aaxcuscqwmr3e0vwiy03vxxo8gt6o79w.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_selena_id10182865/",
+      "price_rub": 7999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10890032",
+      "name": "Тумба прикроватная Астория",
+      "image": "https://hoff.ru/upload/iblock/482/kgj9b8yxujw32jendvt2e2626rh1lza4.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_astoriya_id10890032/",
+      "price_rub": 6999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "8615703",
+      "name": "Тумба прикроватная Хилтон",
+      "image": "https://hoff.ru/upload/iblock/02d/k6zu1zqpmnx100al1fvnfo9vmjd2xz6u.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_khilton_id8615703/",
+      "price_rub": 4699,
+      "old_price_rub": 5799,
+      "discount_percent": 18,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9336225",
+      "name": "Тумба Капри",
+      "image": "https://hoff.ru/upload/iblock/8b2/et5cwjnfxi0pv6x5lqjupsfy6qt5xx2e.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_kapri_id9336225/",
+      "price_rub": 1599,
+      "old_price_rub": 1999,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "8362711",
+      "name": "Тумба Stern",
+      "image": "https://hoff.ru/upload/iblock/f1c/9v0g9c8bt57nmxnf5spyrx02hdzx6mym.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_stern_id8362711/",
+      "price_rub": 2699,
+      "old_price_rub": 2999,
+      "discount_percent": 10,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "8114426",
+      "name": "Тумба прикроватная SCANDICA Хортен",
+      "image": "https://hoff.ru/upload/iblock/174/nrpb81f83te3lrzhpepnojdv0967vkqr.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_scandica_khorten_id8114426/",
+      "price_rub": 4599,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "5233854",
+      "name": "Тумба прикроватная Линда",
+      "image": "https://hoff.ru/upload/iblock/f55/f551a5af25a3e201652ebc7c5a6a4b88.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_linda_id5233854/",
+      "price_rub": 7599,
+      "old_price_rub": 9599,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "7845855",
+      "name": "Тумба прикроватная Ливерпуль",
+      "image": "https://hoff.ru/upload/iblock/d00/d00af0dbe0c02eea1bcffd220b4178a5.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_liverpul_id7845855/",
+      "price_rub": 4099,
+      "old_price_rub": 4999,
+      "discount_percent": 18,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10722464",
+      "name": "Тумба прикроватная Эванс 1 ящик",
+      "image": "https://hoff.ru/upload/iblock/01e/bm99iw0puryrypm317ifs5ybotejkw3p.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_evans_id10722464/",
+      "price_rub": 5599,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9180347",
+      "name": "Тумба прикроватная Stern",
+      "image": "https://hoff.ru/upload/iblock/527/8o6g130nx0a28ow0kndwsn03un0qx97f.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_stern_id9180347/",
+      "price_rub": 3799,
+      "old_price_rub": 4299,
+      "discount_percent": 11,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10807868",
+      "name": "Тумба Пандора",
+      "image": "https://hoff.ru/upload/iblock/a87/rq3fggaut3luki5cvdehj54qjnmyysxi.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_pandora_id10807868/",
+      "price_rub": 3299,
+      "old_price_rub": 3999,
+      "discount_percent": 17,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "7606613",
+      "name": "Тумба прикроватная SCANDICA Wilma",
+      "image": "https://hoff.ru/upload/iblock/23d/kt6wyh3nz8gdyots5es0zr31i2qgp2g5.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_scandica_wilma_id7606613/",
+      "price_rub": 4599,
+      "old_price_rub": 5499,
+      "discount_percent": 16,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9458497",
+      "name": "Тумба прикроватная Симпл",
+      "image": "https://hoff.ru/upload/iblock/9f6/2du2y3trh1q7st9l7ctujmp2zthx86rm.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_simpl_id9458497/",
+      "price_rub": 3499,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9457375",
+      "name": "Тумба прикроватная Барселона",
+      "image": "https://hoff.ru/upload/iblock/95a/ciagyqm2e9bpg485iurfii3m7new1lr2.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_barselona_id9457375/",
+      "price_rub": 3199,
+      "old_price_rub": 4299,
+      "discount_percent": 25,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9008841",
+      "name": "Тумба прикроватная Токио",
+      "image": "https://hoff.ru/upload/iblock/14c/9d8nu0vsxcztang2nbpqcoje7z54w2sw.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_tokio_id9008841/",
+      "price_rub": 1399,
+      "old_price_rub": 1799,
+      "discount_percent": 22,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "5430708",
+      "name": "Тумба прикроватная SCANDICA Хортен",
+      "image": "https://hoff.ru/upload/iblock/67f/bzmwjg1jte7ifri0g7ei9gz8ox45ncdw.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_scandica_khorten_id5430708/",
+      "price_rub": 5999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "7350750",
+      "name": "Тумба Интеро-3",
+      "image": "https://hoff.ru/upload/iblock/82b/82bcc062719508a2e995dd7bdc061c67.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_intero_3_id7350750/",
+      "price_rub": 1799,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10446021",
+      "name": "Тумба прикроватная Флоранс",
+      "image": "https://hoff.ru/upload/iblock/a70/kyr1dh4s40zmk400g3r1nzqbunf2r46t.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_florans_id10446021/",
+      "price_rub": 13999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9008803",
+      "name": "Тумба прикроватная МСП",
+      "image": "https://hoff.ru/upload/iblock/b8d/b8df6103862756047480391ec92af2ac.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_msp_id9008803/",
+      "price_rub": 1799,
+      "old_price_rub": 2299,
+      "discount_percent": 21,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9161899",
+      "name": "Тумба прикроватная Tango",
+      "image": "https://hoff.ru/upload/iblock/260/260ca8d41093699d1bce5ddfa5fc69c9.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_tango_id9161899/",
+      "price_rub": 5899,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9565727",
+      "name": "Тумба Капри",
+      "image": "https://hoff.ru/upload/iblock/d66/dd1qab1tzi9l3gq1l1yyrsdum3gw4rcj.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_kapri_id9565727/",
+      "price_rub": 1999,
+      "old_price_rub": 2499,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "7035603",
+      "name": "Тумба прикроватная Оливия",
+      "image": "https://hoff.ru/upload/iblock/37d/rr5dch1ebuy1uk1t4h7rncsqpzuzdycw.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_oliviya_id7035603/",
+      "price_rub": 5799,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9726367",
+      "name": "Тумба прикроватная Хелен",
+      "image": "https://hoff.ru/upload/iblock/983/zblqwnt04u9w7f3di52teen459s5tr9d.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_khelen_id9726367/",
+      "price_rub": 2799,
+      "old_price_rub": 3499,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10807864",
+      "name": "Тумба прикроватная Пандора",
+      "image": "https://hoff.ru/upload/iblock/a0b/rxfds96ip6hrhw6g3q2xyh0fuxuka9va.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_pandora_id10807864/",
+      "price_rub": 3799,
+      "old_price_rub": 4399,
+      "discount_percent": 13,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9790559",
+      "name": "Тумба прикроватная 2 ящика Бруно",
+      "image": "https://hoff.ru/upload/iblock/a27/iv6va87yj9zyjb79yuczr88e8hojrnr0.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_prikrovatnaya_2_yashchika_bruno_id9790559/",
+      "price_rub": 4999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 50,
+        "depth_cm": 40,
+        "height_cm": 50,
+        "note": "Типовая прикроватная тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10807894",
+      "name": "Тумба Пандора",
+      "image": "https://hoff.ru/upload/iblock/643/g05lixcus3v66zqfd8debyb1qw2w377n.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_pandora_id10807894/",
+      "price_rub": 2999,
+      "old_price_rub": 3699,
+      "discount_percent": 18,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "10254775",
+      "name": "Тумба Капри",
+      "image": "https://hoff.ru/upload/iblock/a2f/g201n2xqp6m6x1q0487k1zutfyfzn5mv.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_kapri_id10254775/",
+      "price_rub": 999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    },
+    {
+      "id": "9472995",
+      "name": "Тумба Лофт с 3 ящиками",
+      "image": "https://hoff.ru/upload/iblock/72b/jnp505q82yet7l3jmd5p6gvicc768pw4.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/tumby_i_komody/tumby/tumba_loft_id9472995/",
+      "price_rub": 3999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 60,
+        "depth_cm": 40,
+        "height_cm": 60,
+        "note": "Типовая тумба",
+        "source": "typical"
+      }
+    }
+  ]
+}

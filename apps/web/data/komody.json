@@ -1,0 +1,360 @@
+{
+  "category": "Комоды",
+  "category_url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/",
+  "parsed_at": "2026-05-05",
+  "common_characteristics": [
+    "Срок доставки",
+    "Рейтинг",
+    "Ширина, см",
+    "Высота, см",
+    "Глубина, см",
+    "Цвет",
+    "Количество ящиков",
+    "Стиль интерьера",
+    "Материал",
+    "Наличие ящиков",
+    "Поверхность фасадов",
+    "С дверцей",
+    "Коллекция",
+    "Наличие ножек",
+    "Полки",
+    "Тип петель",
+    "Угловой",
+    "Бренд",
+    "Вес товара, кг",
+    "Примерить в интерьере"
+  ],
+  "products_count": 33,
+  "products": [
+    {
+      "id": "9419239",
+      "name": "Комод Капри",
+      "image": "https://hoff.ru/upload/iblock/261/dqultm4071gqses7gmug6v2077z3jymr.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_km_11_id9419239/",
+      "price_rub": 3999,
+      "old_price_rub": 5799,
+      "discount_percent": 31,
+      "dimensions": null
+    },
+    {
+      "id": "8516243",
+      "name": "Комод Stern",
+      "image": "https://hoff.ru/upload/iblock/954/zvoxz3f7lxnnaqpt6ti7p73svbcjnujn.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_stern_id8516243/",
+      "price_rub": 10398,
+      "old_price_rub": 12999,
+      "discount_percent": 20,
+      "dimensions": null
+    },
+    {
+      "id": "10446019",
+      "name": "Комод 3 ящика и 2 двери Флоранс",
+      "image": "https://hoff.ru/upload/iblock/2f0/5z71qtsbh5djxyfw2ri7315q93h3699j.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_3_yashchika_i_2_dveri_florans_id10446019/",
+      "price_rub": 35999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10687242",
+      "name": "Комод Тиффани",
+      "image": "https://hoff.ru/upload/iblock/dde/vfqtzl7h5lqn7tfzf7j7cepql3w1cj8j.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_tiffani_id10687242/",
+      "price_rub": 20999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9629381",
+      "name": "Комод Orion",
+      "image": "https://hoff.ru/upload/iblock/693/ihmnqfrsfk9ncqpv0d54camzwx2zqdpn.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_orion_id9629381/",
+      "price_rub": 18999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10182787",
+      "name": "Комод Селена",
+      "image": "https://hoff.ru/upload/iblock/a83/s1y3eat4e4n41ijcw3icsxpgd6auru5h.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_selena_id10182787/",
+      "price_rub": 17999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10356545",
+      "name": "Комод Нордик с 8 ящиками",
+      "image": "https://hoff.ru/upload/iblock/e76/dz31vwrehhxg5zv6pvm9i2aexycrqx6f.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_nordik_id10356545/",
+      "price_rub": 11999,
+      "old_price_rub": 16999,
+      "discount_percent": 29,
+      "dimensions": null
+    },
+    {
+      "id": "10889004",
+      "name": "Комод 4 ящика Астория",
+      "image": "https://hoff.ru/upload/iblock/fa3/jesnu7244adtwzgm5dj232w9pcrxmmuh.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_4_yashchika_astoriya_id10889004/",
+      "price_rub": 16999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10238347",
+      "name": "Комод 6 ящиков SCANDICA Хортен",
+      "image": "https://hoff.ru/upload/iblock/7b6/o1h90xlmbrz1erwguui39d2jgkkl576t.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_6_yashchikov_khorten_id10238347/",
+      "price_rub": 15999,
+      "old_price_rub": 23999,
+      "discount_percent": 33,
+      "dimensions": null
+    },
+    {
+      "id": "8516227",
+      "name": "Комод Stern 4 ящика",
+      "image": "https://hoff.ru/upload/iblock/8a9/zg8wa8mwmuf7q3z3byxw58xw2f4qa7hl.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_stern_id8516227/",
+      "price_rub": 8999,
+      "old_price_rub": 11999,
+      "discount_percent": 25,
+      "dimensions": null
+    },
+    {
+      "id": "10070017",
+      "name": "Комод комбинированный Хилтон",
+      "image": "https://hoff.ru/upload/iblock/45f/4ucum3enzf9g1t8ve30unng8txlmnmas.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_kombinirovannyy_khilton_id10070017/",
+      "price_rub": 15599,
+      "old_price_rub": 18599,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "9101097",
+      "name": "Комод Хилтон",
+      "image": "https://hoff.ru/upload/iblock/a4e/3v7qeo4pgenoevic9gv1po7fncngh3bg.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_khilton_id9101097/",
+      "price_rub": 12299,
+      "old_price_rub": 15499,
+      "discount_percent": 20,
+      "dimensions": null
+    },
+    {
+      "id": "9024379",
+      "name": "Комод Кастор с 6 ящиками",
+      "image": "https://hoff.ru/upload/iblock/ee3/h6kh3yxf3ot8eqhtydiybxr949i9113f.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_s_6_yashchikami_kastor_id9024379/",
+      "price_rub": 10199,
+      "old_price_rub": 11999,
+      "discount_percent": 15,
+      "dimensions": null
+    },
+    {
+      "id": "8432103",
+      "name": "Комод Ливерпуль",
+      "image": "https://hoff.ru/upload/iblock/40f/dhljtdyucykinl9lqnshsnqj2300cjxi.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_liverpul_id8432103/",
+      "price_rub": 13299,
+      "old_price_rub": 15999,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "7851369",
+      "name": "Комод Ливерпуль",
+      "image": "https://hoff.ru/upload/iblock/6b4/r6tzay1p4y1ate0rxnip0mh5c5sn72cu.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_liverpul_id7851369/",
+      "price_rub": 15799,
+      "old_price_rub": 18399,
+      "discount_percent": 14,
+      "dimensions": null
+    },
+    {
+      "id": "9213091",
+      "name": "Комод Варма",
+      "image": "https://hoff.ru/upload/iblock/e88/6ck23okrsh98q7pi243d9l5b8havy05l.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_varma_id9213091/",
+      "price_rub": 13599,
+      "old_price_rub": 16999,
+      "discount_percent": 20,
+      "dimensions": null
+    },
+    {
+      "id": "9456991",
+      "name": "Комод Альпин",
+      "image": "https://hoff.ru/upload/iblock/82d/n7qn0sgxxasds4a7apkgezslgix0kw9h.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_5_yashchikov_alpin_id9456991/",
+      "price_rub": 21999,
+      "old_price_rub": 27999,
+      "discount_percent": 21,
+      "dimensions": null
+    },
+    {
+      "id": "10234241",
+      "name": "Комод Ирис",
+      "image": "https://hoff.ru/upload/iblock/c25/qlfzqgfxyjchdnmpdbye8e2a9c0lpc89.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_iris_id10234241/",
+      "price_rub": 7299,
+      "old_price_rub": 9299,
+      "discount_percent": 21,
+      "dimensions": null
+    },
+    {
+      "id": "9726313",
+      "name": "Комод 8 ящиков Хелен",
+      "image": "https://hoff.ru/upload/iblock/4ae/7d327gh0016cye2zfq9e972ozikufohb.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_8_yashchikov_khelen_id9726313/",
+      "price_rub": 9499,
+      "old_price_rub": 10599,
+      "discount_percent": 10,
+      "dimensions": null
+    },
+    {
+      "id": "9007963",
+      "name": "Комод Токио 4 ящика",
+      "image": "https://hoff.ru/upload/iblock/ff9/8or6eqlez82ao7e13gmzmumsnryjg9o1.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_tokio_id9007963/",
+      "price_rub": 4199,
+      "old_price_rub": 5299,
+      "discount_percent": 20,
+      "dimensions": null
+    },
+    {
+      "id": "8177099",
+      "name": "Комод высокий SCANDICA Хортен",
+      "image": "https://hoff.ru/upload/iblock/5d8/v0xhjua1wgegxvwabcogwvh9cuzjwj8p.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_vysokiy_scandica_khorten_id8177099/",
+      "price_rub": 12999,
+      "old_price_rub": 17999,
+      "discount_percent": 27,
+      "dimensions": null
+    },
+    {
+      "id": "9506707",
+      "name": "Комод 8 ящиков Эванс",
+      "image": "https://hoff.ru/upload/iblock/f04/9n9hy7591pr0otkcbdfgyr45m4w74vdp.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_8_yashchikov_evans_id9506707/",
+      "price_rub": 31999,
+      "old_price_rub": 35999,
+      "discount_percent": 11,
+      "dimensions": null
+    },
+    {
+      "id": "9484705",
+      "name": "Комод с 4 ящиками Лофт",
+      "image": "https://hoff.ru/upload/iblock/3df/cocuegz3hct5j4qb3ydo50y587ol8lbf.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_loft_id9484705/",
+      "price_rub": 9999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10714382",
+      "name": "Комод с 6 ящиками Delta",
+      "image": "https://hoff.ru/upload/iblock/a77/rxfq497na3u17339uofynhfvmdymbxay.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_s_6_yashchikami_delta_id10714382/",
+      "price_rub": 15299,
+      "old_price_rub": 17999,
+      "discount_percent": 15,
+      "dimensions": null
+    },
+    {
+      "id": "7035745",
+      "name": "Комод Оливия",
+      "image": "https://hoff.ru/upload/iblock/1be/1beac6530552621642272a83084eeb27.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_oliviya_id7035745/",
+      "price_rub": 10999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "8241293",
+      "name": "Комод широкий Линда",
+      "image": "https://hoff.ru/upload/iblock/4e3/1je4j1goqlein3e8ukckut06xxsrn2l8.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_shirokiy_linda_id8241293/",
+      "price_rub": 25999,
+      "old_price_rub": 31299,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "10735304",
+      "name": "Комод комбинированный Хилтон",
+      "image": "https://hoff.ru/upload/iblock/f35/emoq6vekic2l20jldpglp3svdqu6y5v2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_kombinirovannyy_khilton_id10735304/",
+      "price_rub": 20999,
+      "old_price_rub": 24999,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "10390857",
+      "name": "Комод Квадро",
+      "image": "https://hoff.ru/upload/iblock/1dc/96dzkn6d6wimpjhkzcd90wqvevvefrb2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_kvadro_id10390857/",
+      "price_rub": 15999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9297763",
+      "name": "Комод Барселона 3 ящика двухстворчатый",
+      "image": "https://hoff.ru/upload/iblock/8d7/uf8xmwkdeav42ayef878hu18h63u6wez.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_barselona_id9297763/",
+      "price_rub": 11999,
+      "old_price_rub": 14599,
+      "discount_percent": 17,
+      "dimensions": null
+    },
+    {
+      "id": "9007935",
+      "name": "Комод МСП 3 ящика",
+      "image": "https://hoff.ru/upload/iblock/550/550f8fb878a5b3267abdb8824f58bdcd.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_msp_id9007935/",
+      "price_rub": 3999,
+      "old_price_rub": 4999,
+      "discount_percent": 20,
+      "dimensions": null
+    },
+    {
+      "id": "7791277",
+      "name": "Комод НК-3",
+      "image": "https://hoff.ru/upload/iblock/1b3/v8pcf7kqepmq9xc0d9w758tzhzzuk2no.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_nk_id7791277/",
+      "price_rub": 12999,
+      "old_price_rub": 15599,
+      "discount_percent": 16,
+      "dimensions": null
+    },
+    {
+      "id": "10851086",
+      "name": "Комод КМ 5",
+      "image": "https://hoff.ru/upload/iblock/99e/klqyu369vg62fgh2zdl61wsaenlidcee.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_km_5_id10851086/",
+      "price_rub": 3199,
+      "old_price_rub": 3799,
+      "discount_percent": 15,
+      "dimensions": null
+    },
+    {
+      "id": "10092947",
+      "name": "Комод КМ-3",
+      "image": "https://hoff.ru/upload/iblock/4cb/twcr42fczrco7nl5f94jrgzrku8e9v4g.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/komody/komod_km_3_id10092947/",
+      "price_rub": 3199,
+      "old_price_rub": 3899,
+      "discount_percent": 17,
+      "dimensions": null
+    }
+  ]
+}

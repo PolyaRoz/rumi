@@ -1,0 +1,455 @@
+{
+  "category": "Шкафы",
+  "category_url": "https://hoff.ru/catalog/shkafy/",
+  "parsed_at": "2026-05-05",
+  "common_characteristics": [
+    "онлайн",
+    "Срок доставки",
+    "Рейтинг",
+    "Ширина, см",
+    "Глубина, см",
+    "Высота, см",
+    "Цвет",
+    "Количество дверей",
+    "Наличие зеркала",
+    "Наличие штанги",
+    "Наличие ящиков",
+    "Материал",
+    "Угловой",
+    "Стиль интерьера",
+    "Поверхность фасадов",
+    "Коллекция",
+    "Бренд",
+    "Вес товара, кг"
+  ],
+  "products_count": 27,
+  "products": [
+    {
+      "id": "8615717",
+      "name": "Шкаф комбинированный Хилтон",
+      "image": "https://hoff.ru/upload/iblock/19a/19aa75e40a5fe213c137fef1985ebeae.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_3_dvernyy_khilton_id8615717/",
+      "price_rub": 26599,
+      "old_price_rub": 32999,
+      "discount_percent": 19,
+      "dimensions": {
+        "width_cm": 120,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "9008703",
+      "name": "Шкаф трехстворчатый МСП",
+      "image": "https://hoff.ru/upload/iblock/6c7/6c7353ecc129da542986f8cb0712a33b.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_trekhstvorchatyy_msp_id9008703/",
+      "price_rub": 10199,
+      "old_price_rub": 13299,
+      "discount_percent": 23,
+      "dimensions": {
+        "width_cm": 150,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10855540",
+      "name": "Шкаф ШК 5",
+      "image": "https://hoff.ru/upload/iblock/d5b/oizeckoeup4s9zhta708wxxc8x1lww9f.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_shk_5_id10855540/",
+      "price_rub": 16999,
+      "old_price_rub": 23999,
+      "discount_percent": 29,
+      "dimensions": {
+        "width_cm": 120,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10229829",
+      "name": "Шкаф 3-дверный София с 2-мя ящиками, белый с черными ручками",
+      "image": "https://hoff.ru/upload/iblock/437/vewwlbbgh92iak0tso6s8qt4493cexlv.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_3_dvernyy_sofiya_id10229829/",
+      "price_rub": 24999,
+      "old_price_rub": 29999,
+      "discount_percent": 16,
+      "dimensions": {
+        "width_cm": 150,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "9565825",
+      "name": "Шкаф комбинированный Хилтон",
+      "image": "https://hoff.ru/upload/iblock/eb1/qannh2eajn4abnmwkz6dwnqtt3umqk9f.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_kombinirovannyy_khilton_id9565825/",
+      "price_rub": 26599,
+      "old_price_rub": 32999,
+      "discount_percent": 19,
+      "dimensions": {
+        "width_cm": 120,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "9538793",
+      "name": "Шкаф-витрина с 3 ящиками Эванс",
+      "image": "https://hoff.ru/upload/iblock/277/2m032hs12q0t2z5lvg4ldu2p7k363big.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/vitriny_i_bufety/shkaf_vitrina_s_3_yashchikami_evans_id9538793/",
+      "price_rub": 28999,
+      "old_price_rub": 32999,
+      "discount_percent": 12,
+      "dimensions": {
+        "width_cm": 80,
+        "depth_cm": 45,
+        "height_cm": 200,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "9538761",
+      "name": "Шкаф-витрина с 3 ящиками Эванс",
+      "image": "https://hoff.ru/upload/iblock/687/8m4z657mxbmkerqir2fpme29uo5fx54b.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/vitriny_i_bufety/shkaf_vitrina_s_3_yashchikami_evans_id9538761/",
+      "price_rub": 28999,
+      "old_price_rub": 32999,
+      "discount_percent": 12,
+      "dimensions": {
+        "width_cm": 80,
+        "depth_cm": 45,
+        "height_cm": 200,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "9533493",
+      "name": "Шкаф 3-створчатый Порто",
+      "image": "https://hoff.ru/upload/iblock/50b/qydk22zhmtxzx0fxfjo2krkt791s4sn6.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_tryekhstvorchatyy_porto_id9533493/",
+      "price_rub": 16999,
+      "old_price_rub": 23599,
+      "discount_percent": 27,
+      "dimensions": {
+        "width_cm": 150,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "9340879",
+      "name": "Шкаф комбинированный Хилтон с 2 дверями 90х226х42.8 см",
+      "image": "https://hoff.ru/upload/iblock/f7a/d30216xkaqdn2s04xx3zoubsdc8zi73y.jpg",
+      "url": "https://hoff.ru/catalog/detskaya/detskie_shkafy_i_stellazhi/shkafi_raspashnie/shkaf_kombinirovannyy_khilton_id9340879/",
+      "price_rub": 21999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 90,
+        "depth_cm": 42,
+        "height_cm": 226,
+        "source": "name"
+      }
+    },
+    {
+      "id": "5430728",
+      "name": "Шкаф-витрина SCANDICA Хортен",
+      "image": "https://hoff.ru/upload/iblock/251/ffy6msucqhvlqlqscpchki818ttqvbc9.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/vitriny_i_bufety/shkaf_vitrina_scandica_khorten_id5430728/",
+      "price_rub": 11999,
+      "old_price_rub": 14999,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 80,
+        "depth_cm": 45,
+        "height_cm": 200,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10067117",
+      "name": "Шкаф 2-створчатый Хелен",
+      "image": "https://hoff.ru/upload/iblock/e0a/z0s8jbrm1h0z6u4xdxty4h9z16j3ly4y.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_2_stvorchatyy_khelen_id10067117/",
+      "price_rub": 11599,
+      "old_price_rub": 15599,
+      "discount_percent": 25,
+      "dimensions": {
+        "width_cm": 100,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10360883",
+      "name": "Шкаф 3-створчатый Веста",
+      "image": "https://hoff.ru/upload/iblock/789/wcijnjbz3j26n2mhubfwzqw7bffszx1e.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_3_stvorchatyy_vesta_id10360883/",
+      "price_rub": 13999,
+      "old_price_rub": 16999,
+      "discount_percent": 17,
+      "dimensions": {
+        "width_cm": 150,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10230211",
+      "name": "Шкаф 4-створчатый Эмилия",
+      "image": "https://hoff.ru/upload/iblock/9be/q9q81nqblim0zewh6au3z86u0ze91umk.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_4_stvorchatyy_emiliya_id10230211/",
+      "price_rub": 30999,
+      "old_price_rub": 35599,
+      "discount_percent": 12,
+      "dimensions": {
+        "width_cm": 200,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10243421",
+      "name": "Шкаф для одежды Ливерпуль",
+      "image": "https://hoff.ru/upload/iblock/efa/1lu728rd4726ktiezfv9v6j08nepgclr.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_dlya_odezhdy_liverpul_id10243421/",
+      "price_rub": 27999,
+      "old_price_rub": 33999,
+      "discount_percent": 17,
+      "dimensions": {
+        "width_cm": 120,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10360877",
+      "name": "Шкаф 4-створчатый с ящиками Веста",
+      "image": "https://hoff.ru/upload/iblock/53e/02yiv56usjhs4etnzko6sqguzrkpbepe.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_4_stvorchatyy_s_yashchikami_vesta_id10360877/",
+      "price_rub": 16999,
+      "old_price_rub": 19699,
+      "discount_percent": 13,
+      "dimensions": {
+        "width_cm": 200,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10807906",
+      "name": "Шкаф 3-створчатый Пандора",
+      "image": "https://hoff.ru/upload/iblock/6ce/hz8k868xbjdrnocho1tgh6b0h9r5kqi5.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_3_stvorchatyy_pandora_id10807906/",
+      "price_rub": 22599,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 150,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "9475377",
+      "name": "Шкаф 3-дверный Лофт",
+      "image": "https://hoff.ru/upload/iblock/afa/zg4y4afcgenjpa3dvy2nr9wwu0c5lkp5.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_3_dvernyy_loft_id9475377/",
+      "price_rub": 17999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 150,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "11050008",
+      "name": "Шкаф-купе 2-дверный Slide-2 v.2 120х220х60 см, белый снег/серебро, с одним зеркалом",
+      "image": "https://hoff.ru/upload/iblock/dcc/j8rlh5zy5a1apdkbabghee0wh2631hns.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_kupe/shkaf_kupe_2_dvernyy_slide_2_id11050008/",
+      "price_rub": 23196,
+      "old_price_rub": 28496,
+      "discount_percent": 18,
+      "dimensions": {
+        "width_cm": 120,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "name"
+      }
+    },
+    {
+      "id": "5233706",
+      "name": "Шкаф для одежды 4-дверный Линда 181,4х220х60,6 см",
+      "image": "https://hoff.ru/upload/iblock/9aa/9aaa49f4be6c693c3e083d2927b66ed6.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_dlya_odezhdy_4_dvernyy_linda_id5233706/",
+      "price_rub": 45999,
+      "old_price_rub": 57599,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 181,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "name"
+      }
+    },
+    {
+      "id": "9101107",
+      "name": "Шкаф для белья Хилтон",
+      "image": "https://hoff.ru/upload/iblock/71d/71dfdbdf7b17fe824bcbfbedf316930f.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_dlya_belya_khilton_id9101107/",
+      "price_rub": 11299,
+      "old_price_rub": 13999,
+      "discount_percent": 19,
+      "dimensions": {
+        "width_cm": 120,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "6534064",
+      "name": "Шкаф многофункциональный Рона",
+      "image": "https://hoff.ru/upload/iblock/7d9/rpf2fp1j799xpi8z3b6k6hkkbkebyjd8.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/shkafy_dlya_gostinoy/shkaf_mnogofunktsionalnyy_rona_id6534064/",
+      "price_rub": 10999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 120,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "5343012",
+      "name": "Шкаф для белья Канкун 40х230х57,9 см, белый",
+      "image": "https://hoff.ru/upload/iblock/aa2/aa2c3f904f00f06bceffd5048a284c47.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_dlya_belya_kankun_id5343012/",
+      "price_rub": 7999,
+      "old_price_rub": 9999,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 57,
+        "depth_cm": 40,
+        "height_cm": 230,
+        "source": "name"
+      }
+    },
+    {
+      "id": "9411525",
+      "name": "Шкаф с витриной Lima",
+      "image": "https://hoff.ru/upload/iblock/bb8/yacs7wbn1s9b0ejz7k5hdou0s5q3bzr3.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/vitriny_i_bufety/shkaf_s_vitrinoy_lima_id9411525/",
+      "price_rub": 14399,
+      "old_price_rub": 17999,
+      "discount_percent": 20,
+      "dimensions": {
+        "width_cm": 80,
+        "depth_cm": 45,
+        "height_cm": 200,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "8778341",
+      "name": "Шкаф 2-дверный SCANDICA Хортен 80х220х45 см",
+      "image": "https://hoff.ru/upload/iblock/af7/mgj7a5fo4951lc38t9slixtgqttvjru3.jpg",
+      "url": "https://hoff.ru/catalog/detskaya/detskie_shkafy_i_stellazhi/shkafi_raspashnie/shkaf_2_dvernyy_scandica_khorten_id8778341/",
+      "price_rub": 18199,
+      "old_price_rub": 21399,
+      "discount_percent": 14,
+      "dimensions": {
+        "width_cm": 80,
+        "depth_cm": 45,
+        "height_cm": 220,
+        "source": "name"
+      }
+    },
+    {
+      "id": "9411519",
+      "name": "Шкаф с витриной Lima",
+      "image": "https://hoff.ru/upload/iblock/f16/f1nqohboz5wlr5ccya3wgti4yjc9p4xc.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/mebel_dlya_gostinykh/vitriny_i_bufety/shkaf_s_vitrinoy_lima_id9411519/",
+      "price_rub": 19799,
+      "old_price_rub": 25599,
+      "discount_percent": 22,
+      "dimensions": {
+        "width_cm": 80,
+        "depth_cm": 45,
+        "height_cm": 200,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "7637301",
+      "name": "Шкаф-купе Simple",
+      "image": "https://hoff.ru/upload/iblock/ee8/yun1wolqb06543ofgi1l9t557clkayzr.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_kupe/shkaf_kupe_simple_id7637301/",
+      "price_rub": 19999,
+      "old_price_rub": 23999,
+      "discount_percent": 16,
+      "dimensions": {
+        "width_cm": 180,
+        "depth_cm": 65,
+        "height_cm": 240,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    },
+    {
+      "id": "10182811",
+      "name": "Шкаф для одежды 4-дверный Селена с ящиками и зеркалами",
+      "image": "https://hoff.ru/upload/iblock/c40/bvnxi7wzfybfngpxle9ravl3g5ptbysd.jpg",
+      "url": "https://hoff.ru/catalog/spalnya/shkafy_dlya_spalni/shkafy_raspashnye/shkaf_dlya_odezhdy_4_dvernyy_selena_id10182811/",
+      "price_rub": 59999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": {
+        "width_cm": 200,
+        "depth_cm": 60,
+        "height_cm": 220,
+        "source": "typical",
+        "note": "Размер угадан по типу шкафа"
+      }
+    }
+  ]
+}

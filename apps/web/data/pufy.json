@@ -1,0 +1,255 @@
+{
+  "category": "Пуфы и банкетки",
+  "category_url": "https://hoff.ru/catalog/pufy_i_banketki/pufy/",
+  "parsed_at": "2026-05-05",
+  "common_characteristics": [
+    "Срок доставки",
+    "Рейтинг",
+    "Цвет",
+    "Форма",
+    "Материал обивки",
+    "Ширина, см",
+    "Высота, см",
+    "Глубина, см",
+    "Наличие ножек",
+    "Стиль интерьера",
+    "Максимальная нагрузка, кг",
+    "Материал каркаса",
+    "Бренд",
+    "Вес товара, кг",
+    "Примерить в интерьере"
+  ],
+  "products_count": 23,
+  "products": [
+    {
+      "id": "9121843",
+      "name": "Пуф Ника",
+      "image": "https://hoff.ru/upload/iblock/190/0rum5evqe2z83cxf5qxcisij1ft241xd.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_nika_id9121843/",
+      "price_rub": 3299,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10885704",
+      "name": "Пуф Бета 2",
+      "image": "https://hoff.ru/upload/iblock/7af/x0iw1yxp31gkgrhipncfw7lqbx6d0fef.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_beta_2__id10885704/",
+      "price_rub": 3999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10459573",
+      "name": "Пуф Темп",
+      "image": "https://hoff.ru/upload/iblock/675/yzlq4sw4txb3gs16gxj1ympyan0jfsl9.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_temp_id10459573/",
+      "price_rub": 2598,
+      "old_price_rub": 2999,
+      "discount_percent": 13,
+      "dimensions": null
+    },
+    {
+      "id": "10873622",
+      "name": "Пуф Стоун",
+      "image": "https://hoff.ru/upload/iblock/00f/eojsnywgd8zps024x4cajca9jb95tjon.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_stoun_id10873622/",
+      "price_rub": 3499,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10215903",
+      "name": "Пуф SCANDICA Скотт с ящиком для хранения",
+      "image": "https://hoff.ru/upload/iblock/413/at3x1bzuaadn1nkejoibc0y3sopuaewj.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_skott_id10215903/",
+      "price_rub": 75999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10873618",
+      "name": "Пуф Стоун",
+      "image": "https://hoff.ru/upload/iblock/2f6/oby4dq0woih1snszvueqin0n14m4dwwi.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_stoun_id10873618/",
+      "price_rub": 3499,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10885718",
+      "name": "Пуф Бета 3",
+      "image": "https://hoff.ru/upload/iblock/229/cajm52kfcgd2x32t39zhzgk3r5yucdlu.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_beta_3__id10885718/",
+      "price_rub": 5999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10759138",
+      "name": "Пуф ПФ-2",
+      "image": "https://hoff.ru/upload/iblock/e32/952cfdj5oufog14zptt3cbo0awup8l3t.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_pf_2_id10759138/",
+      "price_rub": 13999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9261837",
+      "name": "Пуфик DreamBag складной",
+      "image": "https://hoff.ru/upload/iblock/682/682c70a1cc8f5ca19953ed21bc67eabe.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/pufik_dreambag_id9261837/",
+      "price_rub": 11999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10215909",
+      "name": "Пуф SCANDICA Скотт с ящиком для хранения",
+      "image": "https://hoff.ru/upload/iblock/b3f/zrr35go2jgwdqughfknwky3iieopmaym.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_skott_id10215909/",
+      "price_rub": 75999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9246893",
+      "name": "Пуф Бертран",
+      "image": "https://hoff.ru/upload/iblock/aca/1iond6qcdpodi91saau4okalve538epk.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_bertran_id9246893/",
+      "price_rub": 3599,
+      "old_price_rub": 3999,
+      "discount_percent": 10,
+      "dimensions": null
+    },
+    {
+      "id": "10215917",
+      "name": "Пуф SCANDICA Скотт с ящиком для хранения",
+      "image": "https://hoff.ru/upload/iblock/73e/4usdge1526k16fu7a7ei6j8iz1bf89fx.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_skott_id10215917/",
+      "price_rub": 75999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "8691789",
+      "name": "Пуф Бета",
+      "image": "https://hoff.ru/upload/iblock/6a8/6a8a6cba364a2f3b0b9d051810289e6d.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_beta_id8691789/",
+      "price_rub": 2999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10873620",
+      "name": "Пуф Стоун",
+      "image": "https://hoff.ru/upload/iblock/b91/u3q6a3ypvmzqbvvp8iz5xwmeo7bv5lou.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_stoun_id10873620/",
+      "price_rub": 2899,
+      "old_price_rub": 3499,
+      "discount_percent": 17,
+      "dimensions": null
+    },
+    {
+      "id": "10885680",
+      "name": "Пуф Бета-3",
+      "image": "https://hoff.ru/upload/iblock/d85/bo9wslzxjixprnx6q2om1j4xgkyd2pal.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_beta_3_id10885680/",
+      "price_rub": 4999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "5665895",
+      "name": "Пуф Бета 4",
+      "image": "https://hoff.ru/upload/iblock/6b4/6b409d1347cd8a3981d59052aa430282.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_beta_id5665895/",
+      "price_rub": 3299,
+      "old_price_rub": 4199,
+      "discount_percent": 21,
+      "dimensions": null
+    },
+    {
+      "id": "8585115",
+      "name": "Пуф Мадлен",
+      "image": "https://hoff.ru/upload/iblock/09b/09b8924dfc1a6de31c3971eaa239f7c4.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_madlen_id8585115/",
+      "price_rub": 3199,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9261839",
+      "name": "Пуфик DreamBag складной",
+      "image": "https://hoff.ru/upload/iblock/ba5/ba531cbc076375610ffb2db10eb2a785.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/pufik_dreambag_id9261839/",
+      "price_rub": 12099,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9121875",
+      "name": "Пуф Олаф",
+      "image": "https://hoff.ru/upload/iblock/904/9046f97e3ca73058b3114d303bdc781e.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_olaf_id9121875/",
+      "price_rub": 3499,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9640345",
+      "name": "Пуф Мадлен",
+      "image": "https://hoff.ru/upload/iblock/c95/grtr3gcjgzm4qwuhynd2jxxfwh66lhft.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_madlen_id9640345/",
+      "price_rub": 3199,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9294355",
+      "name": "Пуф круглый Garda",
+      "image": "https://hoff.ru/upload/iblock/598/2gbk4wirujdr5kyk77ew1mlpdschw6hg.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_kruglyy_garda_id9294355/",
+      "price_rub": 3999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9622061",
+      "name": "Пуф Альба",
+      "image": "https://hoff.ru/upload/iblock/747/9p514klluiewb9snuhlota0bl8sr5btp.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_alba_id9622061/",
+      "price_rub": 43199,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9622081",
+      "name": "Пуф Альба",
+      "image": "https://hoff.ru/upload/iblock/77c/3lx063ru3qcw8eyk3ekpgaxaeceq1e8t.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/pufy/puf_alba_id9622081/",
+      "price_rub": 43199,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    }
+  ]
+}

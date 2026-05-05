@@ -1,0 +1,279 @@
+{
+  "category": "Кресла",
+  "category_url": "https://hoff.ru/catalog/gostinaya/kresla/",
+  "parsed_at": "2026-05-05",
+  "common_characteristics": [
+    "Срок доставки",
+    "Рейтинг",
+    "Цвет",
+    "Ширина, см",
+    "Высота, см",
+    "Глубина, см",
+    "Материал обивки",
+    "Тип",
+    "Механизм трансформации",
+    "Максимальная нагрузка на спальное место, кг",
+    "Раскладывается",
+    "Ширина спального места, см",
+    "Глубина спального места, см",
+    "Наличие подлокотников",
+    "Стиль интерьера",
+    "Наличие ящика для белья",
+    "Наличие ножек",
+    "Материал каркаса",
+    "Наличие пружинного блока",
+    "Высота ножки",
+    "Наполнитель",
+    "Бренд",
+    "Коллекция",
+    "Съёмный чехол",
+    "Глубина сиденья, см",
+    "Высота сиденья, см",
+    "Вес товара, кг",
+    "Примерить в интерьере",
+    "Требуется сборка"
+  ],
+  "products_count": 24,
+  "products": [
+    {
+      "id": "8515887",
+      "name": "Кресло Gap",
+      "image": "https://hoff.ru/upload/iblock/19a/bgjepti3be02iqgg9bxq9vfnrih1u184.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/kresla-grushi/kreslo_gap_id8515887/",
+      "price_rub": 5799,
+      "old_price_rub": 8799,
+      "discount_percent": 34,
+      "dimensions": null
+    },
+    {
+      "id": "10918414",
+      "name": "Кресло SCANDICA Скотт",
+      "image": "https://hoff.ru/upload/iblock/7bb/jdrcpo9kmd9dd6zr5pnttro70jdr5tm2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_skott_id10918414/",
+      "price_rub": 16999,
+      "old_price_rub": 22999,
+      "discount_percent": 26,
+      "dimensions": null
+    },
+    {
+      "id": "8949603",
+      "name": "Кресло-кровать DREAMART Палермо",
+      "image": "https://hoff.ru/upload/iblock/39f/kxboalzrrmu1yhsw8gwn5bad54v89zbe.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_krovat_dreamart_palermo_id8949603/",
+      "price_rub": 32999,
+      "old_price_rub": 42999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "8595753",
+      "name": "Кресло Гауди",
+      "image": "https://hoff.ru/upload/iblock/33a/33a1cd30b5125098ca1a8ad611d65fef.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_gaudi_id8595753/",
+      "price_rub": 11999,
+      "old_price_rub": 14999,
+      "discount_percent": 20,
+      "dimensions": null
+    },
+    {
+      "id": "8650491",
+      "name": "Кресло SCANDICA Leset Скаген",
+      "image": "https://hoff.ru/upload/iblock/3ca/ck1lvxdl4e1oxfx6ibq42zuozi7skmmu.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_scandica_skagen_id8650491/",
+      "price_rub": 215999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "8629311",
+      "name": "Кресло Агата",
+      "image": "https://hoff.ru/upload/iblock/1be/1be4c4858654f6bb5641206280e4e869.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_agata_id8629311/",
+      "price_rub": 6999,
+      "old_price_rub": 8999,
+      "discount_percent": 22,
+      "dimensions": null
+    },
+    {
+      "id": "8138747",
+      "name": "Кресло-пенёк Зефир",
+      "image": "https://hoff.ru/upload/iblock/350/35092233e05c9d174a3ac99e2492dbb7.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_penyek_zefir_id8138747/",
+      "price_rub": 6999,
+      "old_price_rub": 8799,
+      "discount_percent": 20,
+      "dimensions": null
+    },
+    {
+      "id": "8102893",
+      "name": "Кресло Людвиг",
+      "image": "https://hoff.ru/upload/iblock/feb/feb3fe1e87193f5238ec503be2017e1e.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_lyudvig_id8102893/",
+      "price_rub": 12999,
+      "old_price_rub": 16999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "8368081",
+      "name": "Кресло SCANDICA Оксфорд",
+      "image": "https://hoff.ru/upload/iblock/750/750474fd5fa2398e4ebada3f8ff651a2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_scandica_oksford_id8368081/",
+      "price_rub": 12999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "9246699",
+      "name": "Кресло Патрик",
+      "image": "https://hoff.ru/upload/iblock/d3c/lzts54gm5jqseka3sx1x0tr5pfvh9i1j.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_patrik_id9246699/",
+      "price_rub": 13999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "8854489",
+      "name": "Кресло-кровать DREAMART Дрезден",
+      "image": "https://hoff.ru/upload/iblock/a9d/a9da9b1574a057b8ae787b971f60fed8.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_krovat_dreamart_drezden_id8854489/",
+      "price_rub": 39999,
+      "old_price_rub": 46999,
+      "discount_percent": 14,
+      "dimensions": null
+    },
+    {
+      "id": "8593259",
+      "name": "Кресло-кровать Вегас",
+      "image": "https://hoff.ru/upload/iblock/db1/yscni0jlw1z4m7kkqbgv07avf32o4265.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_krovat_vegas_id8593259/",
+      "price_rub": 21999,
+      "old_price_rub": 25999,
+      "discount_percent": 15,
+      "dimensions": null
+    },
+    {
+      "id": "8515865",
+      "name": "Кресло Gap",
+      "image": "https://hoff.ru/upload/iblock/5cb/ggiztdt6im5ys26nmcxrnww1nktx10x2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/kresla-grushi/kreslo_gap_id8515865/",
+      "price_rub": 5799,
+      "old_price_rub": 8799,
+      "discount_percent": 34,
+      "dimensions": null
+    },
+    {
+      "id": "9182039",
+      "name": "Кресло-кровать DREAMART Канзас",
+      "image": "https://hoff.ru/upload/iblock/de8/de8bcdb144b641ffe2571ad86a4df0fe.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_krovat_kanzas_id9182039/",
+      "price_rub": 36999,
+      "old_price_rub": 43999,
+      "discount_percent": 15,
+      "dimensions": null
+    },
+    {
+      "id": "8618317",
+      "name": "Кресло-качалка SCANDICA Leset Скаген",
+      "image": "https://hoff.ru/upload/iblock/878/87819844f2b1d41facdcbc6468277cf4.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_kachalka_scandica_skagen_id8618317/",
+      "price_rub": 816999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "8515891",
+      "name": "Кресло Gap",
+      "image": "https://hoff.ru/upload/iblock/f65/cliafqnzk87jpwk22y74em25vy5ps8c2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/kresla-grushi/kreslo_gap_id8515891/",
+      "price_rub": 5799,
+      "old_price_rub": 8799,
+      "discount_percent": 34,
+      "dimensions": null
+    },
+    {
+      "id": "10251781",
+      "name": "Кресло Аликанте",
+      "image": "https://hoff.ru/upload/iblock/812/w9su3he1ko2yu1lwywzcdqr6cnj89zlu.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_alikante_id10251781/",
+      "price_rub": 17999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "8949753",
+      "name": "Кресло-кровать DREAMART Палермо",
+      "image": "https://hoff.ru/upload/iblock/e04/nzldczkm2c3vwgyfnxrsdyq7ju7arhoz.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_krovat_dreamart_palermo_id8949753/",
+      "price_rub": 32999,
+      "old_price_rub": 42999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "8515871",
+      "name": "Кресло Gap",
+      "image": "https://hoff.ru/upload/iblock/d56/5qupef45jdz6xf71qrzhf1ktrp1bwp0s.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/pufy_i_banketki/kresla-grushi/kreslo_gap_id8515871/",
+      "price_rub": 5799,
+      "old_price_rub": 8799,
+      "discount_percent": 34,
+      "dimensions": null
+    },
+    {
+      "id": "8102881",
+      "name": "Кресло Людвиг",
+      "image": "https://hoff.ru/upload/iblock/19b/19bdf4a40f75f9e9dc7f5e9662fd6fdb.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_lyudvig_id8102881/",
+      "price_rub": 12999,
+      "old_price_rub": 16999,
+      "discount_percent": 23,
+      "dimensions": null
+    },
+    {
+      "id": "8484087",
+      "name": "Кресло для отдыха SCANDICA Норд",
+      "image": "https://hoff.ru/upload/iblock/5df/qqrqpcue96t6jpt7nb16ed94958sjxln.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_dlya_otdykha_scandica_nord_id8484087/",
+      "price_rub": 16999,
+      "old_price_rub": 18999,
+      "discount_percent": 10,
+      "dimensions": null
+    },
+    {
+      "id": "9246693",
+      "name": "Кресло Патрик",
+      "image": "https://hoff.ru/upload/iblock/bc1/r1w2jwkwgnggips5c6onrbrhdn2obcy2.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_patrik_id9246693/",
+      "price_rub": 13999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10651105",
+      "name": "Кресло для отдыха SCANDICA Хортен",
+      "image": "https://hoff.ru/upload/iblock/765/96ikwtgjdbagd2ztl67lpcxp2buf8lzw.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_dlya_otdykha_khorten_id10651105/",
+      "price_rub": 17999,
+      "old_price_rub": null,
+      "discount_percent": null,
+      "dimensions": null
+    },
+    {
+      "id": "10918398",
+      "name": "Кресло SCANDICA Скотт",
+      "image": "https://hoff.ru/upload/iblock/699/agju1wz2jgvf3n50xz7u5k5tjw1zcnka.jpg",
+      "url": "https://hoff.ru/catalog/gostinaya/kresla/kreslo_skott_id10918398/",
+      "price_rub": 16999,
+      "old_price_rub": 22999,
+      "discount_percent": 26,
+      "dimensions": null
+    }
+  ]
+}

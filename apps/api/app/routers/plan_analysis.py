@@ -274,14 +274,25 @@ async def place_furniture(body: PlaceFurnitureRequest):
     # Загружаем каталог
     catalog = load_catalog()
 
+    logger.info(f"[place-furniture] Каталог: {len(catalog)} товаров, "
+                f"комнат в геометрии: {len(geometry.rooms)}, "
+                f"стиль={body.style}, бюджет={body.budget}")
+
     # Запускаем движок
-    engine = FurniturePlacementEngine(
-        geometry=geometry,
-        catalog=catalog,
-        style=body.style,
-        budget=body.budget,
-    )
-    placement = engine.place_all()
+    try:
+        engine = FurniturePlacementEngine(
+            geometry=geometry,
+            catalog=catalog,
+            style=body.style,
+            budget=body.budget,
+        )
+        placement = engine.place_all()
+    except Exception as e:
+        logger.exception(f"[place-furniture] Ошибка движка расстановки: {e}")
+        raise HTTPException(500, f"Ошибка расстановки мебели: {e}")
+
+    total_placed = sum(len(r.placed_items) for r in placement.rooms)
+    logger.info(f"[place-furniture] Готово: {total_placed} предметов размещено")
 
     return PlaceFurnitureResponse(
         placement=placement.model_dump(),

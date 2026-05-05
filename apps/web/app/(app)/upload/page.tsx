@@ -20,7 +20,7 @@ export default function UploadPage() {
     const url = URL.createObjectURL(f)
     setFile(f)
     setPreview(url)
-    setPlan(url, f.name) // сохраняем для визуализации
+    setPlan(url, f, f.name) // сохраняем blob URL + File объект для fal.ai
   }, [setPlan])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import * as fal from '@fal-ai/client'
+import { fal } from '@fal-ai/client'
 import { buildPrompt, type VisualizationRequest } from '@/lib/promptBuilder'
 
 // fal.ai конфигурация

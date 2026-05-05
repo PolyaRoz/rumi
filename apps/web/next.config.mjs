@@ -23,8 +23,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: `${process.env.API_URL || 'http://localhost:8000'}/api/:path*`,
+        // Проксируем только /api/v1/* → FastAPI (8000)
+        // /api/visualize и другие Next.js API routes НЕ перехватываются
+        source: '/api/v1/:path*',
+        destination: `${process.env.API_URL || 'http://localhost:8000'}/api/v1/:path*`,
       },
     ]
   },
